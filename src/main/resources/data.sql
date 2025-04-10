@@ -1,0 +1,1 @@
+INSERT IGNORE INTO users (user_name, email, login, password, user_authorization) VALUES ("admin", "pedroluiz.quessada@gmail.com", "abc123", "$2a$10$uQFFNAR.WqpCl8zdZdtmxuZLTGOwnTDiDvDXdMRVqN8212Uh/dzRm", "ADMIN");
