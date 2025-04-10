@@ -1,0 +1,28 @@
+package com.example.tech_challenge.domain.user.request;
+
+import com.example.tech_challenge.enums.AuthorizationEnum;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+
+@Getter
+public abstract class UserRequest {
+
+    @NotEmpty(message = "O usuário deve possuir um nome")
+    @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")
+    protected String name;
+
+    @NotEmpty(message = "O usuário deve possuir um e-mail")
+    @Size(max = 45, message = "O e-mail do usuário deve possuir até 45 caracteres")
+    @Email(message = "E-mail inválido")
+    protected String email;
+
+    @NotEmpty(message = "O usuário deve possuir um login")
+    @Size(min = 3, max = 45, message = "O login do usuário deve possuir de 3 a 45 caracteres")
+    private String login;
+
+    @Size(max = 255, message = "O endereço do usuário deve possuir até 255 caracteres")
+    private String address;
+
+    @NotNull(message = "O usuário deve possuir um tipo de autorização")
+    private AuthorizationEnum authorization;
+}

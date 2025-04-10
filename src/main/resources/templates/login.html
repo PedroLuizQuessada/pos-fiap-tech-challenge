@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div class="container-fluid text-center">
+    <div th:if="${param.error}" class="alert alert-warning alert-dismissible text-center" role="alert">
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+        [[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success alert-dismissible text-center" role="alert">
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+        Usuário deslogado
+    </div>
+
+    <div th:if="${param.expiredSession}" class="alert alert-warning alert-dismissible text-center" role="alert">
+        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+        Sessão expirada
+    </div>
+
+    <form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto; position: absolute; top: 30%; right: 0; left: 0">
+        <div class="border border-secondary p-3 rounded">
+            <p>Realize seu login no Sistema</p>
+            <p>
+                <input type="text" name="username" class="form-control" placeholder="Login" required autofocus>
+            </p>
+            <p>
+                <input type="password" name="password" class="form-control" placeholder="Senha" required>
+            </p>
+            <p>
+                <input type="submit" value="Login" class="btn btn-primary">
+            </p>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
