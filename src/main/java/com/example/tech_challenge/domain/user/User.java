@@ -1,6 +1,6 @@
 package com.example.tech_challenge.domain.user;
 
-import com.example.tech_challenge.enums.AuthorizationEnum;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.EntityInterface;
 
 import jakarta.persistence.*;
@@ -41,28 +41,28 @@ public class User implements EntityInterface {
     @Column(length = 255)
     private String address;
 
-    @Column(name = "user_authorization", nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private AuthorizationEnum authorization;
+    private AuthorityEnum authority;
 
     //response constructor
-    public User(String name, String email, String login, Date lastUpdateDate, String address, AuthorizationEnum authorization) {
+    public User(String name, String email, String login, Date lastUpdateDate, String address, AuthorityEnum authority) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.lastUpdateDate = lastUpdateDate;
         this.address = address;
-        this.authorization = authorization;
+        this.authority = authority;
     }
 
     //new user constructor
-    public User(String name, String email, String login, String password, String address, AuthorizationEnum authorization) {
+    public User(String name, String email, String login, String password, String address, AuthorityEnum authority) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.password = password;
         this.address = address;
-        this.authorization = authorization;
+        this.authority = authority;
     }
 
     //update user constructor
@@ -81,7 +81,7 @@ public class User implements EntityInterface {
         userResponse.setEmail(email);
         userResponse.setLastUpdateDate(lastUpdateDate);
         userResponse.setAddress(address);
-        userResponse.setAuthorization(authorization);
+        userResponse.setAuthority(authority);
 
         return userResponse;
     }
