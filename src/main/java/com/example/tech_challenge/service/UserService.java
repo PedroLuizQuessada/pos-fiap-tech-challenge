@@ -9,6 +9,7 @@ import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.exception.UnauthorizedActionException;
+import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class UserService {
         User newUser = new User(newUserRequest.getName(), newUserRequest.getEmail(), newUserRequest.getLogin(),
                 passwordComponent.encode(newUserRequest.getPassword()), newUserRequest.getAddress(), newUserRequest.getAuthority());
 
-        checkEmail(newUser.getEmail());
-        checkLogin(newUser.getLogin());
+        checkEmailAlreadyInUse(newUser.getEmail());
+        checkLoginAlreadyInUse(newUser.getLogin());
 
         return userRepository.save(newUser).entityToResponse();
     }
@@ -42,29 +43,52 @@ public class UserService {
         User updateUser = new User(updateUserRequest.getName(), updateUserRequest.getEmail(), updateUserRequest.getLogin(),
                 updateUserRequest.getAddress());
 
-        if (!AuthorityEnum.ADMIN.equals(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())))
-            && !Objects.equals(clientUserDetails.getUsername(), updateUserRequest.getOldLogin())) {
-            throw new UnauthorizedActionException("atualizar outro usuário", clientUserDetails.getUsername());
-        }
+        checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
+                clientUserDetails.getUsername(), updateUser.getLogin(), "atualizar outro usuário");
+
+        checkLoginExists(updateUser.getLogin());
 
         if (!Objects.equals(updateUserRequest.getOldEmail(), updateUserRequest.getEmail())) {
-            checkEmail(updateUser.getEmail());
+            checkEmailAlreadyInUse(updateUser.getEmail());
         }
         if (!Objects.equals(updateUserRequest.getOldLogin(), updateUserRequest.getLogin())) {
-            checkLogin(updateUser.getLogin());
+            checkLoginAlreadyInUse(updateUser.getLogin());
         }
 
         userRepository.updateByLogin(updateUser.getName(), updateUser.getEmail(), updateUser.getLogin(),
                 updateUser.getAddress(), updateUser.getLastUpdateDate(), updateUserRequest.getOldLogin());
     }
 
-    private void checkEmail(String email) {
+    public void delete(UserDetails clientUserDetails, String login) {
+
+        checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
+                clientUserDetails.getUsername(), login, "deletar outro usuário");
+
+        checkLoginExists(login);
+
+        userRepository.deleteByLogin(login);
+    }
+
+    private void checkAdminOrSameUser(AuthorityEnum clientUserAuthority, String clientUserLogin, String login, String action) {
+        if (!AuthorityEnum.ADMIN.equals(clientUserAuthority)
+                && !Objects.equals(clientUserLogin, login)) {
+            throw new UnauthorizedActionException(action, clientUserLogin);
+        }
+    }
+
+    private void checkLoginExists(String login) {
+        if (userRepository.countUserByLoginEquals(login).equals(0)) {
+            throw new UserNotFoundException(login);
+        }
+    }
+
+    private void checkEmailAlreadyInUse(String email) {
         if (userRepository.countUserByEmailEquals(email) > 0) {
             throw new EmailAlreadyInUseException();
         }
     }
 
-    private void checkLogin(String login) {
+    private void checkLoginAlreadyInUse(String login) {
         if (userRepository.countUserByLoginEquals(login) > 0) {
             throw new LoginAlreadyInUseException();
         }
