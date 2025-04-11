@@ -1,6 +1,5 @@
 package com.example.tech_challenge.domain.user.request;
 
-import com.example.tech_challenge.enums.AuthorizationEnum;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
@@ -22,7 +21,4 @@ public abstract class UserRequest {
 
     @Size(max = 255, message = "O endereço do usuário deve possuir até 255 caracteres")
     private String address;
-
-    @NotNull(message = "O usuário deve possuir um tipo de autorização")
-    private AuthorizationEnum authorization;
 }

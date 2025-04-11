@@ -25,13 +25,13 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody UserResponse create(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Validated NewUserRequest newUserRequest) {
+    public @ResponseBody UserResponse create(@RequestBody @Validated NewUserRequest newUserRequest) {
         return userService.create(newUserRequest);
     }
 
     @PostMapping("/update")
-    public ResponseEntity update(@RequestBody @Validated UpdateUserRequest updateUserRequest) {
-        userService.update(updateUserRequest);
+    public ResponseEntity update(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserRequest updateUserRequest) {
+        userService.update(clientUserDetails, updateUserRequest);
         return ResponseEntity
                 .ok().build();
     }

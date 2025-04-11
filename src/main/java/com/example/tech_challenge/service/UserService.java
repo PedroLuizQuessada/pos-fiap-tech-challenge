@@ -5,9 +5,12 @@ import com.example.tech_challenge.domain.user.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.UserResponse;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
+import com.example.tech_challenge.enums.AuthorizationEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
+import com.example.tech_challenge.exception.UnauthorizedActionException;
 import com.example.tech_challenge.repo.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -17,10 +20,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordComponent passwordComponent;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public UserService(UserRepository userRepository, PasswordComponent passwordComponent) {
+    public UserService(UserRepository userRepository, PasswordComponent passwordComponent, CustomUserDetailsService customUserDetailsService) {
         this.userRepository = userRepository;
         this.passwordComponent = passwordComponent;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     public UserResponse create(NewUserRequest newUserRequest) {
@@ -33,9 +38,14 @@ public class UserService {
         return userRepository.save(newUser).entityToResponse();
     }
 
-    public void update(UpdateUserRequest updateUserRequest) { //TODO não-admins devem conseguir atualizar seu próprio user apenas, admins devem conseguir atualizar qualquer user
+    public void update(UserDetails clientUserDetails, UpdateUserRequest updateUserRequest) {
         User updateUser = new User(updateUserRequest.getName(), updateUserRequest.getEmail(), updateUserRequest.getLogin(),
-                updateUserRequest.getAddress(), updateUserRequest.getAuthorization());
+                updateUserRequest.getAddress());
+
+        if (!AuthorizationEnum.ADMIN.equals(customUserDetailsService.getAuthorization(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())))
+            && !Objects.equals(clientUserDetails.getUsername(), updateUserRequest.getOldLogin())) {
+            throw new UnauthorizedActionException("atualizar outro usuário", clientUserDetails.getUsername());
+        }
 
         if (!Objects.equals(updateUserRequest.getOldEmail(), updateUserRequest.getEmail())) {
             checkEmail(updateUser.getEmail());
