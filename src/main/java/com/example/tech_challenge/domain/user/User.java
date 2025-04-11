@@ -66,12 +66,11 @@ public class User implements EntityInterface {
     }
 
     //update user constructor
-    public User(String name, String email, String login, String address, AuthorizationEnum authorization) {
+    public User(String name, String email, String login, String address) {
         this.name = name;
         this.email = email;
         this.login = login;
         this.address = address;
-        this.authorization = authorization;
         this.lastUpdateDate = new Date(System.currentTimeMillis());
     }
 
