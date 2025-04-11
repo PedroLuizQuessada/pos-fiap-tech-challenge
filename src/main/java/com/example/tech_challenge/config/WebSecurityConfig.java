@@ -24,6 +24,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/users/create").hasAuthority(AuthorityEnum.ADMIN.toString())
                         .requestMatchers("/users/update").authenticated()
                         .requestMatchers("/users/delete/{login}").authenticated()
+                        .requestMatchers("/users/updatePassword").authenticated()
                         .requestMatchers("/home").authenticated())
 
                 .httpBasic(Customizer.withDefaults())

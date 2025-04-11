@@ -2,6 +2,7 @@ package com.example.tech_challenge.controller;
 
 import com.example.tech_challenge.domain.user.UserResponse;
 import com.example.tech_challenge.domain.user.request.NewUserRequest;
+import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
 import com.example.tech_challenge.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,13 @@ public class UserController {
     @DeleteMapping("/delete/{login}")
     public ResponseEntity delete(@AuthenticationPrincipal UserDetails clientUserDetails, @PathVariable("login") String login) {
         userService.delete(clientUserDetails, login);
+        return ResponseEntity
+                .ok().build();
+    }
+
+    @PostMapping("/updatePassword")
+    public ResponseEntity updatePassword(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserPasswordRequest updateUserPasswordRequest) {
+        userService.updatePassword(clientUserDetails, updateUserPasswordRequest);
         return ResponseEntity
                 .ok().build();
     }

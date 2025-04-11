@@ -4,6 +4,7 @@ import com.example.tech_challenge.component.PasswordComponent;
 import com.example.tech_challenge.domain.user.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.UserResponse;
+import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
@@ -67,6 +68,10 @@ public class UserService {
         checkLoginExists(login);
 
         userRepository.deleteByLogin(login);
+    }
+
+    public void updatePassword(UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
+        userRepository.updatePasswordByLogin(passwordComponent.encode(updateUserPasswordRequest.getNewPassword()), clientUserDetails.getUsername());
     }
 
     private void checkAdminOrSameUser(AuthorityEnum clientUserAuthority, String clientUserLogin, String login, String action) {
