@@ -79,6 +79,7 @@ public class User implements EntityInterface {
         UserResponse userResponse = new UserResponse();
         userResponse.setName(name);
         userResponse.setEmail(email);
+        userResponse.setLogin(login);
         userResponse.setLastUpdateDate(lastUpdateDate);
         userResponse.setAddress(address);
         userResponse.setAuthority(authority);
