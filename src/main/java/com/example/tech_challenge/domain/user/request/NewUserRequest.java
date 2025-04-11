@@ -1,6 +1,6 @@
 package com.example.tech_challenge.domain.user.request;
 
-import com.example.tech_challenge.enums.AuthorizationEnum;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,5 +14,5 @@ public class NewUserRequest extends UserRequest {
     private String password;
 
     @NotNull(message = "O usuário deve possuir um tipo de autorização")
-    private AuthorizationEnum authorization;
+    private AuthorityEnum authority;
 }

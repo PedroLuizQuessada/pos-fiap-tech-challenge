@@ -5,7 +5,7 @@ import com.example.tech_challenge.domain.user.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.UserResponse;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
-import com.example.tech_challenge.enums.AuthorizationEnum;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.exception.UnauthorizedActionException;
@@ -30,7 +30,7 @@ public class UserService {
 
     public UserResponse create(NewUserRequest newUserRequest) {
         User newUser = new User(newUserRequest.getName(), newUserRequest.getEmail(), newUserRequest.getLogin(),
-                passwordComponent.encode(newUserRequest.getPassword()), newUserRequest.getAddress(), newUserRequest.getAuthorization());
+                passwordComponent.encode(newUserRequest.getPassword()), newUserRequest.getAddress(), newUserRequest.getAuthority());
 
         checkEmail(newUser.getEmail());
         checkLogin(newUser.getLogin());
@@ -42,7 +42,7 @@ public class UserService {
         User updateUser = new User(updateUserRequest.getName(), updateUserRequest.getEmail(), updateUserRequest.getLogin(),
                 updateUserRequest.getAddress());
 
-        if (!AuthorizationEnum.ADMIN.equals(customUserDetailsService.getAuthorization(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())))
+        if (!AuthorityEnum.ADMIN.equals(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())))
             && !Objects.equals(clientUserDetails.getUsername(), updateUserRequest.getOldLogin())) {
             throw new UnauthorizedActionException("atualizar outro usuário", clientUserDetails.getUsername());
         }

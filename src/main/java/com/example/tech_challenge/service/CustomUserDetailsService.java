@@ -2,7 +2,7 @@ package com.example.tech_challenge.service;
 
 import com.example.tech_challenge.domain.user.CustomUserDetails;
 import com.example.tech_challenge.domain.user.User;
-import com.example.tech_challenge.enums.AuthorizationEnum;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.repo.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
-    public AuthorizationEnum getAuthorization(String authorizationText) {
-        return AuthorizationEnum.valueOf(authorizationText.replace("Optional[", "").replace("]", ""));
+    public AuthorityEnum getAuthority(String authorityText) {
+        return AuthorityEnum.valueOf(authorityText.replace("Optional[", "").replace("]", ""));
     }
 }

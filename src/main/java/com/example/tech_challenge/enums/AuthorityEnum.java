@@ -1,6 +1,6 @@
 package com.example.tech_challenge.enums;
 
-public enum AuthorizationEnum {
+public enum AuthorityEnum {
 
     CUSTOMER,
     OWNER,

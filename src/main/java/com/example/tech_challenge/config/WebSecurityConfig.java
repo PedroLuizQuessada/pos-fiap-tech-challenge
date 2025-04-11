@@ -1,6 +1,6 @@
 package com.example.tech_challenge.config;
 
-import com.example.tech_challenge.enums.AuthorizationEnum;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -21,7 +21,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequestsConfigurer) -> authorizeHttpRequestsConfigurer
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/users/create").hasAuthority(AuthorizationEnum.ADMIN.toString())
+                        .requestMatchers("/users/create").hasAuthority(AuthorityEnum.ADMIN.toString())
                         .requestMatchers("/users/update").authenticated()
                         .requestMatchers("/home").authenticated())
 
