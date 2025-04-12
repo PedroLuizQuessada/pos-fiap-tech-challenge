@@ -45,35 +45,6 @@ public class User implements EntityInterface {
     @Enumerated(EnumType.STRING)
     private AuthorityEnum authority;
 
-    //response constructor
-    public User(String name, String email, String login, Date lastUpdateDate, String address, AuthorityEnum authority) {
-        this.name = name;
-        this.email = email;
-        this.login = login;
-        this.lastUpdateDate = lastUpdateDate;
-        this.address = address;
-        this.authority = authority;
-    }
-
-    //new user constructor
-    public User(String name, String email, String login, String password, String address, AuthorityEnum authority) {
-        this.name = name;
-        this.email = email;
-        this.login = login;
-        this.password = password;
-        this.address = address;
-        this.authority = authority;
-    }
-
-    //update user constructor
-    public User(String name, String email, String login, String address) {
-        this.name = name;
-        this.email = email;
-        this.login = login;
-        this.address = address;
-        this.lastUpdateDate = new Date(System.currentTimeMillis());
-    }
-
     @Override
     public UserResponse entityToResponse() {
         UserResponse userResponse = new UserResponse();

@@ -2,7 +2,6 @@ package com.example.tech_challenge.domain.user;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.ResponseInterface;
-import com.example.tech_challenge.interfaces.EntityInterface;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +27,4 @@ public class UserResponse implements ResponseInterface, Serializable {
     private String address;
 
     private AuthorityEnum authority;
-
-    @Override
-    public EntityInterface responseToEntity() {
-        return new User(name, email, login, lastUpdateDate, address, authority);
-    }
 }
