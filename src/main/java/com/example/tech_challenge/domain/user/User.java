@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.user;
 
+import com.example.tech_challenge.domain.address.Address;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.EntityInterface;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -38,8 +40,9 @@ public class User implements EntityInterface {
     @Column(name = "last_update_date")
     private Date lastUpdateDate;
 
-    @Column(length = 255)
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address", referencedColumnName = "id")
+    private Address address;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -52,7 +55,8 @@ public class User implements EntityInterface {
         userResponse.setEmail(email);
         userResponse.setLogin(login);
         userResponse.setLastUpdateDate(lastUpdateDate);
-        userResponse.setAddress(address);
+        if (!Objects.isNull(address))
+            userResponse.setAddress(address.entityToResponse());
         userResponse.setAuthority(authority);
 
         return userResponse;

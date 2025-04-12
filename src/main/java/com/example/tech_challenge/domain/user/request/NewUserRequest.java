@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @Getter
 public class NewUserRequest extends UserRequest {
 
@@ -23,7 +25,8 @@ public class NewUserRequest extends UserRequest {
         user.setName(this.name);
         user.setEmail(this.email);
         user.setLogin(this.login);
-        user.setAddress(this.address);
+        if (!Objects.isNull(this.address))
+            user.setAddress(this.address.requestToEntity());
         user.setPassword(this.password);
         user.setAuthority(this.authority);
         return user;
