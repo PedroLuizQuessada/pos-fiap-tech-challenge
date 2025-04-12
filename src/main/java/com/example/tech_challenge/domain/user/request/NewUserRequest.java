@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.user.request;
 
+import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,4 +16,16 @@ public class NewUserRequest extends UserRequest {
 
     @NotNull(message = "O usuário deve possuir um tipo de autorização")
     private AuthorityEnum authority;
+
+    @Override
+    public User requestToEntity() {
+        User user = new User();
+        user.setName(this.name);
+        user.setEmail(this.email);
+        user.setLogin(this.login);
+        user.setAddress(this.address);
+        user.setPassword(this.password);
+        user.setAuthority(this.authority);
+        return user;
+    }
 }

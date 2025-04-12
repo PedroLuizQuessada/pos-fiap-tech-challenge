@@ -1,10 +1,11 @@
 package com.example.tech_challenge.domain.user.request;
 
+import com.example.tech_challenge.interfaces.RequestInterface;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 @Getter
-public abstract class UserRequest {
+public abstract class UserRequest implements RequestInterface {
 
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")
@@ -17,8 +18,8 @@ public abstract class UserRequest {
 
     @NotEmpty(message = "O usuário deve possuir um login")
     @Size(min = 3, max = 45, message = "O login do usuário deve possuir de 3 a 45 caracteres")
-    private String login;
+    protected String login;
 
     @Size(max = 255, message = "O endereço do usuário deve possuir até 255 caracteres")
-    private String address;
+    protected String address;
 }

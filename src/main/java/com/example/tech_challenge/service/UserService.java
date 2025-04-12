@@ -31,8 +31,7 @@ public class UserService {
     }
 
     public UserResponse create(NewUserRequest newUserRequest) {
-        User newUser = new User(newUserRequest.getName(), newUserRequest.getEmail(), newUserRequest.getLogin(),
-                passwordComponent.encode(newUserRequest.getPassword()), newUserRequest.getAddress(), newUserRequest.getAuthority());
+        User newUser = newUserRequest.requestToEntity();
 
         checkEmailAlreadyInUse(newUser.getEmail());
         checkLoginAlreadyInUse(newUser.getLogin());
@@ -41,18 +40,17 @@ public class UserService {
     }
 
     public void update(UserDetails clientUserDetails, UpdateUserRequest updateUserRequest) {
-        User updateUser = new User(updateUserRequest.getName(), updateUserRequest.getEmail(), updateUserRequest.getLogin(),
-                updateUserRequest.getAddress());
+        User updateUser = updateUserRequest.requestToEntity();
 
         checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
-                clientUserDetails.getUsername(), updateUser.getLogin(), "atualizar outro usuário");
+                clientUserDetails.getUsername(), updateUserRequest.getOldLogin(), "atualizar outro usuário");
 
-        checkLoginExists(updateUser.getLogin());
+        checkLoginExists(updateUserRequest.getOldLogin());
 
-        if (!Objects.equals(updateUserRequest.getOldEmail(), updateUserRequest.getEmail())) {
+        if (!Objects.equals(updateUserRequest.getOldEmail(), updateUser.getEmail())) {
             checkEmailAlreadyInUse(updateUser.getEmail());
         }
-        if (!Objects.equals(updateUserRequest.getOldLogin(), updateUserRequest.getLogin())) {
+        if (!Objects.equals(updateUserRequest.getOldLogin(), updateUser.getLogin())) {
             checkLoginAlreadyInUse(updateUser.getLogin());
         }
 
@@ -71,7 +69,8 @@ public class UserService {
     }
 
     public void updatePassword(UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        userRepository.updatePasswordByLogin(passwordComponent.encode(updateUserPasswordRequest.getNewPassword()), clientUserDetails.getUsername());
+        User updatePasswordUser = updateUserPasswordRequest.requestToEntity();
+        userRepository.updatePasswordByLogin(passwordComponent.encode(updatePasswordUser.getPassword()), clientUserDetails.getUsername());
     }
 
     private void checkAdminOrSameUser(AuthorityEnum clientUserAuthority, String clientUserLogin, String login, String action) {
