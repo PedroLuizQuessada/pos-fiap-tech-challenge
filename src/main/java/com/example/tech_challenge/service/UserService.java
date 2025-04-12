@@ -32,6 +32,7 @@ public class UserService {
 
     public UserResponse create(NewUserRequest newUserRequest) {
         User newUser = newUserRequest.requestToEntity();
+        newUser.setPassword(passwordComponent.encode(newUser.getPassword()));
 
         checkEmailAlreadyInUse(newUser.getEmail());
         checkLoginAlreadyInUse(newUser.getLogin());
@@ -45,7 +46,13 @@ public class UserService {
         checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
                 clientUserDetails.getUsername(), updateUserRequest.getOldLogin(), "atualizar outro usuário");
 
-        checkLoginExists(updateUserRequest.getOldLogin());
+        User updateUserOld = getUserByLogin(updateUserRequest.getOldLogin());
+        updateUser.setId(updateUserOld.getId());
+        updateUser.setPassword(updateUserOld.getPassword());
+        updateUser.setAuthority(updateUserOld.getAuthority());
+        if (!Objects.isNull(updateUserOld.getAddress()))
+            updateUser.getAddress().setId(updateUserOld.getAddress().getId());
+        updateUser.getAddress().setUser(updateUser);
 
         if (!Objects.equals(updateUserRequest.getOldEmail(), updateUser.getEmail())) {
             checkEmailAlreadyInUse(updateUser.getEmail());
@@ -54,8 +61,7 @@ public class UserService {
             checkLoginAlreadyInUse(updateUser.getLogin());
         }
 
-        userRepository.updateByLogin(updateUser.getName(), updateUser.getEmail(), updateUser.getLogin(),
-                updateUser.getAddress(), updateUser.getLastUpdateDate(), updateUserRequest.getOldLogin());
+        userRepository.save(updateUser);
     }
 
     public void delete(UserDetails clientUserDetails, String login) {
@@ -63,9 +69,9 @@ public class UserService {
         checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
                 clientUserDetails.getUsername(), login, "deletar outro usuário");
 
-        checkLoginExists(login);
+        User deleteUser = getUserByLogin(login);
 
-        userRepository.deleteByLogin(login);
+        userRepository.delete(deleteUser);
     }
 
     public void updatePassword(UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
@@ -80,10 +86,12 @@ public class UserService {
         }
     }
 
-    private void checkLoginExists(String login) {
-        if (userRepository.countUserByLoginEquals(login).equals(0)) {
+    private User getUserByLogin(String login) {
+        User user = userRepository.findByLogin(login);
+        if (Objects.isNull(user)) {
             throw new UserNotFoundException(login);
         }
+        return user;
     }
 
     private void checkEmailAlreadyInUse(String email) {

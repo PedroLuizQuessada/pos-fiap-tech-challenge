@@ -1,6 +1,8 @@
 package com.example.tech_challenge.domain.user.request;
 
+import com.example.tech_challenge.domain.address.request.AddressRequest;
 import com.example.tech_challenge.interfaces.RequestInterface;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
@@ -20,6 +22,6 @@ public abstract class UserRequest implements RequestInterface {
     @Size(min = 3, max = 45, message = "O login do usuário deve possuir de 3 a 45 caracteres")
     protected String login;
 
-    @Size(max = 255, message = "O endereço do usuário deve possuir até 255 caracteres")
-    protected String address;
+    @Valid
+    protected AddressRequest address;
 }

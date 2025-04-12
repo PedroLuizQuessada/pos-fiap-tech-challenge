@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.user;
 
+import com.example.tech_challenge.domain.address.AddressResponse;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.ResponseInterface;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class UserResponse implements ResponseInterface, Serializable {
 
     private Date lastUpdateDate;
 
-    private String address;
+    private AddressResponse address;
 
     private AuthorityEnum authority;
 }
