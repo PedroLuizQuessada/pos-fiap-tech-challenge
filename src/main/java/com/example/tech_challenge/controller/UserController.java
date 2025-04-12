@@ -5,6 +5,7 @@ import com.example.tech_challenge.domain.user.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
 import com.example.tech_challenge.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 @RequestMapping(path = "/users")
 public class UserController {
@@ -24,11 +26,13 @@ public class UserController {
 
     @PostMapping("/create")
     public @ResponseBody UserResponse create(@RequestBody @Validated NewUserRequest newUserRequest) {
+        log.info("Create user: {}", newUserRequest.getLogin());
         return userService.create(newUserRequest);
     }
 
     @PostMapping("/update")
     public ResponseEntity update(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserRequest updateUserRequest) {
+        log.info("Update user: {}", updateUserRequest.getOldLogin());
         userService.update(clientUserDetails, updateUserRequest);
         return ResponseEntity
                 .ok().build();
@@ -36,6 +40,7 @@ public class UserController {
 
     @DeleteMapping("/delete/{login}")
     public ResponseEntity delete(@AuthenticationPrincipal UserDetails clientUserDetails, @PathVariable("login") String login) {
+        log.info("Delete user: {}", login);
         userService.delete(clientUserDetails, login);
         return ResponseEntity
                 .ok().build();
@@ -43,6 +48,7 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     public ResponseEntity updatePassword(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserPasswordRequest updateUserPasswordRequest) {
+        log.info("Update Password user: {}", clientUserDetails.getUsername());
         userService.updatePassword(clientUserDetails, updateUserPasswordRequest);
         return ResponseEntity
                 .ok().build();
