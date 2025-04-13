@@ -30,9 +30,13 @@ public class UserService {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    public UserResponse create(NewUserRequest newUserRequest) {
+    public UserResponse create(UserDetails clientUserDetails, NewUserRequest newUserRequest) {
         User newUser = newUserRequest.requestToEntity();
         newUser.setPassword(passwordComponent.encode(newUser.getPassword()));
+
+        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(newUserRequest.getAuthority())) {
+            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
+        }
 
         checkEmailAlreadyInUse(newUser.getEmail());
         checkLoginAlreadyInUse(newUser.getLogin());
