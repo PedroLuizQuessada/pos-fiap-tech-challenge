@@ -1,6 +1,5 @@
 package com.example.tech_challenge.service;
 
-import com.example.tech_challenge.domain.address.Address;
 import com.example.tech_challenge.repo.AddressRepository;
 import org.springframework.stereotype.Service;
 
