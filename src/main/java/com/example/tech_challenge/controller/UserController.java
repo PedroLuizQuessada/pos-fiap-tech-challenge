@@ -25,9 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public @ResponseBody UserResponse create(@RequestBody @Validated NewUserRequest newUserRequest) {
+    public @ResponseBody UserResponse create(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated NewUserRequest newUserRequest) {
         log.info("Create user: {}", newUserRequest.getLogin());
-        return userService.create(newUserRequest);
+        return userService.create(clientUserDetails, newUserRequest);
     }
 
     @PostMapping("/update")
