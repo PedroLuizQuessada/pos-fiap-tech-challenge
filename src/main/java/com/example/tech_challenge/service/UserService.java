@@ -23,11 +23,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordComponent passwordComponent;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AddressService addressService;
 
-    public UserService(UserRepository userRepository, PasswordComponent passwordComponent, CustomUserDetailsService customUserDetailsService) {
+    public UserService(UserRepository userRepository, PasswordComponent passwordComponent,
+                       CustomUserDetailsService customUserDetailsService, AddressService addressService) {
         this.userRepository = userRepository;
         this.passwordComponent = passwordComponent;
         this.customUserDetailsService = customUserDetailsService;
+        this.addressService = addressService;
     }
 
     public UserResponse create(UserDetails clientUserDetails, NewUserRequest newUserRequest) {
@@ -51,12 +54,15 @@ public class UserService {
                 clientUserDetails.getUsername(), updateUserRequest.getOldLogin(), "atualizar outro usuário");
 
         User updateUserOld = getUserByLogin(updateUserRequest.getOldLogin());
+        Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
         updateUser.setId(updateUserOld.getId());
         updateUser.setPassword(updateUserOld.getPassword());
         updateUser.setAuthority(updateUserOld.getAuthority());
-        if (!Objects.isNull(updateUserOld.getAddress()))
-            updateUser.getAddress().setId(updateUserOld.getAddress().getId());
-        updateUser.getAddress().setUser(updateUser);
+        if (!Objects.isNull(updateUser.getAddress())) {
+            if (!Objects.isNull(updateUserOld.getAddress()))
+                updateUser.getAddress().setId(updateUserOld.getAddress().getId());
+            updateUser.getAddress().setUser(updateUser);
+        }
 
         if (!Objects.equals(updateUserRequest.getOldEmail(), updateUser.getEmail())) {
             checkEmailAlreadyInUse(updateUser.getEmail());
@@ -66,6 +72,8 @@ public class UserService {
         }
 
         userRepository.save(updateUser);
+        if (Objects.isNull(updateUser.getAddress()) && !Objects.isNull(updateUserOldAddressId))
+            addressService.deleteById(updateUserOldAddressId);
     }
 
     public void delete(UserDetails clientUserDetails, String login) {
