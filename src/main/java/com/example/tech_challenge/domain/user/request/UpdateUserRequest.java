@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Getter
 public class UpdateUserRequest extends UserRequest {
@@ -26,7 +27,8 @@ public class UpdateUserRequest extends UserRequest {
         user.setName(this.name);
         user.setEmail(this.email);
         user.setLogin(this.login);
-        user.setAddress(this.address.requestToEntity());
+        if (!Objects.isNull(this.address))
+            user.setAddress(this.address.requestToEntity());
         user.setLastUpdateDate(new Date(System.currentTimeMillis()));
         return user;
     }
