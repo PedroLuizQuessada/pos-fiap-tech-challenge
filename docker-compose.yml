@@ -6,27 +6,47 @@ services:
       - "8080:8080"
     networks:
       - tech_challenge_net
-    environment:
-      - spring.datasource.url=jdbc:mysql://mysql:3306/tech_challenge?createDatabaseIfNotExist=true
-      - spring.datasource.username=user
-      - spring.datasource.password=password
     depends_on:
       - mysql
+    secrets:
+      - spring.datasource.url
+      - spring.datasource.username
+      - spring.datasource.password
 
   mysql:
     image: "mysql:8.0"
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
     restart: always
     ports:
       - "3306:3306"
     networks:
       - tech_challenge_net
     environment:
-      MYSQL_DATABASE: tech_challenge
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE_FILE: /run/secrets/db_name
+      MYSQL_USER_FILE: /run/secrets/spring.datasource.username
+      MYSQL_PASSWORD_FILE: /run/secrets/spring.datasource.password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
     volumes:
       - mysql_data:/var/lib/mysql
+    secrets:
+      - db_name
+      - spring.datasource.username
+      - spring.datasource.password
+      - db_root_password
+
+secrets:
+  spring.datasource.url:
+    file: ./secrets/db_url.txt
+  spring.datasource.username:
+    file: ./secrets/db_user.txt
+  spring.datasource.password:
+    file: ./secrets/db_password.txt
+  db_name:
+    file: ./secrets/db_name.txt
+  db_root_password:
+    file: ./secrets/db_root_password.txt
 
 networks:
   tech_challenge_net:
