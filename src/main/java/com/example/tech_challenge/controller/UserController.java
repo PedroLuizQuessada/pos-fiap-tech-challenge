@@ -5,6 +5,7 @@ import com.example.tech_challenge.domain.user.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
 import com.example.tech_challenge.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,17 +40,19 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{login}")
-    public ResponseEntity delete(@AuthenticationPrincipal UserDetails clientUserDetails, @PathVariable("login") String login) {
+    public ResponseEntity delete(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
+                                 @PathVariable("login") String login) {
         log.info("Delete user: {}", login);
-        userService.delete(clientUserDetails, login);
+        Integer responseStatus = userService.delete(httpSession, clientUserDetails, login);
         return ResponseEntity
-                .ok().build();
+                .status(responseStatus).build();
     }
 
     @PostMapping("/updatePassword")
-    public ResponseEntity updatePassword(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserPasswordRequest updateUserPasswordRequest) {
+    public ResponseEntity updatePassword(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
+                                         @RequestBody @Validated UpdateUserPasswordRequest updateUserPasswordRequest) {
         log.info("Update Password user: {}", clientUserDetails.getUsername());
-        userService.updatePassword(clientUserDetails, updateUserPasswordRequest);
+        userService.updatePassword(httpSession, clientUserDetails, updateUserPasswordRequest);
         return ResponseEntity
                 .ok().build();
     }

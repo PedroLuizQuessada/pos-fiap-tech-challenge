@@ -12,6 +12,7 @@ import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.exception.UnauthorizedActionException;
 import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -76,7 +77,8 @@ public class UserService {
             addressService.deleteById(updateUserOldAddressId);
     }
 
-    public void delete(UserDetails clientUserDetails, String login) {
+    //200 when user deleting itself, 202 when admin user deleting other user
+    public Integer delete(HttpSession httpSession, UserDetails clientUserDetails, String login) {
 
         checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
                 clientUserDetails.getUsername(), login, "deletar outro usuário");
@@ -84,11 +86,19 @@ public class UserService {
         User deleteUser = getUserByLogin(login);
 
         userRepository.delete(deleteUser);
+
+        if (clientUserDetails.getUsername().equals(login)) {
+            httpSession.invalidate();
+            return 200;
+        }
+
+        return 202;
     }
 
-    public void updatePassword(UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
+    public void updatePassword(HttpSession httpSession, UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
         User updatePasswordUser = updateUserPasswordRequest.requestToEntity();
         userRepository.updatePasswordByLogin(passwordComponent.encode(updatePasswordUser.getPassword()), clientUserDetails.getUsername());
+        httpSession.invalidate();
     }
 
     private void checkAdminOrSameUser(AuthorityEnum clientUserAuthority, String clientUserLogin, String login, String action) {

@@ -25,6 +25,7 @@ public class MainController implements ErrorController {
         return "home";
     }
 
+    //TODO consider changing to ResponseEntity when integrating to front-end
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, HttpServletResponse response, Model model) {
         String errorMessage = "";
