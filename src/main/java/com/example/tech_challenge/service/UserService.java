@@ -1,11 +1,11 @@
 package com.example.tech_challenge.service;
 
 import com.example.tech_challenge.component.PasswordComponent;
-import com.example.tech_challenge.domain.user.request.NewUserRequest;
+import com.example.tech_challenge.domain.user.dto.request.NewUserRequest;
 import com.example.tech_challenge.domain.user.User;
-import com.example.tech_challenge.domain.user.UserResponse;
-import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
+import com.example.tech_challenge.domain.user.dto.response.UserResponse;
+import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
+import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;

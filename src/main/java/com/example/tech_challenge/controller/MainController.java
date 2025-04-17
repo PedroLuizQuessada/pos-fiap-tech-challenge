@@ -8,24 +8,13 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
 public class MainController implements ErrorController {
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/home")
-    public String home() {
-        return "home";
-    }
-
-    //TODO consider changing to ResponseEntity when integrating to front-end
+    //TODO https://www.baeldung.com/spring-boot-return-errors-problemdetail
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, HttpServletResponse response, Model model) {
         String errorMessage = "";

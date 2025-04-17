@@ -1,6 +1,7 @@
 package com.example.tech_challenge.domain.user;
 
 import com.example.tech_challenge.domain.address.Address;
+import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.EntityInterface;
 

@@ -11,7 +11,7 @@ services:
     secrets:
       - spring.datasource.url
       - spring.datasource.username
-      - spring.datasource.password
+      - spring.datasource.password #todo health check mysql
 
   mysql:
     image: "mysql:8.0"

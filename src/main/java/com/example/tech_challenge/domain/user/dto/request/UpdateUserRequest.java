@@ -1,4 +1,4 @@
-package com.example.tech_challenge.domain.user.request;
+package com.example.tech_challenge.domain.user.dto.request;
 
 import com.example.tech_challenge.domain.user.User;
 import jakarta.validation.constraints.Email;
