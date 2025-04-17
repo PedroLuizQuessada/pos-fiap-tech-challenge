@@ -1,4 +1,4 @@
-package com.example.tech_challenge.domain.address.request;
+package com.example.tech_challenge.domain.address.dto.request;
 
 import com.example.tech_challenge.domain.address.Address;
 import com.example.tech_challenge.interfaces.RequestInterface;

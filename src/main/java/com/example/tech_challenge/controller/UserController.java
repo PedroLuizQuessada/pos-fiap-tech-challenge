@@ -1,21 +1,22 @@
 package com.example.tech_challenge.controller;
 
-import com.example.tech_challenge.domain.user.UserResponse;
-import com.example.tech_challenge.domain.user.request.NewUserRequest;
-import com.example.tech_challenge.domain.user.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.request.UpdateUserRequest;
+import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
+import com.example.tech_challenge.domain.user.dto.response.UserResponse;
+import com.example.tech_challenge.domain.user.dto.request.NewUserRequest;
+import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
+import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
 import com.example.tech_challenge.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(path = "/users")
 public class UserController {
 
@@ -25,14 +26,23 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/home")
+    public ResponseEntity<LoginUserResponse> home(@AuthenticationPrincipal UserDetails clientUserDetails) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new LoginUserResponse(clientUserDetails.getUsername())); //TODO criar mapper para construir responses
+    }
+
     @PostMapping("/create")
-    public @ResponseBody UserResponse create(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated NewUserRequest newUserRequest) {
+    public ResponseEntity<UserResponse> create(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Valid NewUserRequest newUserRequest) {
         log.info("Create user: {}", newUserRequest.getLogin());
-        return userService.create(clientUserDetails, newUserRequest);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.create(clientUserDetails, newUserRequest));
     }
 
     @PostMapping("/update")
-    public ResponseEntity update(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Validated UpdateUserRequest updateUserRequest) {
+    public ResponseEntity<Void> update(@AuthenticationPrincipal UserDetails clientUserDetails, @RequestBody @Valid UpdateUserRequest updateUserRequest) {
         log.info("Update user: {}", updateUserRequest.getOldLogin());
         userService.update(clientUserDetails, updateUserRequest);
         return ResponseEntity
@@ -40,17 +50,17 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{login}")
-    public ResponseEntity delete(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
+    public ResponseEntity<Void> delete(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
                                  @PathVariable("login") String login) {
         log.info("Delete user: {}", login);
         Integer responseStatus = userService.delete(httpSession, clientUserDetails, login);
         return ResponseEntity
-                .status(responseStatus).build();
+                .status(responseStatus).build(); //204
     }
 
     @PostMapping("/updatePassword")
-    public ResponseEntity updatePassword(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
-                                         @RequestBody @Validated UpdateUserPasswordRequest updateUserPasswordRequest) {
+    public ResponseEntity<Void> updatePassword(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
+                                         @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
         log.info("Update Password user: {}", clientUserDetails.getUsername());
         userService.updatePassword(httpSession, clientUserDetails, updateUserPasswordRequest);
         return ResponseEntity

@@ -1,4 +1,4 @@
-package com.example.tech_challenge.domain.address;
+package com.example.tech_challenge.domain.address.dto.response;
 
 import com.example.tech_challenge.interfaces.ResponseInterface;
 import lombok.AllArgsConstructor;

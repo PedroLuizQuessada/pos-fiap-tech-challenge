@@ -24,7 +24,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/users/update").authenticated()
                         .requestMatchers("/users/delete/{login}").authenticated()
                         .requestMatchers("/users/updatePassword").authenticated()
-                        .requestMatchers("/home").authenticated())
+                        .requestMatchers("/users/home").authenticated())
 
                 .httpBasic(Customizer.withDefaults())
 
@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                         .loginPage("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/users/home", true)
                         .permitAll()
                 )
 

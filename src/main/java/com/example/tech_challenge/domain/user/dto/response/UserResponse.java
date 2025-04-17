@@ -1,6 +1,6 @@
-package com.example.tech_challenge.domain.user;
+package com.example.tech_challenge.domain.user.dto.response;
 
-import com.example.tech_challenge.domain.address.AddressResponse;
+import com.example.tech_challenge.domain.address.dto.response.AddressResponse;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.interfaces.ResponseInterface;
 import lombok.AllArgsConstructor;

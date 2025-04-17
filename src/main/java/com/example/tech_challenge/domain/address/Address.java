@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.address;
 
+import com.example.tech_challenge.domain.address.dto.response.AddressResponse;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.interfaces.EntityInterface;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
-package com.example.tech_challenge.domain.user.request;
+package com.example.tech_challenge.domain.user.dto.request;
 
-import com.example.tech_challenge.domain.address.request.AddressRequest;
+import com.example.tech_challenge.domain.address.dto.request.AddressRequest;
 import com.example.tech_challenge.interfaces.RequestInterface;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
