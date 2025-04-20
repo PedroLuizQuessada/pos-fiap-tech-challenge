@@ -1,9 +1,9 @@
 package com.example.tech_challenge.service;
 
 import com.example.tech_challenge.component.PasswordComponent;
-import com.example.tech_challenge.domain.user.dto.request.NewUserRequest;
+import com.example.tech_challenge.component.mapper.UserMapper;
+import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.User;
-import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
@@ -13,49 +13,53 @@ import com.example.tech_challenge.exception.UnauthorizedActionException;
 import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordComponent passwordComponent;
     private final CustomUserDetailsService customUserDetailsService;
     private final AddressService addressService;
 
-    public UserService(UserRepository userRepository, PasswordComponent passwordComponent,
-                       CustomUserDetailsService customUserDetailsService, AddressService addressService) {
-        this.userRepository = userRepository;
-        this.passwordComponent = passwordComponent;
-        this.customUserDetailsService = customUserDetailsService;
-        this.addressService = addressService;
+    public User getUserByLogin(String login) {
+        User user = userRepository.findByLogin(login);
+        if (Objects.isNull(user)) {
+            throw new UserNotFoundException(login);
+        }
+        return user;
     }
 
-    public UserResponse create(UserDetails clientUserDetails, NewUserRequest newUserRequest) {
-        User newUser = newUserRequest.requestToEntity();
-        newUser.setPassword(passwordComponent.encode(newUser.getPassword()));
+    public User create(UserDetails clientUserDetails, CreateUserRequest createUserRequest) {
+        User createUser = userMapper.toUserEntity(createUserRequest);
+        createUser.setPassword(passwordComponent.encode(createUser.getPassword()));
 
-        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(newUserRequest.getAuthority())) {
+        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(createUserRequest.getAuthority())) {
             throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
         }
 
-        checkEmailAlreadyInUse(newUser.getEmail());
-        checkLoginAlreadyInUse(newUser.getLogin());
+        checkEmailAlreadyInUse(createUser.getEmail());
+        checkLoginAlreadyInUse(createUser.getLogin());
 
-        return userRepository.save(newUser).entityToResponse();
+        return userRepository.save(createUser);
     }
 
     public void update(UserDetails clientUserDetails, UpdateUserRequest updateUserRequest) {
-        User updateUser = updateUserRequest.requestToEntity();
+        User updateUser = userMapper.toUserEntity(updateUserRequest);
 
         checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
                 clientUserDetails.getUsername(), updateUserRequest.getOldLogin(), "atualizar outro usuário");
 
         User updateUserOld = getUserByLogin(updateUserRequest.getOldLogin());
         Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
+
         updateUser.setId(updateUserOld.getId());
         updateUser.setPassword(updateUserOld.getPassword());
         updateUser.setAuthority(updateUserOld.getAuthority());
@@ -96,8 +100,10 @@ public class UserService {
     }
 
     public void updatePassword(HttpSession httpSession, UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User updatePasswordUser = updateUserPasswordRequest.requestToEntity();
-        userRepository.updatePasswordByLogin(passwordComponent.encode(updatePasswordUser.getPassword()), clientUserDetails.getUsername());
+        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
+        updatePasswordUser.setPassword(passwordComponent.encode(updatePasswordUser.getPassword()));
+
+        userRepository.updatePasswordByLogin(updatePasswordUser.getPassword(), clientUserDetails.getUsername());
         httpSession.invalidate();
     }
 
@@ -106,14 +112,6 @@ public class UserService {
                 && !Objects.equals(clientUserLogin, login)) {
             throw new UnauthorizedActionException(action, clientUserLogin);
         }
-    }
-
-    private User getUserByLogin(String login) {
-        User user = userRepository.findByLogin(login);
-        if (Objects.isNull(user)) {
-            throw new UserNotFoundException(login);
-        }
-        return user;
     }
 
     private void checkEmailAlreadyInUse(String email) {

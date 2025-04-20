@@ -1,13 +1,12 @@
 package com.example.tech_challenge.domain.user.dto.request;
 
 import com.example.tech_challenge.domain.address.dto.request.AddressRequest;
-import com.example.tech_challenge.interfaces.RequestInterface;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 @Getter
-public abstract class UserRequest implements RequestInterface {
+public abstract class UserRequest {
 
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")

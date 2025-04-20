@@ -1,13 +1,11 @@
 package com.example.tech_challenge.domain.address.dto.request;
 
-import com.example.tech_challenge.domain.address.Address;
-import com.example.tech_challenge.interfaces.RequestInterface;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
-public class AddressRequest implements RequestInterface {
+public class AddressRequest {
 
     @NotEmpty(message = "O endereço deve possuir um estado")
     @Size(max = 45, message = "O estado do endereço deve possuir até 45 caracteres")
@@ -31,16 +29,4 @@ public class AddressRequest implements RequestInterface {
 
     @Size(max = 45, message = "O complemento do endereço deve possuir até 45 caracteres")
     private String aditionalInfo;
-
-    @Override
-    public Address requestToEntity() {
-        Address address = new Address();
-        address.setState(this.state);
-        address.setCity(this.city);
-        address.setStreet(this.street);
-        address.setNumber(this.number);
-        address.setZipCode(this.zipCode);
-        address.setAditionalInfo(this.aditionalInfo);
-        return address;
-    }
 }
