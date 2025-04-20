@@ -1,8 +1,6 @@
 package com.example.tech_challenge.domain.address;
 
-import com.example.tech_challenge.domain.address.dto.response.AddressResponse;
 import com.example.tech_challenge.domain.user.User;
-import com.example.tech_challenge.interfaces.EntityInterface;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address implements EntityInterface {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,16 +39,4 @@ public class Address implements EntityInterface {
 
     @OneToOne(mappedBy = "address")
     private User user;
-
-    @Override
-    public AddressResponse entityToResponse() {
-        AddressResponse addressResponse = new AddressResponse();
-        addressResponse.setState(this.state);
-        addressResponse.setCity(this.city);
-        addressResponse.setStreet(this.street);
-        addressResponse.setNumber(this.number);
-        addressResponse.setZipCode(this.zipCode);
-        addressResponse.setAditionalInfo(this.aditionalInfo);
-        return addressResponse;
-    }
 }

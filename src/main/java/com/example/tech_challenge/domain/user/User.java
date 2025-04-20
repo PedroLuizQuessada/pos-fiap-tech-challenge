@@ -1,9 +1,7 @@
 package com.example.tech_challenge.domain.user;
 
 import com.example.tech_challenge.domain.address.Address;
-import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.enums.AuthorityEnum;
-import com.example.tech_challenge.interfaces.EntityInterface;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +17,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements EntityInterface {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,18 +45,4 @@ public class User implements EntityInterface {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthorityEnum authority;
-
-    @Override
-    public UserResponse entityToResponse() {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setName(name);
-        userResponse.setEmail(email);
-        userResponse.setLogin(login);
-        userResponse.setLastUpdateDate(lastUpdateDate);
-        if (!Objects.isNull(address))
-            userResponse.setAddress(address.entityToResponse());
-        userResponse.setAuthority(authority);
-
-        return userResponse;
-    }
 }
