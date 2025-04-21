@@ -32,7 +32,7 @@ public class UserService {
     public User getUserByLogin(String login) {
         User user = userRepository.findByLogin(login);
         if (Objects.isNull(user)) {
-            throw new UserNotFoundException(login);
+            throw new UserNotFoundException();
         }
         return user;
     }
