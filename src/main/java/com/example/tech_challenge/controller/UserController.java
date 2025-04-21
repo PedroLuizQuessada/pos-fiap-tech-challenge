@@ -2,11 +2,11 @@ package com.example.tech_challenge.controller;
 
 import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.User;
+import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
 import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
 import com.example.tech_challenge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -48,27 +48,44 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<Void> update(@AuthenticationPrincipal UserDetails clientUserDetails,
-                                       @RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        log.info("Update user: {}", updateUserRequest.getOldLogin());
-        userService.update(clientUserDetails, updateUserRequest);
+                                       @RequestBody @Valid UserRequest userRequest) {
+        log.info("Update user: {}", clientUserDetails.getUsername());
+        userService.update(userRequest, clientUserDetails.getUsername());
         return ResponseEntity
                 .ok().build();
     }
 
-    @DeleteMapping("/delete/{login}")
-    public ResponseEntity<Void> delete(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
-                                 @PathVariable("login") String login) {
-        log.info("Delete user: {}", login);
-        Integer responseStatus = userService.delete(httpSession, clientUserDetails, login);
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<Void> adminUpdate(@RequestBody @Valid UserRequest userRequest,
+                                            @PathVariable("id") Long id) {
+        log.info("Admin update user: {}", id);
+        userService.update(userRequest, id);
         return ResponseEntity
-                .status(responseStatus).build(); //204
+                .ok().build();
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> delete(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails) {
+        log.info("Delete user: {}", clientUserDetails.getUsername());
+        userService.delete(clientUserDetails.getUsername());
+        httpSession.invalidate();
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<Void> adminDelete(@PathVariable("id") Long id) {
+        log.info("Admin delete user: {}", id);
+        userService.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/updatePassword")
     public ResponseEntity<Void> updatePassword(HttpSession httpSession, @AuthenticationPrincipal UserDetails clientUserDetails,
                                          @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
         log.info("Update Password user: {}", clientUserDetails.getUsername());
-        userService.updatePassword(httpSession, clientUserDetails, updateUserPasswordRequest);
+        userService.updatePassword(httpSession, clientUserDetails.getUsername(), updateUserPasswordRequest);
         return ResponseEntity
                 .ok().build();
     }

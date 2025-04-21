@@ -1,6 +1,7 @@
 package com.example.tech_challenge.config;
 
 import com.example.tech_challenge.component.CustomAuthenticationFailureHandler;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -29,7 +30,9 @@ public class WebSecurityConfig {
                             .requestMatchers("/login").permitAll()
                             .requestMatchers("/users/create").permitAll()
                             .requestMatchers("/users/update").authenticated()
-                            .requestMatchers("/users/delete/{login}").authenticated()
+                            .requestMatchers("/users/admin/update/{id}").hasAuthority(AuthorityEnum.ADMIN.toString())
+                            .requestMatchers("/users/delete").authenticated()
+                            .requestMatchers("/users/admin/delete/{login}").hasAuthority(AuthorityEnum.ADMIN.toString())
                             .requestMatchers("/users/updatePassword").authenticated()
                             .requestMatchers("/users/home").authenticated())
 
