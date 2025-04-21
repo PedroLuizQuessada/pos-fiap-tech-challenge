@@ -1,5 +1,6 @@
 package com.example.tech_challenge.config;
 
+import com.example.tech_challenge.component.CustomAuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -7,34 +8,41 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
 
-                .authorizeHttpRequests((authorizeHttpRequestsConfigurer) -> authorizeHttpRequestsConfigurer
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/error").permitAll()
-                        .requestMatchers("/users/create").permitAll()
-                        .requestMatchers("/users/update").authenticated()
-                        .requestMatchers("/users/delete/{login}").authenticated()
-                        .requestMatchers("/users/updatePassword").authenticated()
-                        .requestMatchers("/users/home").authenticated())
+                .authorizeHttpRequests((authorizeHttpRequestsConfigurer) ->
+                        authorizeHttpRequestsConfigurer
+                            .requestMatchers("/login").permitAll()
+                            .requestMatchers("/users/create").permitAll()
+                            .requestMatchers("/users/update").authenticated()
+                            .requestMatchers("/users/delete/{login}").authenticated()
+                            .requestMatchers("/users/updatePassword").authenticated()
+                            .requestMatchers("/users/home").authenticated())
 
                 .httpBasic(Customizer.withDefaults())
 
                 .formLogin(formLoginConfigurer ->
                         formLoginConfigurer
-                        .loginPage("/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/users/home", true)
-                        .permitAll()
+                            .loginPage("/login")
+                            .usernameParameter("username")
+                            .passwordParameter("password")
+                            .defaultSuccessUrl("/users/home", true)
+                            .failureHandler(authenticationFailureHandler())
+                            .permitAll()
                 )
 
                 .logout(logoutConfigurer ->
