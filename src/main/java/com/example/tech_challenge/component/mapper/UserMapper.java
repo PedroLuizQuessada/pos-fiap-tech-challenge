@@ -3,7 +3,7 @@ package com.example.tech_challenge.component.mapper;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
+import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
 import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import lombok.AllArgsConstructor;
@@ -28,12 +28,12 @@ public class UserMapper {
         return user;
     }
 
-    public User toUserEntity(UpdateUserRequest updateUserRequest) {
+    public User toUserEntity(UserRequest userRequest) {
         User user = new User();
-        user.setName(updateUserRequest.getName());
-        user.setEmail(updateUserRequest.getEmail());
-        user.setLogin(updateUserRequest.getLogin());
-        user.setAddress(Objects.isNull(updateUserRequest.getAddress()) ? null : addressMapper.toAddressEntity(updateUserRequest.getAddress()));
+        user.setName(userRequest.getName());
+        user.setEmail(userRequest.getEmail());
+        user.setLogin(userRequest.getLogin());
+        user.setAddress(Objects.isNull(userRequest.getAddress()) ? null : addressMapper.toAddressEntity(userRequest.getAddress()));
         return user;
     }
 

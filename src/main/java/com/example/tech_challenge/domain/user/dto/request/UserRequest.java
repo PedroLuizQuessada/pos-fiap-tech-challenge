@@ -6,7 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 @Getter
-public abstract class UserRequest {
+public class UserRequest {
 
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")

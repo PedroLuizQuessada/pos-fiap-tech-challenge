@@ -5,7 +5,7 @@ import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
+import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,8 +27,50 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordComponent passwordComponent;
-    private final CustomUserDetailsService customUserDetailsService;
     private final AddressService addressService;
+
+    public User create(UserDetails clientUserDetails, CreateUserRequest createUserRequest) {
+        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(createUserRequest.getAuthority())) {
+            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
+        }
+
+        User createUser = userMapper.toUserEntity(createUserRequest);
+
+        checkEmailAlreadyInUse(createUser.getEmail());
+        checkLoginAlreadyInUse(createUser.getLogin());
+
+        createUser.setPassword(passwordComponent.encode(createUser.getPassword()));
+
+        return userRepository.save(createUser);
+    }
+
+    public void update(UserRequest userRequest, String login) {
+        User updateUserOld = getUserByLogin(login);
+        update(userRequest, updateUserOld);
+    }
+
+    public void update(UserRequest userRequest, Long id) {
+        User updateUserOld = getUserById(id);
+        update(userRequest, updateUserOld);
+    }
+
+    public void delete(String login) {
+        User deleteUser = getUserByLogin(login);
+        userRepository.delete(deleteUser);
+    }
+
+    public void delete(Long id) {
+        User deleteUser = getUserById(id);
+        userRepository.delete(deleteUser);
+    }
+
+    public void updatePassword(HttpSession httpSession, String login, UpdateUserPasswordRequest updateUserPasswordRequest) {
+        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
+        updatePasswordUser.setPassword(passwordComponent.encode(updatePasswordUser.getPassword()));
+
+        userRepository.updatePasswordByLogin(updatePasswordUser.getPassword(), login);
+        httpSession.invalidate();
+    }
 
     public User getUserByLogin(String login) {
         User user = userRepository.findByLogin(login);
@@ -37,81 +80,12 @@ public class UserService {
         return user;
     }
 
-    public User create(UserDetails clientUserDetails, CreateUserRequest createUserRequest) {
-        User createUser = userMapper.toUserEntity(createUserRequest);
-        createUser.setPassword(passwordComponent.encode(createUser.getPassword()));
-
-        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(createUserRequest.getAuthority())) {
-            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
+    private User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException();
         }
-
-        checkEmailAlreadyInUse(createUser.getEmail());
-        checkLoginAlreadyInUse(createUser.getLogin());
-
-        return userRepository.save(createUser);
-    }
-
-    public void update(UserDetails clientUserDetails, UpdateUserRequest updateUserRequest) {
-        User updateUser = userMapper.toUserEntity(updateUserRequest);
-
-        checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
-                clientUserDetails.getUsername(), updateUserRequest.getOldLogin(), "atualizar outro usuário");
-
-        User updateUserOld = getUserByLogin(updateUserRequest.getOldLogin());
-        Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
-
-        updateUser.setId(updateUserOld.getId());
-        updateUser.setPassword(updateUserOld.getPassword());
-        updateUser.setAuthority(updateUserOld.getAuthority());
-        if (!Objects.isNull(updateUser.getAddress())) {
-            if (!Objects.isNull(updateUserOld.getAddress()))
-                updateUser.getAddress().setId(updateUserOld.getAddress().getId());
-            updateUser.getAddress().setUser(updateUser);
-        }
-
-        if (!Objects.equals(updateUserRequest.getOldEmail(), updateUser.getEmail())) {
-            checkEmailAlreadyInUse(updateUser.getEmail());
-        }
-        if (!Objects.equals(updateUserRequest.getOldLogin(), updateUser.getLogin())) {
-            checkLoginAlreadyInUse(updateUser.getLogin());
-        }
-
-        userRepository.save(updateUser);
-        if (Objects.isNull(updateUser.getAddress()) && !Objects.isNull(updateUserOldAddressId))
-            addressService.deleteById(updateUserOldAddressId);
-    }
-
-    //200 when user deleting itself, 202 when admin user deleting other user
-    public Integer delete(HttpSession httpSession, UserDetails clientUserDetails, String login) {
-
-        checkAdminOrSameUser(customUserDetailsService.getAuthority(String.valueOf(clientUserDetails.getAuthorities().stream().findFirst())),
-                clientUserDetails.getUsername(), login, "deletar outro usuário");
-
-        User deleteUser = getUserByLogin(login);
-
-        userRepository.delete(deleteUser);
-
-        if (clientUserDetails.getUsername().equals(login)) {
-            httpSession.invalidate();
-            return 200;
-        }
-
-        return 202;
-    }
-
-    public void updatePassword(HttpSession httpSession, UserDetails clientUserDetails, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
-        updatePasswordUser.setPassword(passwordComponent.encode(updatePasswordUser.getPassword()));
-
-        userRepository.updatePasswordByLogin(updatePasswordUser.getPassword(), clientUserDetails.getUsername());
-        httpSession.invalidate();
-    }
-
-    private void checkAdminOrSameUser(AuthorityEnum clientUserAuthority, String clientUserLogin, String login, String action) {
-        if (!AuthorityEnum.ADMIN.equals(clientUserAuthority)
-                && !Objects.equals(clientUserLogin, login)) {
-            throw new UnauthorizedActionException(action, clientUserLogin);
-        }
+        return user.get();
     }
 
     private void checkEmailAlreadyInUse(String email) {
@@ -124,5 +98,30 @@ public class UserService {
         if (userRepository.countUserByLoginEquals(login) > 0) {
             throw new LoginAlreadyInUseException();
         }
+    }
+
+    private void update(UserRequest userRequest, User updateUserOld) {
+        User updateUser = userMapper.toUserEntity(userRequest);
+        Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
+
+        updateUser.setId(updateUserOld.getId());
+        updateUser.setPassword(updateUserOld.getPassword());
+        updateUser.setAuthority(updateUserOld.getAuthority());
+        if (!Objects.isNull(updateUser.getAddress())) {
+            if (!Objects.isNull(updateUserOld.getAddress()))
+                updateUser.getAddress().setId(updateUserOld.getAddress().getId());
+            updateUser.getAddress().setUser(updateUser);
+        }
+
+        if (!Objects.equals(updateUserOld.getEmail(), updateUser.getEmail())) {
+            checkEmailAlreadyInUse(updateUser.getEmail());
+        }
+        if (!Objects.equals(updateUserOld.getLogin(), updateUser.getLogin())) {
+            checkLoginAlreadyInUse(updateUser.getLogin());
+        }
+
+        userRepository.save(updateUser);
+        if (Objects.isNull(updateUser.getAddress()) && !Objects.isNull(updateUserOldAddressId))
+            addressService.deleteById(updateUserOldAddressId);
     }
 }
