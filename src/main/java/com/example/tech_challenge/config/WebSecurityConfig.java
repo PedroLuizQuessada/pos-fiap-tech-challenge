@@ -28,13 +28,13 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequestsConfigurer) ->
                         authorizeHttpRequestsConfigurer
                             .requestMatchers("/login").permitAll()
-                            .requestMatchers("/users/create").permitAll()
-                            .requestMatchers("/users/update").authenticated()
-                            .requestMatchers("/users/admin/update/{id}").hasAuthority(AuthorityEnum.ADMIN.toString())
-                            .requestMatchers("/users/delete").authenticated()
-                            .requestMatchers("/users/admin/delete/{login}").hasAuthority(AuthorityEnum.ADMIN.toString())
-                            .requestMatchers("/users/updatePassword").authenticated()
-                            .requestMatchers("/users/home").authenticated())
+                            .requestMatchers("/api/v1/users/create").permitAll()
+                            .requestMatchers("/api/v1/users/update").authenticated()
+                            .requestMatchers("/api/v1/users/admin/update/{id}").hasAuthority(AuthorityEnum.ADMIN.toString())
+                            .requestMatchers("/api/v1/users/delete").authenticated()
+                            .requestMatchers("/api/v1/users/admin/delete/{login}").hasAuthority(AuthorityEnum.ADMIN.toString())
+                            .requestMatchers("/api/v1/users/updatePassword").authenticated()
+                            .requestMatchers("/api/v1/users/home").authenticated())
 
                 .httpBasic(Customizer.withDefaults())
 
@@ -43,7 +43,7 @@ public class WebSecurityConfig {
                             .loginPage("/login")
                             .usernameParameter("username")
                             .passwordParameter("password")
-                            .defaultSuccessUrl("/users/home", true)
+                            .defaultSuccessUrl("/api/v1/users/home", true)
                             .failureHandler(authenticationFailureHandler())
                             .permitAll()
                 )
