@@ -1,4 +1,4 @@
-package com.example.tech_challenge.controller;
+package com.example.tech_challenge.controller.users;
 
 import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.User;
@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "/api/v1/users")
 @AllArgsConstructor
-public class UserController {
+public class UserControllerV1 {
 
     private final UserService userService;
     private final UserMapper userMapper;
