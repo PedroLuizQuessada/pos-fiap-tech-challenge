@@ -1,15 +1,18 @@
-FROM maven:3.9.9-amazoncorretto-21-alpine AS build
-
-WORKDIR /home/fiap
-
-RUN adduser fiap -D
-
-USER fiap
-
-COPY src ./src
-
+FROM maven:3.9-eclipse-temurin-21 AS dependencies
+WORKDIR /app
 COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-RUN mvn -f ./pom.xml clean package -DskipTests
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY --from=dependencies /root/.m2 /root/.m2
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-ENTRYPOINT ["java","-jar","./target/tech-challenge-0.0.1-SNAPSHOT.jar"]
+FROM eclipse-temurin:21-jre AS execution
+WORKDIR /home/fiap
+RUN adduser fiap --disabled-password
+USER fiap
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]

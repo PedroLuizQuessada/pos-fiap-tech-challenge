@@ -1,7 +1,9 @@
 services:
   tech_challenge_app:
-    build: .
-    restart: always
+    build:
+      context: .
+      target: execution
+    container_name: tech_challenge_app
     ports:
       - "8080:8080"
     networks:
@@ -16,10 +18,10 @@ services:
 
   mysql:
     image: "mysql:8.0"
+    container_name: tech_challenge_db
     build:
       context: .
       dockerfile: Dockerfile-mysql
-    restart: always
     ports:
       - "3306:3306"
     networks:
@@ -38,10 +40,10 @@ services:
       - db_root_password
     healthcheck:
       test: mysqladmin ping -h localhost -u root --password=$$(cat /run/secrets/db_root_password)
-      start_period: 5s
-      interval: 3s
-      retries: 5
-      timeout: 5s
+      start_period: 20s
+      interval: 30s
+      retries: 500
+      timeout: 50s
 
 secrets:
   spring.datasource.url:
