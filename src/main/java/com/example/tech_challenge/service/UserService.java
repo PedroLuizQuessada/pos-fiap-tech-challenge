@@ -1,6 +1,6 @@
 package com.example.tech_challenge.service;
 
-import com.example.tech_challenge.component.PasswordComponent;
+import com.example.tech_challenge.component.security.PasswordComponent;
 import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.User;

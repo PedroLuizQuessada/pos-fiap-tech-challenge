@@ -10,6 +10,7 @@ import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequ
 import com.example.tech_challenge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class UserControllerV1 {
 
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<Void> adminUpdate(@RequestBody @Valid UserRequest userRequest,
-                                            @PathVariable("id") Long id) {
+                                            @PathVariable("id") @NotNull Long id) {
         log.info("Admin update user: {}", id);
         userService.update(userRequest, id);
         return ResponseEntity
@@ -74,7 +75,7 @@ public class UserControllerV1 {
     }
 
     @DeleteMapping("/admin/delete/{id}")
-    public ResponseEntity<Void> adminDelete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> adminDelete(@PathVariable("id") @NotNull Long id) {
         log.info("Admin delete user: {}", id);
         userService.delete(id);
         return ResponseEntity

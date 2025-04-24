@@ -1,11 +1,10 @@
-package com.example.tech_challenge.component;
+package com.example.tech_challenge.component.security;
 
 import com.example.tech_challenge.controller.ExceptionHandlerController;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -31,7 +30,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setStatus(problemDetail.getStatus());
         out.print(problemDetailString);
         out.flush();
     }

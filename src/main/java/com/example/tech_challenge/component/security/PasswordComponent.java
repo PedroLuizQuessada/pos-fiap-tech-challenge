@@ -1,4 +1,4 @@
-package com.example.tech_challenge.component;
+package com.example.tech_challenge.component.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
