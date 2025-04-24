@@ -77,12 +77,12 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         for (String endpoint : endpoints) {
             endpoint = removePathParam(endpoint);
             if (endpointRequested.contains(endpoint)) {
-                ProblemDetail problemDetail = exceptionHandlerController.handlePathNotFound(new PathNotFoundException(endpointRequested));
-                problemDetail.setInstance(URI.create(endpointRequested));
-                return problemDetail;
+                return null;
             }
         }
-        return null;
+        ProblemDetail problemDetail = exceptionHandlerController.handlePathNotFound(new PathNotFoundException(endpointRequested));
+        problemDetail.setInstance(URI.create(endpointRequested));
+        return problemDetail;
     }
 
     private String removePathParam(String fullEndpoint) {
