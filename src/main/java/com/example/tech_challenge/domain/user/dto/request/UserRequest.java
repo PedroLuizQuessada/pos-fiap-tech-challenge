@@ -19,6 +19,7 @@ public class UserRequest {
 
     @NotEmpty(message = "O usuário deve possuir um login")
     @Size(min = 3, max = 45, message = "O login do usuário deve possuir de 3 a 45 caracteres")
+    @Pattern(regexp = "^[^:]+$", message = "O login não pode conter ':'")
     protected String login;
 
     @Valid

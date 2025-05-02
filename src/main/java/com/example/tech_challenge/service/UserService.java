@@ -1,6 +1,6 @@
 package com.example.tech_challenge.service;
 
-import com.example.tech_challenge.component.security.PasswordComponent;
+import com.example.tech_challenge.component.security.EncryptionComponent;
 import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.User;
@@ -12,9 +12,7 @@ import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.exception.UnauthorizedActionException;
 import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -26,27 +24,22 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final PasswordComponent passwordComponent;
+    private final EncryptionComponent encryptionComponent;
     private final AddressService addressService;
 
-    public User create(UserDetails clientUserDetails, CreateUserRequest createUserRequest) {
-        if (Objects.isNull(clientUserDetails) && AuthorityEnum.ADMIN.equals(createUserRequest.getAuthority())) {
-            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
-        }
+    public User create(CreateUserRequest createUserRequest, boolean allowAdmin) {
 
         User createUser = userMapper.toUserEntity(createUserRequest);
+
+        if (!allowAdmin && AuthorityEnum.ADMIN.equals(createUser.getAuthority()))
+            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
 
         checkEmailAlreadyInUse(createUser.getEmail());
         checkLoginAlreadyInUse(createUser.getLogin());
 
-        createUser.setPassword(passwordComponent.encode(createUser.getPassword()));
+        createUser.setPassword(encryptionComponent.encodeSha256(createUser.getPassword()));
 
         return userRepository.save(createUser);
-    }
-
-    public void update(UserRequest userRequest, String login) {
-        User updateUserOld = getUserByLogin(login);
-        update(userRequest, updateUserOld);
     }
 
     public void update(UserRequest userRequest, Long id) {
@@ -54,53 +47,7 @@ public class UserService {
         update(userRequest, updateUserOld);
     }
 
-    public void delete(String login) {
-        User deleteUser = getUserByLogin(login);
-        userRepository.delete(deleteUser);
-    }
-
-    public void delete(Long id) {
-        User deleteUser = getUserById(id);
-        userRepository.delete(deleteUser);
-    }
-
-    public void updatePassword(HttpSession httpSession, String login, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
-        updatePasswordUser.setPassword(passwordComponent.encode(updatePasswordUser.getPassword()));
-
-        userRepository.updatePasswordByLogin(updatePasswordUser.getPassword(), login);
-        httpSession.invalidate();
-    }
-
-    public User getUserByLogin(String login) {
-        User user = userRepository.findByLogin(login);
-        if (Objects.isNull(user)) {
-            throw new UserNotFoundException();
-        }
-        return user;
-    }
-
-    private User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        return user.get();
-    }
-
-    private void checkEmailAlreadyInUse(String email) {
-        if (userRepository.countUserByEmailEquals(email) > 0) {
-            throw new EmailAlreadyInUseException();
-        }
-    }
-
-    private void checkLoginAlreadyInUse(String login) {
-        if (userRepository.countUserByLoginEquals(login) > 0) {
-            throw new LoginAlreadyInUseException();
-        }
-    }
-
-    private void update(UserRequest userRequest, User updateUserOld) {
+    public void update(UserRequest userRequest, User updateUserOld) {
         User updateUser = userMapper.toUserEntity(userRequest);
         Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
 
@@ -123,5 +70,45 @@ public class UserService {
         userRepository.save(updateUser);
         if (Objects.isNull(updateUser.getAddress()) && !Objects.isNull(updateUserOldAddressId))
             addressService.deleteById(updateUserOldAddressId);
+    }
+
+    public void delete(Long id) {
+        User deleteUser = getUserById(id);
+        userRepository.delete(deleteUser);
+    }
+
+    public void updatePassword(Long id, UpdateUserPasswordRequest updateUserPasswordRequest) {
+        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
+        updatePasswordUser.setPassword(encryptionComponent.encodeSha256(updatePasswordUser.getPassword()));
+
+        userRepository.updatePasswordById(updatePasswordUser.getPassword(), id);
+    }
+
+    public User getUserByLoginAndPassword(String login, String password) {
+        User user = userRepository.findByLoginAndPassword(login, password);
+        if (Objects.isNull(user)) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
+
+    private User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(id);
+        }
+        return user.get();
+    }
+
+    private void checkEmailAlreadyInUse(String email) {
+        if (userRepository.countUserByEmailEquals(email) > 0) {
+            throw new EmailAlreadyInUseException();
+        }
+    }
+
+    private void checkLoginAlreadyInUse(String login) {
+        if (userRepository.countUserByLoginEquals(login) > 0) {
+            throw new LoginAlreadyInUseException();
+        }
     }
 }

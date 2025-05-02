@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE u.login = :login")
-    User findByLogin(@Param("login") String login);
+    @Query("SELECT u FROM User u WHERE u.login = :login AND u.password = :password")
+    User findByLoginAndPassword(@Param("login") String login, @Param("password") String password);
 
     @Query("SELECT COUNT(*) FROM User u WHERE u.email = :email")
     Integer countUserByEmailEquals(@Param("email") String email);
@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE User u SET u.password = :password WHERE u.login = :login")
-    void updatePasswordByLogin(@Param("password") String password, @Param("login") String login);
+    @Query("UPDATE User u SET u.password = :password WHERE u.id = :id ")
+    void updatePasswordById(@Param("password") String password, @Param("id") Long id);
 }
