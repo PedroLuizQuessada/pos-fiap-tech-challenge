@@ -10,6 +10,10 @@ import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequ
 import com.example.tech_challenge.service.LoginService;
 import com.example.tech_challenge.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +37,18 @@ public class UserControllerV1 {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @Operation(summary = "Realiza login no sistema",
+    @Operation(summary = "Realiza login",
                 security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                            description = "Usuário autenticado com sucesso",
+                            content = @Content(mediaType = "application/json",
+                                                schema = @Schema(implementation = LoginUserResponse.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @GetMapping("/login")
     public ResponseEntity<LoginUserResponse> login(HttpServletRequest request) {
         log.info("Logging user...");
@@ -45,7 +60,22 @@ public class UserControllerV1 {
                 .body(userMapper.toLoginUserResponse(user));
     }
 
-    @Operation(summary = "Cria um usuário")
+    @Operation(summary = "Cria um usuário",
+            description = "Endpoint liberado para usuários não autenticados")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201",
+                    description = "Usuário criado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do usuário a ser criado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "405",
+                    description = "Autoridade do usuário a ser criado é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PostMapping("/create")
     public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Create user: {}", createUserRequest.getLogin());
@@ -56,7 +86,18 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Admin cria um usuário",
+            description = "Requer autenticação e nível de autorização 'ADMIN'",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "201",
+                    description = "Usuário criado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do usuário a ser criado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PostMapping("/admin/create")
     public ResponseEntity<UserResponse> adminCreate(HttpServletRequest request,
                                                     @RequestBody @Valid CreateUserRequest createUserRequest) {
@@ -70,7 +111,16 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Atualiza o seu próprio usuário",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do usuário a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PutMapping("/update")
     public ResponseEntity<Void> update(HttpServletRequest request,
                                        @RequestBody @Valid UserRequest userRequest) {
@@ -84,7 +134,20 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Admin atualiza um usuário",
+            description = "Requer autenticação e nível de autorização 'ADMIN'",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do usuário a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuário a ser atualizado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<Void> adminUpdate(HttpServletRequest request,
                                             @RequestBody @Valid UserRequest userRequest,
@@ -98,7 +161,12 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Apaga o seu próprio usuário",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Usuário apagado com sucesso")
+    })
     @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(HttpSession httpSession,
                                        HttpServletRequest request) {
@@ -113,7 +181,16 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Admin apaga um usuário",
+            description = "Requer autenticação e nível de autorização 'ADMIN'",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Usuário apagado com sucesso"),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuário a ser apagado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> adminDelete(HttpServletRequest request,
                                             @PathVariable("id") @NotNull Long id) {
@@ -126,7 +203,16 @@ public class UserControllerV1 {
     }
 
     @Operation(summary = "Atualiza a senha do seu próprio usuário",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Senha do usuário atualizada com sucesso"),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do usuário a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
     @PutMapping("/updatePassword")
     public ResponseEntity<Void> updatePassword(HttpServletRequest request,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
