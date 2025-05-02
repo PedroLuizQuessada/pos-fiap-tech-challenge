@@ -1,2 +1,2 @@
 INSERT IGNORE INTO addresses (address_state, city, street, address_number, zip_code, aditional_info) VALUES ("SP", "São Paulo", "Avenida Paulista", "3006", "123456", "Piso 7");
-INSERT IGNORE INTO users (user_name, email, login, password, authority, address) VALUES ("admin", "pedroluiz.quessada@gmail.com", "abc123", "$2a$10$0gNxJkfpPFDnnmSxU8lzg.VTWCDvIivSpMgZEuzMjv25Usr2J9mcm", "ADMIN", 1);
+INSERT IGNORE INTO users (user_name, email, login, password, authority, address) VALUES ("admin", "pedroluiz.quessada@gmail.com", "abc123", "83cf8b609de60036a8277bd0e96135751bbc07eb234256d4b65b893360651bf2", "ADMIN", 1);

@@ -2,15 +2,13 @@ package com.example.tech_challenge.controller;
 
 import com.example.tech_challenge.exception.*;
 import org.springframework.http.*;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.net.URI;
-import java.util.Objects;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
@@ -27,24 +25,12 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { AuthenticationException.class })
     public ProblemDetail handleAuthentication(AuthenticationException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
-        problemDetail.setTitle(HttpStatus.UNAUTHORIZED.getReasonPhrase());
-        problemDetail.setInstance(URI.create("/tech-challenge/login"));
-        return problemDetail;
-    }
-
-    @ExceptionHandler(value = { PathNotFoundException.class })
-    public ProblemDetail handlePathNotFound(PathNotFoundException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
-        problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
-        return problemDetail;
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
     @ExceptionHandler(value = { AuthorityException.class })
     public ProblemDetail handleAuthority(AuthorityException ex) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
-        problemDetail.setTitle(HttpStatus.FORBIDDEN.getReasonPhrase());
-        return problemDetail;
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(value = { UserNotFoundException.class })
@@ -58,21 +44,14 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        StringBuilder message = new StringBuilder();
-        message.append("Parâmetro deve ser informado na URL: ");
-        for(Object msg : Objects.requireNonNull(ex.getDetailMessageArguments())) {
-            message.append(msg);
-            break;
-        }
-
+    protected ResponseEntity<Object> handleNoResourceFoundException(NoResourceFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
-                .badRequest()
-                .body(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, String.valueOf(message)));
+                .status(HttpStatus.NOT_FOUND)
+                .body(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, String.format("Recurso não encontrado: %s", ((ServletWebRequest) request).getRequest().getRequestURI())));
     }
 
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         StringBuilder message = new StringBuilder();
         for(Object msg : ex.getDetailMessageArguments()) {
             message.append(msg);
@@ -82,5 +61,4 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
                 .badRequest()
                 .body(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, String.valueOf(message)));
     }
-
 }
