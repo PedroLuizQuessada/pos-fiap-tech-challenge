@@ -1,7 +1,7 @@
 package com.example.tech_challenge.controller.users;
 
 import com.example.tech_challenge.component.mapper.UserMapper;
-import com.example.tech_challenge.domain.user.User;
+import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
 import com.example.tech_challenge.domain.user.dto.response.UserResponse;

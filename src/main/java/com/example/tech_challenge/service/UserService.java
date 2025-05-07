@@ -1,9 +1,9 @@
 package com.example.tech_challenge.service;
 
-import com.example.tech_challenge.component.security.EncryptionComponent;
 import com.example.tech_challenge.component.mapper.UserMapper;
+import com.example.tech_challenge.domain.user.entity.User;
+import com.example.tech_challenge.domain.user.entity.UserDB;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
-import com.example.tech_challenge.domain.user.User;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
@@ -24,7 +24,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final EncryptionComponent encryptionComponent;
     private final AddressService addressService;
 
     public User create(CreateUserRequest createUserRequest, boolean allowAdmin) {
@@ -37,9 +36,7 @@ public class UserService {
         checkEmailAlreadyInUse(createUser.getEmail());
         checkLoginAlreadyInUse(createUser.getLogin());
 
-        createUser.setPassword(encryptionComponent.encodeSha256(createUser.getPassword()));
-
-        return userRepository.save(createUser);
+        return userRepository.save(createUser.toEntityDB()).toEntity();
     }
 
     public void update(UserRequest userRequest, Long id) {
@@ -48,56 +45,46 @@ public class UserService {
     }
 
     public void update(UserRequest userRequest, User updateUserOld) {
-        User updateUser = userMapper.toUserEntity(userRequest);
-        Integer updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
+        User userEntity = userMapper.toUserEntity(userRequest, updateUserOld.getId(), updateUserOld.getPassword(),
+                updateUserOld.getAuthority(), updateUserOld.getAddress().getId());
+        Long updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
 
-        updateUser.setId(updateUserOld.getId());
-        updateUser.setPassword(updateUserOld.getPassword());
-        updateUser.setAuthority(updateUserOld.getAuthority());
-        if (!Objects.isNull(updateUser.getAddress())) {
-            if (!Objects.isNull(updateUserOld.getAddress()))
-                updateUser.getAddress().setId(updateUserOld.getAddress().getId());
-            updateUser.getAddress().setUser(updateUser);
+        if (!Objects.equals(updateUserOld.getEmail(), userEntity.getEmail())) {
+            checkEmailAlreadyInUse(userEntity.getEmail());
+        }
+        if (!Objects.equals(updateUserOld.getLogin(), userEntity.getLogin())) {
+            checkLoginAlreadyInUse(userEntity.getLogin());
         }
 
-        if (!Objects.equals(updateUserOld.getEmail(), updateUser.getEmail())) {
-            checkEmailAlreadyInUse(updateUser.getEmail());
-        }
-        if (!Objects.equals(updateUserOld.getLogin(), updateUser.getLogin())) {
-            checkLoginAlreadyInUse(updateUser.getLogin());
-        }
-
-        userRepository.save(updateUser);
-        if (Objects.isNull(updateUser.getAddress()) && !Objects.isNull(updateUserOldAddressId))
-            addressService.deleteById(updateUserOldAddressId);
+        userRepository.save(userEntity.toEntityDB());
+        if (Objects.isNull(userEntity.getAddress()) && !Objects.isNull(updateUserOldAddressId))
+            addressService.deleteById(Math.toIntExact(updateUserOldAddressId));
     }
 
     public void delete(Long id) {
         User deleteUser = getUserById(id);
-        userRepository.delete(deleteUser);
+        userRepository.delete(deleteUser.toEntityDB());
     }
 
     public void updatePassword(Long id, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest);
-        updatePasswordUser.setPassword(encryptionComponent.encodeSha256(updatePasswordUser.getPassword()));
-
+        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest, id);
         userRepository.updatePasswordById(updatePasswordUser.getPassword(), id);
     }
 
     public User getUserByLoginAndPassword(String login, String password) {
-        User user = userRepository.findByLoginAndPassword(login, password);
-        if (Objects.isNull(user)) {
+        UserDB userDB = userRepository.findByLoginAndPassword(login, password);
+        if (Objects.isNull(userDB)) {
             throw new UserNotFoundException();
         }
-        return user;
+        return userDB.toEntity();
     }
 
     private User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
+        Optional<UserDB> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new UserNotFoundException(id);
         }
-        return user.get();
+        return user.get().toEntity();
     }
 
     private void checkEmailAlreadyInUse(String email) {
