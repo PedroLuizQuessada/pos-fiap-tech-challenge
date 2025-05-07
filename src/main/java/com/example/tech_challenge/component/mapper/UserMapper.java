@@ -1,11 +1,13 @@
 package com.example.tech_challenge.component.mapper;
 
-import com.example.tech_challenge.domain.user.User;
+import com.example.tech_challenge.domain.address.entity.Address;
+import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
 import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
 import com.example.tech_challenge.domain.user.dto.response.UserResponse;
+import com.example.tech_challenge.enums.AuthorityEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,29 +20,19 @@ public class UserMapper {
     private final AddressMapper addressMapper;
 
     public User toUserEntity(CreateUserRequest createUserRequest) {
-        User user = new User();
-        user.setName(createUserRequest.getName());
-        user.setEmail(createUserRequest.getEmail());
-        user.setLogin(createUserRequest.getLogin());
-        user.setAddress(Objects.isNull(createUserRequest.getAddress()) ? null : addressMapper.toAddressEntity(createUserRequest.getAddress()));
-        user.setPassword(createUserRequest.getPassword());
-        user.setAuthority(createUserRequest.getAuthority());
-        return user;
+        Address address = Objects.isNull(createUserRequest.getAddress()) ? null : addressMapper.toAddressEntity(createUserRequest.getAddress());
+        return new User(createUserRequest.getName(), createUserRequest.getEmail(),
+                createUserRequest.getLogin(), createUserRequest.getPassword(), address, createUserRequest.getAuthority());
     }
 
-    public User toUserEntity(UserRequest userRequest) {
-        User user = new User();
-        user.setName(userRequest.getName());
-        user.setEmail(userRequest.getEmail());
-        user.setLogin(userRequest.getLogin());
-        user.setAddress(Objects.isNull(userRequest.getAddress()) ? null : addressMapper.toAddressEntity(userRequest.getAddress()));
-        return user;
+    public User toUserEntity(UserRequest userRequest, Long id, String password, AuthorityEnum authority, Long addressId) {
+        Address address = Objects.isNull(userRequest.getAddress()) ? null : addressMapper.toAddressEntity(userRequest.getAddress(), addressId);
+        return new User(id, userRequest.getName(), userRequest.getEmail(), userRequest.getLogin(), password,
+                address, authority);
     }
 
-    public User toUserEntity(UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User user = new User();
-        user.setPassword(updateUserPasswordRequest.getNewPassword());
-        return user;
+    public User toUserEntity(UpdateUserPasswordRequest updateUserPasswordRequest, Long id) {
+        return new User(id, updateUserPasswordRequest.getNewPassword());
     }
 
     public LoginUserResponse toLoginUserResponse(User user) {

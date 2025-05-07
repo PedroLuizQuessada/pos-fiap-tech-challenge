@@ -1,6 +1,6 @@
-package com.example.tech_challenge.domain.user;
+package com.example.tech_challenge.domain.user.entity;
 
-import com.example.tech_challenge.domain.address.Address;
+import com.example.tech_challenge.domain.address.entity.AddressDB;
 import com.example.tech_challenge.enums.AuthorityEnum;
 
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.sql.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserDB {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +40,13 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address", referencedColumnName = "id")
-    private Address address;
+    private AddressDB addressDB;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthorityEnum authority;
+
+    public User toEntity() {
+        return new User(id, name, email, login, password, lastUpdateDate, addressDB.toEntity(), authority);
+    }
 }

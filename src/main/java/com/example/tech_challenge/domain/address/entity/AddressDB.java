@@ -1,6 +1,6 @@
-package com.example.tech_challenge.domain.address;
+package com.example.tech_challenge.domain.address.entity;
 
-import com.example.tech_challenge.domain.user.User;
+import com.example.tech_challenge.domain.user.entity.UserDB;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,11 +13,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class AddressDB {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "address_state", nullable = false, length = 45)
     private String state;
@@ -37,6 +37,10 @@ public class Address {
     @Column(name = "aditional_info", length = 45)
     private String aditionalInfo;
 
-    @OneToOne(mappedBy = "address")
-    private User user;
+    @OneToOne(mappedBy = "addressDB")
+    private UserDB userDB;
+
+    public Address toEntity() {
+        return new Address(id, state, city, street, number, zipCode, aditionalInfo);
+    }
 }

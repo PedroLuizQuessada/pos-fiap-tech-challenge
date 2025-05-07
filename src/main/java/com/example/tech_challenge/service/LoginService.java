@@ -1,7 +1,7 @@
 package com.example.tech_challenge.service;
 
-import com.example.tech_challenge.component.security.EncryptionComponent;
-import com.example.tech_challenge.domain.user.User;
+import com.example.tech_challenge.utils.EncryptionUtil;
+import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.CredentialsDto;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.AuthenticationException;
@@ -17,7 +17,6 @@ import java.util.Objects;
 public class LoginService {
 
     private final UserService userService;
-    private final EncryptionComponent encryptionComponent;
 
     public User login(String authToken, boolean onlyAdmin) {
 
@@ -40,8 +39,8 @@ public class LoginService {
     }
 
     private CredentialsDto getCredentialsByAuthToken(String authToken) {
-        String[] decodedCredentials = encryptionComponent.decodeBase64(authToken.replace("Basic ", "")).split(":");
+        String[] decodedCredentials = EncryptionUtil.decodeBase64(authToken.replace("Basic ", "")).split(":");
 
-        return new CredentialsDto(decodedCredentials[0], encryptionComponent.encodeSha256(decodedCredentials[1]));
+        return new CredentialsDto(decodedCredentials[0], EncryptionUtil.encodeSha256(decodedCredentials[1]));
     }
 }
