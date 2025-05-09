@@ -76,8 +76,9 @@ public class UserControllerV1 {
     })
     @PostMapping("/create")
     public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        log.info("Create user: {}", createUserRequest.getLogin());
+        log.info("Creating user: {}", createUserRequest.getLogin());
         User user = userService.create(createUserRequest, false);
+        log.info("Created user: {}", user.getLogin());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(user.toUserResponse());
@@ -103,10 +104,11 @@ public class UserControllerV1 {
     @PostMapping("/admin/create")
     public ResponseEntity<UserResponse> adminCreate(HttpServletRequest request,
                                                     @RequestBody @Valid CreateUserRequest createUserRequest) {
-        log.info("Admin create user: {}", createUserRequest.getLogin());
+        log.info("Admin creating user: {}", createUserRequest.getLogin());
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         loginService.login(authToken, true);
         User user = userService.create(createUserRequest, true);
+        log.info("Admin created user: {}", user.getLogin());
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(user.toUserResponse());
@@ -158,10 +160,11 @@ public class UserControllerV1 {
     public ResponseEntity<Void> adminUpdate(HttpServletRequest request,
                                             @RequestBody @Valid UserRequest userRequest,
                                             @PathVariable("id") @NotNull Long id) {
-        log.info("Admin update user: {}", id);
+        log.info("Admin updating user: {}", id);
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         loginService.login(authToken, true);
         userService.update(userRequest, id);
+        log.info("Admin updated user: {}", id);
         return ResponseEntity
                 .ok().build();
     }
@@ -204,10 +207,11 @@ public class UserControllerV1 {
     @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> adminDelete(HttpServletRequest request,
                                             @PathVariable("id") @NotNull Long id) {
-        log.info("Admin delete user: {}", id);
+        log.info("Admin deleting user: {}", id);
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         loginService.login(authToken, true);
         userService.delete(id);
+        log.info("Admin deleted user: {}", id);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
     }
@@ -226,11 +230,11 @@ public class UserControllerV1 {
     @PutMapping("/updatePassword")
     public ResponseEntity<Void> updatePassword(HttpServletRequest request,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        log.info("Updating password user...");
+        log.info("Updating user password...");
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         User user = loginService.login(authToken, false);
         userService.updatePassword(user.getId(), updateUserPasswordRequest);
-        log.info("Password updated user: {}", user.getId());
+        log.info("Updated user password: {}", user.getId());
         return ResponseEntity
                 .ok().build();
     }
