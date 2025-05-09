@@ -1,6 +1,5 @@
 package com.example.tech_challenge.controller.users;
 
-import com.example.tech_challenge.component.mapper.UserMapper;
 import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
@@ -35,7 +34,6 @@ public class UserControllerV1 {
 
     private final LoginService loginService;
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @Operation(summary = "Realiza login",
                 security = @SecurityRequirement(name = "basicAuth"))
@@ -57,7 +55,7 @@ public class UserControllerV1 {
         log.info("Logged user: {}", user.getId());
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userMapper.toLoginUserResponse(user));
+                .body(user.toLoginUserResponse());
     }
 
     @Operation(summary = "Cria um usuário",
@@ -82,7 +80,7 @@ public class UserControllerV1 {
         User user = userService.create(createUserRequest, false);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userMapper.toUserResponse(user));
+                .body(user.toUserResponse());
     }
 
     @Operation(summary = "Admin cria um usuário",
@@ -111,7 +109,7 @@ public class UserControllerV1 {
         User user = userService.create(createUserRequest, true);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userMapper.toUserResponse(user));
+                .body(user.toUserResponse());
     }
 
     @Operation(summary = "Atualiza o seu próprio usuário",

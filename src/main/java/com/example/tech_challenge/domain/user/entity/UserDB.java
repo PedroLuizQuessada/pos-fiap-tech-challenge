@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.user.entity;
 
+import com.example.tech_challenge.domain.address.entity.Address;
 import com.example.tech_challenge.domain.address.entity.AddressDB;
 import com.example.tech_challenge.enums.AuthorityEnum;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -47,6 +49,7 @@ public class UserDB {
     private AuthorityEnum authority;
 
     public User toEntity() {
-        return new User(id, name, email, login, password, lastUpdateDate, addressDB.toEntity(), authority);
+        Address address = Objects.isNull(this.addressDB) ? null : this.addressDB.toEntity();
+        return new User(id, name, email, login, password, lastUpdateDate, address, authority);
     }
 }
