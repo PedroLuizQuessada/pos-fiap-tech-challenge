@@ -29,10 +29,10 @@ public class UserDB {
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
-    @Column(nullable = false, unique = true, length = 45)
+    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR(45) COLLATE utf8_bin")
     private String login;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) COLLATE utf8_bin")
     private String password;
 
     @Column(name = "last_update_date")

@@ -13,8 +13,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class })
-    public ProblemDetail handleEmailOrLoginAlreadyInUse(RuntimeException ex) {
+    @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class, ConstraintViolationException.class })
+    public ProblemDetail handleEmailOrLoginAlreadyInUseAndConstraintViolation(RuntimeException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 

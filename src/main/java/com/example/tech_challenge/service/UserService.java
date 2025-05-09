@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public void update(UserRequest userRequest, User updateUserOld) {
-        User userEntity = userMapper.toUserEntity(userRequest, updateUserOld.getId(), updateUserOld.getPassword(),
+        User userEntity = userMapper.toUserEntity(userRequest, updateUserOld.getId(), updateUserOld.getEncodedPassword(),
                 updateUserOld.getAuthority(), updateUserOld.getAddress().getId());
         Long updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
 
@@ -68,7 +68,7 @@ public class UserService {
 
     public void updatePassword(Long id, UpdateUserPasswordRequest updateUserPasswordRequest) {
         User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest, id);
-        userRepository.updatePasswordById(updatePasswordUser.getPassword(), id);
+        userRepository.updatePasswordById(updatePasswordUser.getEncodedPassword(), id);
     }
 
     public User getUserByLoginAndPassword(String login, String password) {
@@ -88,13 +88,13 @@ public class UserService {
     }
 
     private void checkEmailAlreadyInUse(String email) {
-        if (userRepository.countUserByEmailEquals(email) > 0) {
+        if (userRepository.countByEmail(email) > 0) {
             throw new EmailAlreadyInUseException();
         }
     }
 
     private void checkLoginAlreadyInUse(String login) {
-        if (userRepository.countUserByLoginEquals(login) > 0) {
+        if (userRepository.countByLogin(login) > 0) {
             throw new LoginAlreadyInUseException();
         }
     }

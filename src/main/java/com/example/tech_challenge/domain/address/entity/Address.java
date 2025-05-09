@@ -1,12 +1,18 @@
 package com.example.tech_challenge.domain.address.entity;
 
+import com.example.tech_challenge.exception.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Getter
-@AllArgsConstructor
 public class Address {
 
     private Long id;
@@ -34,6 +40,25 @@ public class Address {
     @Size(max = 45, message = "O complemento do endereço deve possuir até 45 caracteres")
     private String aditionalInfo;
 
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+    public Address(Long id, String state, String city, String street, String number, String zipCode, String aditionalInfo) {
+        this.id = id;
+        this.state = state;
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.zipCode = zipCode;
+        this.aditionalInfo = aditionalInfo;
+
+        Set<ConstraintViolation<Address>> constraintViolationHashSet = validator.validate(this);
+        if (!constraintViolationHashSet.isEmpty()) {
+            List<String> constraintsMessages = new ArrayList<>();
+            constraintViolationHashSet.forEach(action -> constraintsMessages.add(action.getMessage()));
+            throw new ConstraintViolationException(constraintsMessages);
+        }
+    }
+
     public Address(String state, String city, String street, String number, String zipCode, String aditionalInfo) {
         this.state = state;
         this.city = city;
@@ -41,6 +66,13 @@ public class Address {
         this.number = number;
         this.zipCode = zipCode;
         this.aditionalInfo = aditionalInfo;
+
+        Set<ConstraintViolation<Address>> constraintViolationHashSet = validator.validate(this);
+        if (!constraintViolationHashSet.isEmpty()) {
+            List<String> constraintsMessages = new ArrayList<>();
+            constraintViolationHashSet.forEach(action -> constraintsMessages.add(action.getMessage()));
+            throw new ConstraintViolationException(constraintsMessages);
+        }
     }
 
     public AddressDB toEntityDB() {
