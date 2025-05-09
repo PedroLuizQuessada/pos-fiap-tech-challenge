@@ -1,5 +1,6 @@
 package com.example.tech_challenge.domain.address.entity;
 
+import com.example.tech_challenge.domain.address.dto.response.AddressResponse;
 import com.example.tech_challenge.exception.ConstraintViolationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -12,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Getter
 public class Address {
 
+    @Getter
     private Long id;
 
     @NotEmpty(message = "O endereço deve possuir um estado")
@@ -85,5 +86,16 @@ public class Address {
         addressDB.setZipCode(zipCode);
         addressDB.setAditionalInfo(aditionalInfo);
         return addressDB;
+    }
+
+    public AddressResponse toAddressResponse() {
+        AddressResponse addressResponse = new AddressResponse();
+        addressResponse.setState(state);
+        addressResponse.setCity(city);
+        addressResponse.setStreet(street);
+        addressResponse.setNumber(number);
+        addressResponse.setZipCode(zipCode);
+        addressResponse.setAditionalInfo(aditionalInfo);
+        return addressResponse;
     }
 }

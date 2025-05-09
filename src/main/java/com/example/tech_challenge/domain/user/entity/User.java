@@ -1,6 +1,9 @@
 package com.example.tech_challenge.domain.user.entity;
 
 import com.example.tech_challenge.domain.address.entity.Address;
+import com.example.tech_challenge.domain.address.entity.AddressDB;
+import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
+import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.exception.ConstraintViolationException;
 import com.example.tech_challenge.utils.EncryptionUtil;
 import com.example.tech_challenge.enums.AuthorityEnum;
@@ -13,6 +16,7 @@ import lombok.Getter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class User {
@@ -20,7 +24,6 @@ public class User {
     @Getter
     private Long id;
 
-    @Getter
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")
     private String name;
@@ -47,7 +50,6 @@ public class User {
     @Pattern(regexp = "^[^:]+$", message = "A senha não pode conter ':'")
     private String decodedPassword;
 
-    @Getter
     private Date lastUpdateDate;
 
     @Getter
@@ -150,9 +152,26 @@ public class User {
     }
 
     public UserDB toEntityDB() {
+        AddressDB addressDB = Objects.isNull(address) ? null : address.toEntityDB();
         UserDB userDB = new UserDB(id, name, email, login,
-                encodedPassword, lastUpdateDate, address.toEntityDB(), authority);
-        userDB.getAddressDB().setUserDB(userDB);
+                encodedPassword, lastUpdateDate, addressDB, authority);
+        if (!Objects.isNull(userDB.getAddressDB()))
+            userDB.getAddressDB().setUserDB(userDB);
         return userDB;
+    }
+
+    public UserResponse toUserResponse() {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setName(name);
+        userResponse.setEmail(email);
+        userResponse.setLogin(login);
+        userResponse.setLastUpdateDate(lastUpdateDate);
+        userResponse.setAddress(Objects.isNull(address) ? null : address.toAddressResponse());
+        userResponse.setAuthority(authority);
+        return userResponse;
+    }
+
+    public LoginUserResponse toLoginUserResponse() {
+        return new LoginUserResponse(name);
     }
 }

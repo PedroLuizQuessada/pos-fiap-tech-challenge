@@ -46,7 +46,7 @@ public class UserService {
 
     public void update(UserRequest userRequest, User updateUserOld) {
         User userEntity = userMapper.toUserEntity(userRequest, updateUserOld.getId(), updateUserOld.getEncodedPassword(),
-                updateUserOld.getAuthority(), updateUserOld.getAddress().getId());
+                updateUserOld.getAuthority(), updateUserOld.getAddress());
         Long updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
 
         if (!Objects.equals(updateUserOld.getEmail(), userEntity.getEmail())) {
