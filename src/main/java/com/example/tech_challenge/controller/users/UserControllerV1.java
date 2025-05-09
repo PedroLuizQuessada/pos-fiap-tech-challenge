@@ -96,6 +96,10 @@ public class UserControllerV1 {
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser criado",
                     content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/admin/create")
@@ -143,6 +147,10 @@ public class UserControllerV1 {
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404",
                     description = "Usuário a ser atualizado não encontrado",
                     content = @Content(mediaType = "application/json",
@@ -186,6 +194,10 @@ public class UserControllerV1 {
     @ApiResponses({
             @ApiResponse(responseCode = "204",
                     description = "Usuário apagado com sucesso"),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "404",
                     description = "Usuário a ser apagado não encontrado",
                     content = @Content(mediaType = "application/json",

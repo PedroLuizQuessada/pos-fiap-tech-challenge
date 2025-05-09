@@ -11,14 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<UserDB, Long> {
 
-    @Query("SELECT u FROM UserDB u WHERE u.login = :login AND u.password = :password")
-    UserDB findByLoginAndPassword(@Param("login") String login, @Param("password") String password);
+    UserDB findByLoginAndPassword(String login, String password);
 
-    @Query("SELECT COUNT(*) FROM UserDB u WHERE u.email = :email")
-    Integer countUserByEmailEquals(@Param("email") String email);
+    Integer countByEmail(String email);
 
-    @Query("SELECT COUNT(*) FROM UserDB u WHERE u.login = :login")
-    Integer countUserByLoginEquals(@Param("login") String login);
+    Integer countByLogin(String login);
 
     @Transactional
     @Modifying
