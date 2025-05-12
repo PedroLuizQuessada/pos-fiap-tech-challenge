@@ -29,10 +29,11 @@ public class UserMapper {
             oldAddressId = oldAddress.getId();
         Address address = Objects.isNull(userRequest.getAddress()) ? null : addressMapper.toAddressEntity(userRequest.getAddress(), oldAddressId);
         return new User(id, userRequest.getName(), userRequest.getEmail(), userRequest.getLogin(), password,
-                address, authority);
+                address, authority, false);
     }
 
-    public User toUserEntity(UpdateUserPasswordRequest updateUserPasswordRequest, Long id) {
-        return new User(id, updateUserPasswordRequest.getNewPassword());
+    public User toUserEntity(UpdateUserPasswordRequest updateUserPasswordRequest, User user) {
+        return new User(user.getId(), user.getName(), user.getEmail(), user.getLogin(), updateUserPasswordRequest.getNewPassword(),
+                user.getAddress(), user.getAuthority(), true);
     }
 }

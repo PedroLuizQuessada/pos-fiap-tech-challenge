@@ -233,7 +233,7 @@ public class UserControllerV1 {
         log.info("Updating user password...");
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         User user = loginService.login(authToken, false);
-        userService.updatePassword(user.getId(), updateUserPasswordRequest);
+        userService.updatePassword(updateUserPasswordRequest, user.getId());
         log.info("Updated user password: {}", user.getId());
         return ResponseEntity
                 .ok().build();

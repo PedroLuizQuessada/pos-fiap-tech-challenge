@@ -24,6 +24,7 @@ public class User {
     @Getter
     private Long id;
 
+    @Getter
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")
     private String name;
@@ -85,18 +86,26 @@ public class User {
         }
     }
 
-    public User(Long id, String name, String email, String login, String encodedPassword, Address address,
-                AuthorityEnum authority) {
+    public User(Long id, String name, String email, String login, String password, Address address,
+                AuthorityEnum authority, boolean isPasswordDecoded) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.login = login;
-        this.encodedPassword = encodedPassword;
         this.address = address;
         this.authority = authority;
         this.lastUpdateDate = new Date(new java.util.Date().getTime());
 
         Set<ConstraintViolation<User>> userConstraintViolationHashSet = new java.util.HashSet<>(Set.of());
+        if (isPasswordDecoded) {
+            this.decodedPassword = password;
+            this.encodedPassword = EncryptionUtil.encodeSha256(password);
+            userConstraintViolationHashSet.addAll(validator.validateProperty(this, "decodedPassword"));
+        }
+        else {
+            this.encodedPassword = password;
+        }
+
         userConstraintViolationHashSet.addAll(validator.validateProperty(this, "name"));
         userConstraintViolationHashSet.addAll(validator.validateProperty(this, "email"));
         userConstraintViolationHashSet.addAll(validator.validateProperty(this, "login"));
@@ -130,23 +139,6 @@ public class User {
         if (!userConstraintViolationHashSet.isEmpty()) {
             List<String> constraintsMessages = new ArrayList<>();
             userConstraintViolationHashSet.forEach(action -> constraintsMessages.add(action.getMessage()));
-            throw new ConstraintViolationException(constraintsMessages);
-        }
-    }
-
-    public User(Long id, String decodedPassword) {
-        this.id = id;
-        this.decodedPassword = decodedPassword;
-        this.encodedPassword = EncryptionUtil.encodeSha256(decodedPassword);
-        this.lastUpdateDate = new Date(new java.util.Date().getTime());
-
-        Set<ConstraintViolation<User>> constraintViolationHashSet = new java.util.HashSet<>(Set.of());
-        constraintViolationHashSet.addAll(validator.validateProperty(this, "decodedPassword"));
-        constraintViolationHashSet.addAll(validator.validateProperty(this, "encodedPassword"));
-
-        if (!constraintViolationHashSet.isEmpty()) {
-            List<String> constraintsMessages = new ArrayList<>();
-            constraintViolationHashSet.forEach(action -> constraintsMessages.add(action.getMessage()));
             throw new ConstraintViolationException(constraintsMessages);
         }
     }
