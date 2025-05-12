@@ -66,9 +66,10 @@ public class UserService {
         userRepository.delete(deleteUser.toEntityDB());
     }
 
-    public void updatePassword(Long id, UpdateUserPasswordRequest updateUserPasswordRequest) {
-        User updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest, id);
-        userRepository.updatePasswordById(updatePasswordUser.getEncodedPassword(), id);
+    public void updatePassword(UpdateUserPasswordRequest updateUserPasswordRequest, Long id) {
+        User updatePasswordUser = getUserById(id);
+        updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest, updatePasswordUser);
+        userRepository.save(updatePasswordUser.toEntityDB());
     }
 
     public User getUserByLoginAndPassword(String login, String password) {
