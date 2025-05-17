@@ -5,7 +5,9 @@ import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-public class EncryptionUtil {
+public final class EncryptionUtil {
+
+    private EncryptionUtil(){}
 
     public static String decodeBase64(String encodedString) {
         byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
