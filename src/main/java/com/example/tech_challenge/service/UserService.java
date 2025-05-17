@@ -9,7 +9,7 @@ import com.example.tech_challenge.domain.user.dto.request.UserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
-import com.example.tech_challenge.exception.UnauthorizedActionException;
+import com.example.tech_challenge.exception.AdminCreationNotAllowedException;
 import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,7 @@ public class UserService {
         User createUser = userMapper.toUserEntity(createUserRequest);
 
         if (!allowAdmin && AuthorityEnum.ADMIN.equals(createUser.getAuthority()))
-            throw new UnauthorizedActionException("usuário não autenticado criar usuário admin");
+            throw new AdminCreationNotAllowedException();
 
         checkEmailAlreadyInUse(createUser.getEmail());
         checkLoginAlreadyInUse(createUser.getLogin());

@@ -68,10 +68,6 @@ public class UserControllerV1 {
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser criado",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProblemDetail.class))),
-            @ApiResponse(responseCode = "405",
-                    description = "Autoridade do usuário a ser criado é 'ADMIN'",
-                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/create")
