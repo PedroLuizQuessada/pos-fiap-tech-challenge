@@ -118,7 +118,7 @@ public class UserControllerV1 {
             description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "204",
                     description = "Usuário atualizado com sucesso"),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
@@ -134,14 +134,15 @@ public class UserControllerV1 {
         userService.update(userRequest, user);
         log.info("Updated user: {}", user.getId());
         return ResponseEntity
-                .ok().build();
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @Operation(summary = "Admin atualiza um usuário",
             description = "Requer autenticação e nível de autorização 'ADMIN'",
             security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "204",
                     description = "Usuário atualizado com sucesso"),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
@@ -166,7 +167,8 @@ public class UserControllerV1 {
         userService.update(userRequest, id);
         log.info("Admin updated user: {}", id);
         return ResponseEntity
-                .ok().build();
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @Operation(summary = "Apaga o seu próprio usuário",
@@ -220,7 +222,7 @@ public class UserControllerV1 {
             description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = "204",
                     description = "Senha do usuário atualizada com sucesso"),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
@@ -236,6 +238,7 @@ public class UserControllerV1 {
         userService.updatePassword(updateUserPasswordRequest, user.getId());
         log.info("Updated user password: {}", user.getId());
         return ResponseEntity
-                .ok().build();
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }
