@@ -73,11 +73,11 @@ public class UserService {
     }
 
     public User getUserByLoginAndPassword(String login, String password) {
-        UserDB userDB = userRepository.findByLoginAndPassword(login, password);
-        if (Objects.isNull(userDB)) {
+        Optional<UserDB> userDB = userRepository.findByLoginAndPassword(login, password);
+        if (userDB.isEmpty()) {
             throw new UserNotFoundException();
         }
-        return userDB.toEntity();
+        return userDB.get().toEntity();
     }
 
     private User getUserById(Long id) {
