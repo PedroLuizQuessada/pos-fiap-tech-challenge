@@ -13,7 +13,9 @@ import org.springframework.context.annotation.Configuration;
         scheme = "basic"
 )
 @OpenAPIDefinition(
-        info = @Info(title = "API usuários", version = "v1.0.0")
+        info = @Info(title = "API usuários", version = "v1.0.0",
+                description = "API para gerenciamento de usuários proposta como tech-challenge da pós-tech de " +
+                        "Arquitetura e desenvolvimento em Java da FIAP")
 )
 public class SwaggerConfig {
 
