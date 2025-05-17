@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/v1/users")
+@RequestMapping(path = "/api/v1/usuarios")
 @AllArgsConstructor
 @Tag(name = "User Controller V1", description = "Versão 1 do controlador referente a usuários")
 public class UserControllerV1 {
@@ -72,7 +72,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Creating user: {}", createUserRequest.getLogin());
         User user = userService.create(createUserRequest, false);
@@ -99,7 +99,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping("/admin/create")
+    @PostMapping("/admin")
     public ResponseEntity<UserResponse> adminCreate(HttpServletRequest request,
                                                     @RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Admin creating user: {}", createUserRequest.getLogin());
@@ -123,7 +123,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<Void> update(HttpServletRequest request,
                                        @RequestBody @Valid UserRequest userRequest) {
         log.info("Updating user...");
@@ -155,7 +155,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/admin/update/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<Void> adminUpdate(HttpServletRequest request,
                                             @RequestBody @Valid UserRequest userRequest,
                                             @PathVariable("id") @NotNull Long id) {
@@ -176,7 +176,7 @@ public class UserControllerV1 {
             @ApiResponse(responseCode = "204",
                     description = "Usuário apagado com sucesso")
     })
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<Void> delete(HttpSession httpSession,
                                        HttpServletRequest request) {
         log.info("Deleting user...");
@@ -204,7 +204,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping("/admin/delete/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> adminDelete(HttpServletRequest request,
                                             @PathVariable("id") @NotNull Long id) {
         log.info("Admin deleting user: {}", id);
@@ -227,7 +227,7 @@ public class UserControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/updatePassword")
+    @PutMapping("/senha")
     public ResponseEntity<Void> updatePassword(HttpServletRequest request,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
         log.info("Updating user password...");
