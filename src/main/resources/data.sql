@@ -1,2 +1,2 @@
-INSERT IGNORE INTO addresses (address_state, city, street, address_number, zip_code, aditional_info) VALUES ("estado user 1", "cidade user 1", "rua user 1", "número user 1", "cep user 1", "complemento user 1");
-INSERT IGNORE INTO users (user_name, email, login, password, authority, address) VALUES ("nome user 1", "email1@gmail.com", "LoginUser1", "61c4a683a38fbf601b27d4237032b7f8d8bf30e636b14eacbabc9f13eeced4f1", "ADMIN", 1);
+INSERT IGNORE INTO addresses (address_state, city, street, address_number, zip_code, aditional_info) VALUES ("estado usuario 1", "cidade usuario 1", "rua usuario 1", "número usuario 1", "cep usuario 1", "complemento usuario 1");
+INSERT IGNORE INTO users (user_name, email, login, password, authority, address) VALUES ("nome usuario 1", "email1@gmail.com", "LoginUsuario1", "9ebba61ab171a7fe6718b8c4b0ba047897781566976875ee57c4a84ea4a489dd", "ADMIN", 1);
