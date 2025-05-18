@@ -1,9 +1,5 @@
 package com.example.tech_challenge.domain.user.dto.request;
 
-import lombok.Getter;
+public record UpdateUserPasswordRequest (String newPassword){
 
-@Getter
-public class UpdateUserPasswordRequest {
-
-    private String newPassword;
 }

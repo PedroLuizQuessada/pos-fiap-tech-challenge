@@ -1,19 +1,5 @@
 package com.example.tech_challenge.domain.address.dto.request;
 
-import lombok.Getter;
+public record AddressRequest(String state, String city, String street, String number, String zipCode, String aditionalInfo) {
 
-@Getter
-public class AddressRequest {
-
-    private String state;
-
-    private String city;
-
-    private String street;
-
-    private String number;
-
-    private String zipCode;
-
-    private String aditionalInfo;
 }

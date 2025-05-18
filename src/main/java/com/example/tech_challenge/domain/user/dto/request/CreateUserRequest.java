@@ -1,12 +1,9 @@
 package com.example.tech_challenge.domain.user.dto.request;
 
+import com.example.tech_challenge.domain.address.dto.request.AddressRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
-import lombok.Getter;
 
-@Getter
-public class CreateUserRequest extends UserRequest {
+public record CreateUserRequest(String name, String email, String login, AddressRequest address,
+                                String password, AuthorityEnum authority) implements UserRequest {
 
-    private String password;
-
-    private AuthorityEnum authority;
 }

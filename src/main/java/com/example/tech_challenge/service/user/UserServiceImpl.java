@@ -1,17 +1,18 @@
-package com.example.tech_challenge.service;
+package com.example.tech_challenge.service.user;
 
-import com.example.tech_challenge.component.mapper.UserMapper;
+import com.example.tech_challenge.mapper.entity.UserMapper;
 import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.entity.UserDB;
 import com.example.tech_challenge.domain.user.dto.request.CreateUserRequest;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserPasswordRequest;
-import com.example.tech_challenge.domain.user.dto.request.UserRequest;
+import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.exception.AdminCreationNotAllowedException;
 import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.repo.UserRepository;
+import com.example.tech_challenge.service.address.AddressService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,13 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AddressService addressService;
 
+    @Override
     public User create(CreateUserRequest createUserRequest, boolean allowAdmin) {
 
         User createUser = userMapper.toUserEntity(createUserRequest);
@@ -39,14 +41,15 @@ public class UserService {
         return userRepository.save(createUser.toEntityDB()).toEntity();
     }
 
-    public void update(UserRequest userRequest, Long id) {
+    @Override
+    public void update(UpdateUserRequest updateUserRequest, Long id) {
         User updateUserOld = getUserById(id);
-        update(userRequest, updateUserOld);
+        update(updateUserRequest, updateUserOld);
     }
 
-    public void update(UserRequest userRequest, User updateUserOld) {
-        User userEntity = userMapper.toUserEntity(userRequest, updateUserOld.getId(), updateUserOld.getEncodedPassword(),
-                updateUserOld.getAuthority(), updateUserOld.getAddress());
+    @Override
+    public void update(UpdateUserRequest updateUserRequest, User updateUserOld) {
+        User userEntity = userMapper.toUserEntity(updateUserRequest, updateUserOld);
         Long updateUserOldAddressId = !Objects.isNull(updateUserOld.getAddress()) ? updateUserOld.getAddress().getId() : null;
 
         if (!Objects.equals(updateUserOld.getEmail(), userEntity.getEmail())) {
@@ -61,23 +64,16 @@ public class UserService {
             addressService.deleteById(Math.toIntExact(updateUserOldAddressId));
     }
 
+    @Override
     public void delete(Long id) {
         User deleteUser = getUserById(id);
         userRepository.delete(deleteUser.toEntityDB());
     }
 
-    public void updatePassword(UpdateUserPasswordRequest updateUserPasswordRequest, Long id) {
-        User updatePasswordUser = getUserById(id);
+    @Override
+    public void updatePassword(UpdateUserPasswordRequest updateUserPasswordRequest, User updatePasswordUser) {
         updatePasswordUser = userMapper.toUserEntity(updateUserPasswordRequest, updatePasswordUser);
         userRepository.save(updatePasswordUser.toEntityDB());
-    }
-
-    public User getUserByLoginAndPassword(String login, String password) {
-        Optional<UserDB> userDB = userRepository.findByLoginAndPassword(login, password);
-        if (userDB.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-        return userDB.get().toEntity();
     }
 
     private User getUserById(Long id) {
