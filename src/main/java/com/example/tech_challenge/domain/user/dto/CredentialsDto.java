@@ -1,11 +1,5 @@
 package com.example.tech_challenge.domain.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public record CredentialsDto(String login, String password) {
 
-@Getter
-@AllArgsConstructor
-public class CredentialsDto {
-    private String login;
-    private String password;
 }

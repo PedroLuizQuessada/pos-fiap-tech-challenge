@@ -1,5 +1,7 @@
-package com.example.tech_challenge.service;
+package com.example.tech_challenge.service.login;
 
+import com.example.tech_challenge.domain.user.entity.UserDB;
+import com.example.tech_challenge.repo.UserRepository;
 import com.example.tech_challenge.utils.EncryptionUtil;
 import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.CredentialsDto;
@@ -11,13 +13,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class LoginService {
+public class LoginServiceImpl implements LoginService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
+    @Override
     public User login(String authToken, boolean onlyAdmin) {
 
         if (Objects.isNull(authToken))
@@ -26,7 +30,7 @@ public class LoginService {
         CredentialsDto credentialsDto = getCredentialsByAuthToken(authToken);
         User user;
         try {
-            user = userService.getUserByLoginAndPassword(credentialsDto.getLogin(), credentialsDto.getPassword());
+            user = getUserByLoginAndPassword(credentialsDto.login(), credentialsDto.password());
         }
         catch (UserNotFoundException e) {
             throw new AuthenticationException();
@@ -42,5 +46,13 @@ public class LoginService {
         String[] decodedCredentials = EncryptionUtil.decodeBase64(authToken.replace("Basic ", "")).split(":");
 
         return new CredentialsDto(decodedCredentials[0], EncryptionUtil.encodeSha256(decodedCredentials[1]));
+    }
+
+    private User getUserByLoginAndPassword(String login, String password) {
+        Optional<UserDB> userDB = userRepository.findByLoginAndPassword(login, password);
+        if (userDB.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+        return userDB.get().toEntity();
     }
 }

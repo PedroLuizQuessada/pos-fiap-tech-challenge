@@ -1,13 +1,8 @@
 package com.example.tech_challenge.domain.user.dto.response;
 
-import lombok.Getter;
+public record LoginUserResponse(String message) {
 
-@Getter
-public class LoginUserResponse {
-
-    private final String message;
-
-    public LoginUserResponse(String name) {
-        this.message = String.format("Bem-vindo(a) ao sistema %s", name);
+    public LoginUserResponse(String message) {
+        this.message = String.format("Bem-vindo(a) ao sistema %s", message);
     }
 }

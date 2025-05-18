@@ -2,8 +2,6 @@ package com.example.tech_challenge.domain.user.entity;
 
 import com.example.tech_challenge.domain.address.entity.Address;
 import com.example.tech_challenge.domain.address.entity.AddressDB;
-import com.example.tech_challenge.domain.user.dto.response.LoginUserResponse;
-import com.example.tech_challenge.domain.user.dto.response.UserResponse;
 import com.example.tech_challenge.exception.ConstraintViolationException;
 import com.example.tech_challenge.utils.EncryptionUtil;
 import com.example.tech_challenge.enums.AuthorityEnum;
@@ -27,38 +25,39 @@ public class User {
     @Getter
     @NotEmpty(message = "O usuário deve possuir um nome")
     @Size(min = 3, max = 45, message = "O nome do usuário deve possuir de 3 a 45 caracteres")
-    private String name;
+    private final String name;
 
     @Getter
     @NotEmpty(message = "O usuário deve possuir um e-mail")
     @Size(max = 45, message = "O e-mail do usuário deve possuir até 45 caracteres")
     @Email(message = "E-mail inválido")
-    private String email;
+    private final String email;
 
     @Getter
     @NotEmpty(message = "O usuário deve possuir um login")
     @Size(min = 3, max = 45, message = "O login do usuário deve possuir de 3 a 45 caracteres")
     @Pattern(regexp = "^[^:]+$", message = "O login não pode conter ':'")
-    private String login;
+    private final String login;
 
     @Getter
     @NotEmpty(message = "O usuário deve possuir uma senha")
     @Size(max = 255, message = "Houve um problema na criptografia da senha do usuário. Favor contactar o administrador do sistema.")
-    private String encodedPassword;
+    private final String encodedPassword;
 
     @NotEmpty(message = "O usuário deve possuir uma senha")
     @Size(min = 3, max = 45, message = "A senha do usuário deve possuir de 3 a 45 caracteres")
     @Pattern(regexp = "^[^:]+$", message = "A senha não pode conter ':'")
     private String decodedPassword;
 
+    @Getter
     private Date lastUpdateDate;
 
     @Getter
-    private Address address;
+    private final Address address;
 
     @Getter
     @NotNull(message = "O usuário deve possuir um tipo de autorização")
-    private AuthorityEnum authority;
+    private final AuthorityEnum authority;
 
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -150,20 +149,5 @@ public class User {
         if (!Objects.isNull(userDB.getAddressDB()))
             userDB.getAddressDB().setUserDB(userDB);
         return userDB;
-    }
-
-    public UserResponse toUserResponse() {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setName(name);
-        userResponse.setEmail(email);
-        userResponse.setLogin(login);
-        userResponse.setLastUpdateDate(lastUpdateDate);
-        userResponse.setAddress(Objects.isNull(address) ? null : address.toAddressResponse());
-        userResponse.setAuthority(authority);
-        return userResponse;
-    }
-
-    public LoginUserResponse toLoginUserResponse() {
-        return new LoginUserResponse(name);
     }
 }

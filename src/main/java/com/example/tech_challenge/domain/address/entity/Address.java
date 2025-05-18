@@ -1,6 +1,5 @@
 package com.example.tech_challenge.domain.address.entity;
 
-import com.example.tech_challenge.domain.address.dto.response.AddressResponse;
 import com.example.tech_challenge.exception.ConstraintViolationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -18,28 +17,34 @@ public class Address {
     @Getter
     private Long id;
 
+    @Getter
     @NotEmpty(message = "O endereço deve possuir um estado")
     @Size(max = 45, message = "O estado do endereço deve possuir até 45 caracteres")
-    private String state;
+    private final String state;
 
+    @Getter
     @NotEmpty(message = "O endereço deve possuir uma cidade")
     @Size(max = 45, message = "A cidade do endereço deve possuir até 45 caracteres")
-    private String city;
+    private final String city;
 
+    @Getter
     @NotEmpty(message = "O endereço deve possuir uma rua")
     @Size(max = 45, message = "A rua do endereço deve possuir até 45 caracteres")
-    private String street;
+    private final String street;
 
+    @Getter
     @NotEmpty(message = "O endereço deve possuir um número")
     @Size(max = 45, message = "O número do endereço deve possuir até 45 caracteres")
-    private String number;
+    private final String number;
 
+    @Getter
     @NotEmpty(message = "O endereço deve possuir um CEP")
     @Size(max = 45, message = "O CEP do endereço deve possuir até 45 caracteres")
-    private String zipCode;
+    private final String zipCode;
 
+    @Getter
     @Size(max = 45, message = "O complemento do endereço deve possuir até 45 caracteres")
-    private String aditionalInfo;
+    private final String aditionalInfo;
 
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -86,16 +91,5 @@ public class Address {
         addressDB.setZipCode(zipCode);
         addressDB.setAditionalInfo(aditionalInfo);
         return addressDB;
-    }
-
-    public AddressResponse toAddressResponse() {
-        AddressResponse addressResponse = new AddressResponse();
-        addressResponse.setState(state);
-        addressResponse.setCity(city);
-        addressResponse.setStreet(street);
-        addressResponse.setNumber(number);
-        addressResponse.setZipCode(zipCode);
-        addressResponse.setAditionalInfo(aditionalInfo);
-        return addressResponse;
     }
 }
