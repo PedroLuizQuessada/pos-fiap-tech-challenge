@@ -1,0 +1,2478 @@
+{
+	"info": {
+		"_postman_id": "5d960573-7f1f-4b3d-ba9b-b3367631f757",
+		"name": "tech-challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30167569"
+	},
+	"item": [
+		{
+			"name": "usuarios",
+			"item": [
+				{
+					"name": "V1",
+					"item": [
+						{
+							"name": "Login",
+							"item": [
+								{
+									"name": "Login (credenciais corretas)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (200)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"login"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 17:36:28 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Bem-vindo(a) ao sistema nome usuario 1\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Login (senha errada)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha errada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Credenciais erradas (401)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"login"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 13:44:12 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Login (login errado)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "login errado",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Credenciais erradas (401)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"login"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 13:49:28 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Login (URL errada)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/login-inexistente",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"login-inexistente"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "URL errada (404)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/login-inexistente",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"login-inexistente"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 13:49:28 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Recurso não encontrado: /tech-challenge/api/v1/usuarios/login-inexistente\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login-inexistente\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Criar Usuário",
+							"item": [
+								{
+									"name": "Criar Usuário",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (201)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:36:19 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"name\": \"nome usuario 2\",\n    \"email\": \"email2@gmail.com\",\n    \"login\": \"LoginUsuario2\",\n    \"lastUpdateDate\": null,\n    \"address\": {\n        \"state\": \"estado usuario 2\",\n        \"city\": \"cidade usuario 2\",\n        \"street\": \"rua usuario 2\",\n        \"number\": \"número usuario 2\",\n        \"zipCode\": \"cep usuario 2\",\n        \"aditionalInfo\": \"complemento usuario 2\"\n    },\n    \"authority\": \"CUSTOMER\"\n}"
+										},
+										{
+											"name": "E-mail já em uso (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"E-mail já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Login já em uso (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:47:05 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Login já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Campos de usuário inválidos (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email3gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"authority\": null,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um tipo de autorização. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. A senha não pode conter ':'. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Campos de endereço inválidos (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:36:19 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O endereço deve possuir um estado. O endereço deve possuir uma cidade. O endereço deve possuir uma rua. O endereço deve possuir um CEP. O endereço deve possuir um número. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Autoridade Admin (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:47:57 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Não é permitido um usuário não autenticado criar um usuário admin\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Admin Criar Usuário",
+							"item": [
+								{
+									"name": "Admin Criar Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (201)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 21:39:59 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"name\": \"nome usuario 3\",\n    \"email\": \"email3@gmail.com\",\n    \"login\": \"LoginUsuario3\",\n    \"lastUpdateDate\": null,\n    \"address\": null,\n    \"authority\": \"ADMIN\"\n}"
+										},
+										{
+											"name": "E-mail  já em uso (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 21:39:59 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"E-mail já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+										},
+										{
+											"name": "Login já em uso (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 21:39:59 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Login já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+										},
+										{
+											"name": "Campos de usuário inválidos (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email4gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"authority\": null,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um tipo de autorização. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. A senha não pode conter ':'. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+										},
+										{
+											"name": "Campos de endereço inválidos (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:36:19 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O endereço deve possuir um estado. O endereço deve possuir uma cidade. O endereço deve possuir uma rua. O endereço deve possuir um CEP. O endereço deve possuir um número. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Admin Criar Usuario (usuario customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuario não Admin (403)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 21:39:59 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido ao usuário\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Atualizar Usuário",
+							"item": [
+								{
+									"name": "Atualizar Usuário (usuário original)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"novo nome usuario 2\",\r\n    \"email\": \"novoemail2@gmail.com\",\r\n    \"login\": \"NovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"novo estado usuario 2\",\r\n        \"city\": \"nova cidade usuario 2\",\r\n        \"street\": \"nova rua usuario 2\",\r\n        \"number\": \"novo número usuario 2\",\r\n        \"zipCode\": \"novo cep usuario 2\",\r\n        \"aditionalInfo\": \"novo complemento usuario 2\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Sucesso (200)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"novo nome usuario 2\",\r\n    \"email\": \"novoemail2@gmail.com\",\r\n    \"login\": \"NovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"novo estado usuario 2\",\r\n        \"city\": \"nova cidade usuario 2\",\r\n        \"street\": \"nova rua usuario 2\",\r\n        \"number\": \"novo número usuario 2\",\r\n        \"zipCode\": \"novo cep usuario 2\",\r\n        \"aditionalInfo\": \"novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 27 May 2025 04:26:47 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"name\": \"novo nome usuario 2\",\n    \"email\": \"novoemail2@gmail.com\",\n    \"login\": \"NovoLoginUsuario2\",\n    \"lastUpdateDate\": \"2025-05-27\",\n    \"address\": {\n        \"state\": \"novo estado usuario 2\",\n        \"city\": \"nova cidade usuario 2\",\n        \"street\": \"nova rua usuario 2\",\n        \"number\": \"novo número usuario 2\",\n        \"zipCode\": \"novo cep usuario 2\",\n        \"aditionalInfo\": \"novo complemento usuario 2\"\n    },\n    \"authority\": \"CUSTOMER\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Atualizar Usuário (usuário atualizado)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "NovoLoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"segundo novo estado usuario 2\",\r\n        \"city\": \"segunda nova cidade usuario 2\",\r\n        \"street\": \"segunda nova rua usuario 2\",\r\n        \"number\": \"segundo novo número usuario 2\",\r\n        \"zipCode\": \"segundo novo cep usuario 2\",\r\n        \"aditionalInfo\": \"segundo novo complemento usuario 2\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "E-mail já em uso (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"segundo novo estado usuario 2\",\r\n        \"city\": \"segunda nova cidade usuario 2\",\r\n        \"street\": \"segunda nova rua usuario 2\",\r\n        \"number\": \"segundo novo número usuario 2\",\r\n        \"zipCode\": \"segundo novo cep usuario 2\",\r\n        \"aditionalInfo\": \"segundo novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"E-mail já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Login já em uso (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"address\": {\r\n        \"state\": \"segundo novo estado usuario 2\",\r\n        \"city\": \"segunda nova cidade usuario 2\",\r\n        \"street\": \"segunda nova rua usuario 2\",\r\n        \"number\": \"segundo novo número usuario 2\",\r\n        \"zipCode\": \"segundo novo cep usuario 2\",\r\n        \"aditionalInfo\": \"segundo novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:47:05 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Login já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Campos de usuário inválidos (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"segundonovoemail2gmail.com\",\r\n    \"login\": \"Se\",\r\n    \"address\": {\r\n        \"state\": \"segundo novo estado usuario 2\",\r\n        \"city\": \"segunda nova cidade usuario 2\",\r\n        \"street\": \"segunda nova rua usuario 2\",\r\n        \"number\": \"segundo novo número usuario 2\",\r\n        \"zipCode\": \"segundo novo cep usuario 2\",\r\n        \"aditionalInfo\": \"segundo novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										},
+										{
+											"name": "Campos de endereço inválidos (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:36:19 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O endereço deve possuir um estado. O endereço deve possuir uma cidade. O endereço deve possuir uma rua. O endereço deve possuir um CEP. O endereço deve possuir um número. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Admin Atualizar Usuario",
+							"item": [
+								{
+									"name": "Admin Atualizar Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"segundo novo estado usuario 2\",\r\n        \"city\": \"segunda nova cidade usuario 2\",\r\n        \"street\": \"segunda nova rua usuario 2\",\r\n        \"number\": \"segundo novo número usuario 2\",\r\n        \"zipCode\": \"segundo novo cep usuario 2\",\r\n        \"aditionalInfo\": \"segundo novo complemento usuario 2\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (200)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"segundo novo nome usuario 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"address\": null\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Length",
+													"value": "0"
+												},
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 01:50:22 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json",
+													"description": "",
+													"type": "text"
+												}
+											],
+											"cookie": [],
+											"body": "{\r\n    \"name\": \"segundo novo nome usuário 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"lastUpdateDate\": \"2025-05-27\",\r\n    \"address\": \"null\",\r\n    \"authority\": \"CUSTOMER\"\r\n}"
+										},
+										{
+											"name": "E-mail já em uso (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"terceiro novo nome usuario 2\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"TerceiroNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"terceiro novo estado usuario 2\",\r\n        \"city\": \"terceira nova cidade usuario 2\",\r\n        \"street\": \"terceira nova rua usuario 2\",\r\n        \"number\": \"terceiro novo número usuario 2\",\r\n        \"zipCode\": \"terceiro novo cep usuario 2\",\r\n        \"aditionalInfo\": \"terceiro novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"E-mail já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\n}"
+										},
+										{
+											"name": "Login já em uso (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"terceiro novo nome usuario 2\",\r\n    \"email\": \"terceironovoemail2@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"address\": {\r\n        \"state\": \"terceiro novo estado usuario 2\",\r\n        \"city\": \"terceira nova cidade usuario 2\",\r\n        \"street\": \"terceira nova rua usuario 2\",\r\n        \"number\": \"terceiro novo número usuario 2\",\r\n        \"zipCode\": \"terceiro novo cep usuario 2\",\r\n        \"aditionalInfo\": \"terceiro novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Login já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\n}"
+										},
+										{
+											"name": "Campos de usuário inválidos (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"terceironovoemail2gmail.com\",\r\n    \"login\": \"Te\",\r\n    \"address\": {\r\n        \"state\": \"terceiro novo estado usuario 2\",\r\n        \"city\": \"terceira nova cidade usuario 2\",\r\n        \"street\": \"terceira nova rua usuario 2\",\r\n        \"number\": \"terceiro novo número usuario 2\",\r\n        \"zipCode\": \"terceiro novo cep usuario 2\",\r\n        \"aditionalInfo\": \"terceiro novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\n}"
+										},
+										{
+											"name": "Campos de endereço inválidos (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"terceiro novo nome usuario 2\",\r\n    \"email\": \"terceironovoemail2@gmail.com\",\r\n    \"login\": \"TerceiroLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O endereço deve possuir um estado. O endereço deve possuir uma cidade. O endereço deve possuir uma rua. O endereço deve possuir um CEP. O endereço deve possuir um número. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\n}"
+										},
+										{
+											"name": "Usuário não encontrado (404)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"terceiro novo nome usuario 2\",\r\n    \"email\": \"terceironovoemail2@gmail.com\",\r\n    \"login\": \"TerceiroNovoLoginUsuario2\",\r\n    \"address\": {\r\n        \"state\": \"terceiro novo estado usuario 2\",\r\n        \"city\": \"terceira nova cidade usuario 2\",\r\n        \"street\": \"terceira nova rua usuario 2\",\r\n        \"number\": \"terceiro novo número usuario 2\",\r\n        \"zipCode\": \"terceiro novo cep usuario 2\",\r\n        \"aditionalInfo\": \"terceiro novo complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/4",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"4"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:45:47 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Usuário 4 não encontrado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/4\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Admin Atualizar Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "SegundoNovoLoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"novo nome usuario 1\",\r\n    \"email\": \"novoemail1@gmail.com\",\r\n    \"login\": \"NovoLoginUsuario1\",\r\n    \"address\": {\r\n        \"state\": \"novo estado usuario 1\",\r\n        \"city\": \"nova cidade usuario 1\",\r\n        \"street\": \"nova rua usuario 1\",\r\n        \"number\": \"novo número usuario 1\",\r\n        \"zipCode\": \"novo cep usuario 1\",\r\n        \"aditionalInfo\": \"novo complemento usuario 1\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin/1",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin",
+												"1"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"novo nome usuario 1\",\r\n    \"email\": \"novoemail1@gmail.com\",\r\n    \"login\": \"NovoLoginUsuario1\",\r\n    \"address\": {\r\n        \"state\": \"novo estado usuario 1\",\r\n        \"city\": \"nova cidade usuario 1\",\r\n        \"street\": \"nova rua usuario 1\",\r\n        \"number\": \"novo número usuario 1\",\r\n        \"zipCode\": \"novo cep usuario 1\",\r\n        \"aditionalInfo\": \"novo complemento usuario 1\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/1",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"1"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 01:52:06 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido ao usuário\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/1\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Apagar Usuário",
+							"item": [
+								{
+									"name": "Apagar Usuário",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 3 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario3",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (204)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Set-Cookie",
+													"value": "JSESSIONID=60B8B5C11FCB57EB7F4014812F68520C; Path=/tech-challenge; HttpOnly"
+												},
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:11:48 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Admin Apagar Usuário",
+							"item": [
+								{
+									"name": "Admin Apagar Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "SegundoNovoLoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/1",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"1"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:16:05 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\r\n    \"type\": \"about:blank\",\r\n    \"title\": \"Forbidden\",\r\n    \"status\": 403,\r\n    \"detail\": \"Recurso não permitido ao usuário\",\r\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/1\"\r\n}"
+										}
+									]
+								},
+								{
+									"name": "Admin Apagar Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"admin",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (204)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:16:05 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "Usuário não encontrado (404)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/admin/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"admin",
+														"2"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:16:05 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\r\n    \"type\": \"about:blank\",\r\n    \"title\": \"Not Found\",\r\n    \"status\": 404,\r\n    \"detail\": \"Usuário 2 não encontrado\",\r\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\r\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Atualizar Senha Usuário",
+							"item": [
+								{
+									"name": "Atualizar Senha Usuário (usuário original)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"newPassword\": \"{{Usuario 1 senha atualizada}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/senha",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"senha"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (204)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"newPassword\": \"{{Usuario 1 senha atualizada}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/senha",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"senha"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "Content-Length",
+													"value": "0"
+												},
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:35:44 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "Atualizar Senha Usuário (usuário atualizado)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha atualizada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"newPassword\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios/senha",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios",
+												"senha"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Senha inválida (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"newPassword\": \":\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios/senha",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios",
+														"senha"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Thu, 08 May 2025 23:38:43 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"A senha não pode conter ':'. A senha do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/senha\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP URL",
+			"value": "http://localhost:8080/tech-challenge",
+			"type": "default"
+		},
+		{
+			"key": "Usuario 1 senha correta",
+			"value": "SenhaUsuario1",
+			"type": "default"
+		},
+		{
+			"key": "Usuario 1 senha errada",
+			"value": "senha errada",
+			"type": "default"
+		},
+		{
+			"key": "Usuario 2 senha correta",
+			"value": "SenhaUsuario2",
+			"type": "string"
+		},
+		{
+			"key": "Usuario 3 senha correta",
+			"value": "SenhaUsuario3",
+			"type": "string"
+		},
+		{
+			"key": "Usuario 4 senha correta",
+			"value": "SenhaUsuario4",
+			"type": "string"
+		},
+		{
+			"key": "Usuario 1 senha atualizada",
+			"value": "NovaSenhaUsuario1",
+			"type": "string"
+		}
+	]
+}
