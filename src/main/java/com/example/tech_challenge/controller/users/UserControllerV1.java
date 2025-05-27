@@ -1,7 +1,6 @@
 package com.example.tech_challenge.controller.users;
 
 import com.example.tech_challenge.mapper.response.LoginUserResponseMapper;
-import com.example.tech_challenge.mapper.response.ResponseMapper;
 import com.example.tech_challenge.mapper.response.UserResponseMapper;
 import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.request.UpdateUserRequest;
@@ -22,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,19 +32,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
+@AllArgsConstructor
 @Tag(name = "User Controller V1", description = "Versão 1 do controlador referente a usuários")
 public class UserControllerV1 {
 
     private final LoginServiceImpl loginService;
     private final UserService userService;
-
-    @SuppressWarnings({"rawtypes"})
-    private ResponseMapper responseMapper;
-
-    public UserControllerV1(LoginServiceImpl loginService, UserService userService) {
-        this.loginService = loginService;
-        this.userService = userService;
-    }
 
     @Operation(summary = "Realiza login",
                 security = @SecurityRequirement(name = "basicAuth"))
@@ -59,20 +52,19 @@ public class UserControllerV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/login")
-    @SuppressWarnings({"unchecked"})
     public ResponseEntity<LoginUserResponse> login(HttpServletRequest request) {
         log.info("Logging user...");
 
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         User user = loginService.login(authToken, false);
 
-        responseMapper = new LoginUserResponseMapper();
+        LoginUserResponseMapper responseMapper = new LoginUserResponseMapper();
 
         log.info("Logged user: {}", user.getId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body((LoginUserResponse) responseMapper.map(user));
+                .body(responseMapper.map(user));
     }
 
     @Operation(summary = "Cria um usuário",
@@ -88,17 +80,18 @@ public class UserControllerV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping
-    @SuppressWarnings({"unchecked"})
     public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Creating user: {}", createUserRequest.login());
 
-        responseMapper = new UserResponseMapper();
         User user = userService.create(createUserRequest, false);
+
+        UserResponseMapper responseMapper = new UserResponseMapper();
+
         log.info("Created user: {}", user.getLogin());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body((UserResponse) responseMapper.map(user));
+                .body(responseMapper.map(user));
     }
 
     @Operation(summary = "Admin cria um usuário",
@@ -119,7 +112,6 @@ public class UserControllerV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/admin")
-    @SuppressWarnings({"unchecked"})
     public ResponseEntity<UserResponse> adminCreate(HttpServletRequest request,
                                                     @RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Admin creating user: {}", createUserRequest.login());
@@ -127,48 +119,57 @@ public class UserControllerV1 {
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         loginService.login(authToken, true);
 
-        responseMapper = new UserResponseMapper();
         User user = userService.create(createUserRequest, true);
+
+        UserResponseMapper responseMapper = new UserResponseMapper();
+
         log.info("Admin created user: {}", user.getLogin());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body((UserResponse) responseMapper.map(user));
+                .body(responseMapper.map(user));
     }
 
     @Operation(summary = "Atualiza o seu próprio usuário",
             description = "Requer autenticação",
             security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
-            @ApiResponse(responseCode = "204",
-                    description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "200",
+                    description = "Usuário atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<Void> update(HttpServletRequest request,
+    public ResponseEntity<UserResponse> update(HttpServletRequest request,
                                        @RequestBody @Valid UpdateUserRequest updateUserRequest) {
         log.info("Updating user...");
 
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         User user = loginService.login(authToken, false);
 
-        userService.update(updateUserRequest, user);
+        user = userService.update(updateUserRequest, user);
+
+        UserResponseMapper responseMapper = new UserResponseMapper();
+
         log.info("Updated user: {}", user.getId());
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
+                .status(HttpStatus.OK)
+                .body(responseMapper.map(user));
     }
 
     @Operation(summary = "Admin atualiza um usuário",
             description = "Requer autenticação e nível de autorização 'ADMIN'",
             security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
-            @ApiResponse(responseCode = "204",
-                    description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "200",
+                    description = "Usuário atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
                     content = @Content(mediaType = "application/json",
@@ -183,7 +184,7 @@ public class UserControllerV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/admin/{id}")
-    public ResponseEntity<Void> adminUpdate(HttpServletRequest request,
+    public ResponseEntity<UserResponse> adminUpdate(HttpServletRequest request,
                                             @RequestBody @Valid UpdateUserRequest updateUserRequest,
                                             @PathVariable("id") @NotNull Long id) {
         log.info("Admin updating user: {}", id);
@@ -191,12 +192,15 @@ public class UserControllerV1 {
         String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         loginService.login(authToken, true);
 
-        userService.update(updateUserRequest, id);
+        User user = userService.update(updateUserRequest, id);
+
+        UserResponseMapper responseMapper = new UserResponseMapper();
+
         log.info("Admin updated user: {}", id);
 
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
+                .status(HttpStatus.OK)
+                .body(responseMapper.map(user));
     }
 
     @Operation(summary = "Apaga o seu próprio usuário",

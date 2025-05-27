@@ -41,13 +41,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UpdateUserRequest updateUserRequest, Long id) {
+    public User update(UpdateUserRequest updateUserRequest, Long id) {
         User updateUserOld = getUserById(id);
-        update(updateUserRequest, updateUserOld);
+        return update(updateUserRequest, updateUserOld);
     }
 
     @Override
-    public void update(UpdateUserRequest updateUserRequest, User updateUserOld) {
+    public User update(UpdateUserRequest updateUserRequest, User updateUserOld) {
         User userEntity = userMapper.toUserEntity(updateUserRequest, updateUserOld);
 
         if (!Objects.equals(updateUserOld.getEmail(), userEntity.getEmail())) {
@@ -57,13 +57,14 @@ public class UserServiceImpl implements UserService {
             checkLoginAlreadyInUse(userEntity.getLogin());
         }
 
-        userRepository.save(userEntity);
+        userEntity = userRepository.save(userEntity);
         if (Objects.isNull(userEntity.getAddress()) && !Objects.isNull(updateUserOld.getAddress())) {
             addressService.delete(updateUserOld.getAddress());
         }
         else if (!Objects.isNull(userEntity.getAddress())) {
             addressService.save(userEntity.getAddress());
         }
+        return userEntity;
 
     }
 
