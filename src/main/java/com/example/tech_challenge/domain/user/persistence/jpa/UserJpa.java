@@ -1,7 +1,8 @@
-package com.example.tech_challenge.domain.user.entity;
+package com.example.tech_challenge.domain.user.persistence.jpa;
 
 import com.example.tech_challenge.domain.address.entity.Address;
-import com.example.tech_challenge.domain.address.entity.AddressDB;
+import com.example.tech_challenge.domain.address.persistence.jpa.AddressJpa;
+import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.enums.AuthorityEnum;
 
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDB {
+public class UserJpa implements com.example.tech_challenge.domain.interfaces.Persistence<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,14 +43,15 @@ public class UserDB {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address", referencedColumnName = "id")
-    private AddressDB addressDB;
+    private AddressJpa addressJpa;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthorityEnum authority;
 
+    @Override
     public User toEntity() {
-        Address address = Objects.isNull(this.addressDB) ? null : this.addressDB.toEntity();
+        Address address = Objects.isNull(this.addressJpa) ? null : this.addressJpa.toEntity();
         return new User(id, name, email, login, password, lastUpdateDate, address, authority);
     }
 }
