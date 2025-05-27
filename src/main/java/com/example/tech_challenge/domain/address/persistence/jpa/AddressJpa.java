@@ -1,6 +1,7 @@
-package com.example.tech_challenge.domain.address.entity;
+package com.example.tech_challenge.domain.address.persistence.jpa;
 
-import com.example.tech_challenge.domain.user.entity.UserDB;
+import com.example.tech_challenge.domain.address.entity.Address;
+import com.example.tech_challenge.domain.user.persistence.jpa.UserJpa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDB {
+public class AddressJpa implements com.example.tech_challenge.domain.interfaces.Persistence<Address> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +38,10 @@ public class AddressDB {
     @Column(name = "aditional_info", length = 45)
     private String aditionalInfo;
 
-    @OneToOne(mappedBy = "addressDB")
-    private UserDB userDB;
+    @OneToOne(mappedBy = "addressJpa")
+    private UserJpa userJpa;
 
+    @Override
     public Address toEntity() {
         return new Address(id, state, city, street, number, zipCode, aditionalInfo);
     }

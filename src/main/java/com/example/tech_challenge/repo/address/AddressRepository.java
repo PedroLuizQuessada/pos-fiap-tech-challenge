@@ -1,8 +1,8 @@
-package com.example.tech_challenge.service.address;
+package com.example.tech_challenge.repo.address;
 
 import com.example.tech_challenge.domain.address.entity.Address;
 
-public interface AddressService {
+public interface AddressRepository {
     void save(Address address);
     void delete(Address address);
 }

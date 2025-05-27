@@ -1,7 +1,6 @@
 package com.example.tech_challenge.service.login;
 
-import com.example.tech_challenge.domain.user.entity.UserDB;
-import com.example.tech_challenge.repo.UserRepository;
+import com.example.tech_challenge.repo.user.UserRepository;
 import com.example.tech_challenge.utils.EncryptionUtil;
 import com.example.tech_challenge.domain.user.entity.User;
 import com.example.tech_challenge.domain.user.dto.CredentialsDto;
@@ -49,10 +48,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private User getUserByLoginAndPassword(String login, String password) {
-        Optional<UserDB> userDB = userRepository.findByLoginAndPassword(login, password);
-        if (userDB.isEmpty()) {
+        Optional<User> user = userRepository.findByLoginAndPassword(login, password);
+        if (user.isEmpty()) {
             throw new UserNotFoundException();
         }
-        return userDB.get().toEntity();
+        return user.get();
     }
 }
