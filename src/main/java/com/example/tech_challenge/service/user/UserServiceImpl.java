@@ -35,8 +35,6 @@ public class UserServiceImpl implements UserService {
         checkEmailAlreadyInUse(createUser.getEmail());
         checkLoginAlreadyInUse(createUser.getLogin());
 
-        if (!Objects.isNull(createUser.getAddress()))
-            addressService.save(createUser.getAddress());
         return userRepository.save(createUser);
     }
 
@@ -61,9 +59,6 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(userEntity.getAddress()) && !Objects.isNull(updateUserOld.getAddress())) {
             addressService.delete(updateUserOld.getAddress());
         }
-        else if (!Objects.isNull(userEntity.getAddress())) {
-            addressService.save(userEntity.getAddress());
-        }
         return userEntity;
 
     }
@@ -72,8 +67,6 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User deleteUser = getUserById(id);
 
-        if (!Objects.isNull(deleteUser.getAddress()))
-            addressService.delete(deleteUser.getAddress());
         userRepository.delete(deleteUser);
     }
 

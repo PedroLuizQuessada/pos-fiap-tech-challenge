@@ -20,13 +20,6 @@ public class AddressJpaRepositoryImpl implements AddressRepository {
 
     @Override
     @Transactional
-    public void save(Address address) {
-        AddressJpa addressMysql = addressJpaMapper.map(address);
-        entityManager.merge(addressMysql).toEntity();
-    }
-
-    @Override
-    @Transactional
     public void delete(Address address) {
         AddressJpa addressMysql = addressJpaMapper.map(address);
         addressMysql = entityManager.merge(addressMysql);
