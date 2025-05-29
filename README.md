@@ -22,4 +22,6 @@ Disponível através do arquivo: tech-challenge.postman_collection.json
 - acessar o diretório do projeto clonado via CMD
 - executar o comando “docker compose up -d” via CMD
 
+Obs.: Para executar a aplicação via IDE é necessário descomentar as propriedades spring.datasource.url, spring.datasource.username e spring.datasource.password no arquivo application.properties.
+
 Ao finalizar o passo a passo a aplicação estará disponível na porta 8080 do localhost (http://localhost:8080/tech-challenge) e seu banco de dados estará disponível na porta 3306 do localhost.
