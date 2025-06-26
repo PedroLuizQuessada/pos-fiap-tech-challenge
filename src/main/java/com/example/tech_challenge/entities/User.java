@@ -2,9 +2,9 @@ package com.example.tech_challenge.entities;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exception.BadArgumentException;
-import com.example.tech_challenge.utils.EncryptionUtil;
 import lombok.Getter;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -38,13 +38,14 @@ public class User {
         this.authority = authority;
 
         if (encodePassword) {
-            this.password = EncryptionUtil.encodeSha256(password);
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            this.password = encoder.encode(password);
         }
         else {
             this.password = password;
         }
 
-        this.lastUpdateDate = Objects.isNull(lastUpdateDate) ? lastUpdateDate : (Date) Date.from(Instant.now());
+        this.lastUpdateDate = !Objects.isNull(lastUpdateDate) ? lastUpdateDate : new Date(Date.from(Instant.now()).getTime());
     }
 
     private void validateName(String name) {

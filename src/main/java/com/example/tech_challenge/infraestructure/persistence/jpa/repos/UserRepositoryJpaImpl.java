@@ -24,10 +24,9 @@ public class UserRepositoryJpaImpl implements UserDataSource {
     private UserJpaDtoMapper userJpaDtoMapper;
 
     @Override
-    public Optional<UserDto> findUserByLoginAndPassword(String login, String password) {
-        Query query = entityManager.createQuery("SELECT user FROM UserJpa user WHERE user.login = :login AND user.password = :password");
+    public Optional<UserDto> findUserByLogin(String login) {
+        Query query = entityManager.createQuery("SELECT user FROM UserJpa user WHERE user.login = :login");
         query.setParameter("login", login);
-        query.setParameter("password", password);
         try {
             UserJpa userJpa = (UserJpa) query.getSingleResult();
             return Optional.ofNullable(userJpaDtoMapper.toUserDto(userJpa));

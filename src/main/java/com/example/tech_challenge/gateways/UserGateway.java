@@ -18,8 +18,8 @@ public class UserGateway {
         this.userDataSource = userDataSource;
     }
 
-    public User findUserByLoginAndPassword(String login, String password) {
-        Optional<UserDto> userDtoOptional = userDataSource.findUserByLoginAndPassword(login, password);
+    public User findUserByLogin(String login) {
+        Optional<UserDto> userDtoOptional = userDataSource.findUserByLogin(login);
 
         if (userDtoOptional.isEmpty())
             throw new UserNotFoundException();

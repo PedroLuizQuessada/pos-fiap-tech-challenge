@@ -1,8 +1,6 @@
 package com.example.tech_challenge.dtos.response;
 
-public record LoginUserResponse(String message) {
+import com.example.tech_challenge.enums.AuthorityEnum;
 
-    public LoginUserResponse(String message) {
-        this.message = String.format("Bem-vindo(a) ao sistema %s", message);
-    }
+public record LoginUserResponse(String login, String password, AuthorityEnum authority) {
 }

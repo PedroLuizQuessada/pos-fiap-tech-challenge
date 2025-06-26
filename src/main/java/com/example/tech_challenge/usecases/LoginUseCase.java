@@ -1,40 +1,47 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.CredentialsDto;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.enums.AuthorityEnum;
-import com.example.tech_challenge.exception.AuthenticationException;
-import com.example.tech_challenge.exception.AuthorityException;
-import com.example.tech_challenge.exception.UserNotFoundException;
 import com.example.tech_challenge.gateways.UserGateway;
-import com.example.tech_challenge.utils.EncryptionUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+
+import java.time.Instant;
+import java.util.stream.Collectors;
 
 public class LoginUseCase {
 
-    private final UserGateway userGateway;
+    private JwtEncoder jwtEncoder;
+    private UserGateway userGateway;
+
+    public LoginUseCase(JwtEncoder jwtEncoder) {
+        this.jwtEncoder = jwtEncoder;
+    }
 
     public LoginUseCase(UserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public User execute(String authToken, boolean onlyAdmin) {
-        CredentialsDto credentialsDto = getCredentialsByAuthToken(authToken);
-        User user;
-        try {
-            user = userGateway.findUserByLoginAndPassword(credentialsDto.login(), credentialsDto.password());
-        }
-        catch (UserNotFoundException e) {
-            throw new AuthenticationException();
-        }
+    public String execute(Authentication authentication) {
+        Instant now = Instant.now();
 
-        if (onlyAdmin && !user.getAuthority().equals(AuthorityEnum.ADMIN))
-            throw new AuthorityException();
+        String scopes = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
 
-        return user;
+        var claims = JwtClaimsSet.builder()
+                .issuer("tech-challenge")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(3600))
+                .claim("scope", scopes)
+                .build();
+
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    private CredentialsDto getCredentialsByAuthToken(String authToken) {
-        String[] decodedCredentials = EncryptionUtil.decodeBase64(authToken.replace("Basic ", "")).split(":");
-        return new CredentialsDto(decodedCredentials[0], EncryptionUtil.encodeSha256(decodedCredentials[1]));
+    public User execute(String login) {
+        return userGateway.findUserByLogin(login);
     }
 }
