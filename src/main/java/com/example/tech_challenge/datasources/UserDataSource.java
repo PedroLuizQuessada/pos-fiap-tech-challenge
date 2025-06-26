@@ -5,7 +5,7 @@ import com.example.tech_challenge.dtos.UserDto;
 import java.util.Optional;
 
 public interface UserDataSource {
-    Optional<UserDto> findUserByLoginAndPassword(String login, String password);
+    Optional<UserDto> findUserByLogin(String login);
     UserDto createUser(UserDto userDto);
     Long countByEmail(String email);
     Long countByLogin(String login);
