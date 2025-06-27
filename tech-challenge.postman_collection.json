@@ -13,10 +13,10 @@
 					"name": "V1",
 					"item": [
 						{
-							"name": "Login",
+							"name": "Gerar Token",
 							"item": [
 								{
-									"name": "Login (credenciais corretas)",
+									"name": "Gerar Token (credenciais corretas)",
 									"request": {
 										"auth": {
 											"type": "basic",
@@ -36,7 +36,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 											"host": [
 												"{{APP URL}}"
 											],
@@ -44,7 +44,7 @@
 												"api",
 												"v1",
 												"usuarios",
-												"login"
+												"gerar-token"
 											]
 										}
 									},
@@ -55,7 +55,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 													"host": [
 														"{{APP URL}}"
 													],
@@ -63,7 +63,7 @@
 														"api",
 														"v1",
 														"usuarios",
-														"login"
+														"gerar-token"
 													]
 												}
 											},
@@ -93,12 +93,12 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"message\": \"Bem-vindo(a) ao sistema nome usuario 1\"\n}"
+											"body": "{\n    \"token\": \"token\",\n    \"login\": \"LoginUsuario1\"\n}"
 										}
 									]
 								},
 								{
-									"name": "Login (senha errada)",
+									"name": "Gerar token (senha errada)",
 									"request": {
 										"auth": {
 											"type": "basic",
@@ -118,7 +118,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 											"host": [
 												"{{APP URL}}"
 											],
@@ -126,7 +126,7 @@
 												"api",
 												"v1",
 												"usuarios",
-												"login"
+												"gerar-token"
 											]
 										}
 									},
@@ -137,7 +137,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 													"host": [
 														"{{APP URL}}"
 													],
@@ -145,7 +145,7 @@
 														"api",
 														"v1",
 														"usuarios",
-														"login"
+														"gerar-token"
 													]
 												}
 											},
@@ -175,12 +175,12 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\"\n}"
 										}
 									]
 								},
 								{
-									"name": "Login (login errado)",
+									"name": "Gerar Token (login errado)",
 									"request": {
 										"auth": {
 											"type": "basic",
@@ -200,7 +200,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{APP URL}}/api/v1/usuarios/login",
+											"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 											"host": [
 												"{{APP URL}}"
 											],
@@ -208,7 +208,7 @@
 												"api",
 												"v1",
 												"usuarios",
-												"login"
+												"gerar-token"
 											]
 										}
 									},
@@ -219,7 +219,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{APP URL}}/api/v1/usuarios/login",
+													"raw": "{{APP URL}}/api/v1/usuarios/gerar-token",
 													"host": [
 														"{{APP URL}}"
 													],
@@ -227,7 +227,7 @@
 														"api",
 														"v1",
 														"usuarios",
-														"login"
+														"gerar-token"
 													]
 												}
 											},
@@ -257,12 +257,12 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Usuário ou senha incorretos\"\n}"
 										}
 									]
 								},
 								{
-									"name": "Login (URL errada)",
+									"name": "Gerar Token (URL errada)",
 									"request": {
 										"auth": {
 											"type": "basic",
@@ -282,7 +282,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{APP URL}}/api/v1/usuarios/login-inexistente",
+											"raw": "{{APP URL}}/api/v1/usuarios/gerar-token-inexistente",
 											"host": [
 												"{{APP URL}}"
 											],
@@ -290,7 +290,7 @@
 												"api",
 												"v1",
 												"usuarios",
-												"login-inexistente"
+												"gerar-token-inexistente"
 											]
 										}
 									},
@@ -301,7 +301,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{APP URL}}/api/v1/usuarios/login-inexistente",
+													"raw": "{{APP URL}}/api/v1/usuarios/gerar-token-inexistente",
 													"host": [
 														"{{APP URL}}"
 													],
@@ -309,7 +309,7 @@
 														"api",
 														"v1",
 														"usuarios",
-														"login-inexistente"
+														"gerar-token-inexistente"
 													]
 												}
 											},
@@ -339,7 +339,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Recurso não encontrado: /tech-challenge/api/v1/usuarios/login-inexistente\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/login-inexistente\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Recurso não encontrado: /tech-challenge/api/v1/usuarios/gerar-token-inexistente\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/gerar-token-inexistente\"\n}"
 										}
 									]
 								}
@@ -2405,7 +2405,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"A senha não pode conter ':'. A senha do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/senha\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"A senha do usuário deve possuir ao menos 6 caracteres\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/senha\"\n}"
 										}
 									]
 								}
