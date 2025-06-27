@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(
-        info = @Info(title = "API usuários", version = "v1.0.0",
-                description = "API para gerenciamento de usuários proposta como tech-challenge da pós-tech de " +
+        info = @Info(title = "API restaurantes", version = "v1.0.0",
+                description = "API para gerenciamento de restaurantes proposta como tech-challenge da pós-tech de " +
                         "Arquitetura e desenvolvimento em Java da FIAP")
 )
 @SecurityScheme(
