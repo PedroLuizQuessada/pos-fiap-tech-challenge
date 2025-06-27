@@ -1,20 +1,18 @@
 package com.example.tech_challenge.infraestructure.persistence.jpa.models;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
+import com.example.tech_challenge.infraestructure.exceptions.BadJpaArgumentException;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserJpa {
 
     @Id
@@ -44,4 +42,58 @@ public class UserJpa {
     @Enumerated(EnumType.STRING)
     private AuthorityEnum authority;
 
+    public UserJpa(Long id, String name, String email, String login, String password, Date lastUpdateDate,
+                   AddressJpa addressJpa, AuthorityEnum authority) {
+        validateName(name);
+        validateEmail(email);
+        validateLogin(login);
+        validatePassword(password);
+        validateAuthority(authority);
+
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+        this.lastUpdateDate = lastUpdateDate;
+        this.addressJpa = addressJpa;
+        this.authority = authority;
+    }
+
+    private void validateName(String name) {
+        if (Objects.isNull(name))
+            throw new BadJpaArgumentException("O usuário deve possuir um nome para ser armazenado no banco de dados");
+
+        if (name.length() > 45)
+            throw new BadJpaArgumentException("O nome do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+    }
+
+    private void validateEmail(String email) {
+        if (Objects.isNull(email))
+            throw new BadJpaArgumentException("O usuário deve possuir um e-mail para ser armazenado no banco de dados");
+
+        if (email.length() > 45)
+            throw new BadJpaArgumentException("O e-mail do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+    }
+
+    private void validateLogin(String login) {
+        if (Objects.isNull(login))
+            throw new BadJpaArgumentException("O usuário deve possuir um login para ser armazenado no banco de dados");
+
+        if (login.length() > 45)
+            throw new BadJpaArgumentException("O login do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+    }
+
+    private void validatePassword(String password) {
+        if (Objects.isNull(password))
+            throw new BadJpaArgumentException("O usuário deve possuir uma senha para ser armazenado no banco de dados");
+
+        if (password.length() > 255)
+            throw new BadJpaArgumentException("Falha ao gerar senha criptografada do usuário, favor contactar o administrador");
+    }
+
+    private void validateAuthority(AuthorityEnum authority) {
+        if (Objects.isNull(authority))
+            throw new BadJpaArgumentException("O usuário deve possuir tipo de autorização para ser armazenado no banco de dados");
+    }
 }
