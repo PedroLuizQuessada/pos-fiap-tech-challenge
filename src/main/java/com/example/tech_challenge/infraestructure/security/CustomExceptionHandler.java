@@ -1,4 +1,4 @@
-package com.example.tech_challenge.infraestructure.api;
+package com.example.tech_challenge.infraestructure.security;
 
 import com.example.tech_challenge.exception.*;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class,
             AdminCreationNotAllowedException.class, BadArgumentException.class })
