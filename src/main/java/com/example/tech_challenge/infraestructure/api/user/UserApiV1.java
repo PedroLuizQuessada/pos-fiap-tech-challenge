@@ -4,7 +4,7 @@ import com.example.tech_challenge.controllers.UserController;
 import com.example.tech_challenge.datasources.AddressDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.request.UpdateUserRequest;
-import com.example.tech_challenge.dtos.response.LoginTokenResponse;
+import com.example.tech_challenge.dtos.response.TokenResponse;
 import com.example.tech_challenge.dtos.response.UserResponse;
 import com.example.tech_challenge.dtos.request.CreateUserRequest;
 import com.example.tech_challenge.dtos.request.UpdateUserPasswordRequest;
@@ -22,7 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,27 +36,32 @@ public class UserApiV1 {
 
     private final UserController userController;
 
-    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, JwtEncoder jwtEncoder) {
-        this.userController = new UserController(userDataSource, addressDataSource, jwtEncoder);
+    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
+        this.userController = new UserController(userDataSource, addressDataSource, jwtEncoder, jwtDecoder);
     }
 
-    @Operation(summary = "Realiza login",
+    @Operation(summary = "Gera token de acesso",
                 security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                            description = "Usuário autenticado com sucesso",
+                            description = "Token gerado com sucesso",
                             content = @Content(mediaType = "application/json",
-                                                schema = @Schema(implementation = LoginTokenResponse.class))),
+                                                schema = @Schema(implementation = TokenResponse.class))),
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+
+            @ApiResponse(responseCode = "500",
+                    description = "Falha ao gerar token",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @GetMapping("/login")
-    public ResponseEntity<LoginTokenResponse> login(Authentication authentication) {
-        log.info("Logging user: {}", authentication.getName());
-        LoginTokenResponse response = userController.login(authentication);
-        log.info("Logged user: {}", authentication.getName());
+    @GetMapping("/gerar-token")
+    public ResponseEntity<TokenResponse> generateToken(@AuthenticationPrincipal UserDetails userDetails,
+                                                    @RequestHeader("Authorization") String token) {
+        TokenResponse response = userController.generateToken(userDetails, token);
+        log.info("Logged user: {}", response.login());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -126,9 +133,10 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<UserResponse> update(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        log.info("Updating user...");
-        UserResponse userResponse = userController.updateUser(updateUserRequest, 1L); //TODO
+    public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestBody @Valid UpdateUserRequest updateUserRequest) {
+        log.info("Updating user: {}", userDetails.getUsername());
+        UserResponse userResponse = userController.updateUser(updateUserRequest, userDetails.getUsername());
         log.info("Updated user: {}", userResponse.login());
 
         return ResponseEntity
@@ -177,11 +185,11 @@ public class UserApiV1 {
                     description = "Usuário apagado com sucesso")
     })
     @DeleteMapping
-    public ResponseEntity<Void> delete(HttpSession httpSession) {
-        log.info("Deleting user...");
-        userController.deleteUser(1L); //TODO
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails, HttpSession httpSession) {
+        log.info("Deleting user: {}", userDetails.getUsername());
+        userController.deleteUser(userDetails.getUsername());
         httpSession.invalidate();
-        log.info("Deleted user: {}", 1L); //TODO
+        log.info("Deleted user: {}", userDetails.getUsername());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
@@ -224,13 +232,15 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/senha")
-    public ResponseEntity<Void> updatePassword(@RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        log.info("Updating user password...");
-        userController.updatePasswordUser(updateUserPasswordRequest, 1L); //TODO
-        log.info("Updated user password: {}", 1L); //TODO
+    public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
+        log.info("Updating user password: {}", userDetails.getUsername());
+        userController.updatePasswordUser(updateUserPasswordRequest, userDetails.getUsername());
+        log.info("Updated user password: {}", userDetails.getUsername());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
 }
+//TODO métodos que recebem userDetails devem também receber header Authorization
