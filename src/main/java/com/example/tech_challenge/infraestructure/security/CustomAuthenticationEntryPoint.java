@@ -17,7 +17,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        String mensagem = "Falha na autenticação.";
+        String mensagem = "Usuário ou senha incorretos";
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/problem+json");
         response.getWriter().write(mapper.writeValueAsString(ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, mensagem)));
