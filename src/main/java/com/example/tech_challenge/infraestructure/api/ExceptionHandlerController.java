@@ -27,7 +27,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(value = { RuntimeException.class })
+    @ExceptionHandler(value = { TokenException.class, RuntimeException.class })
     public ProblemDetail handleRuntime(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());

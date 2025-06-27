@@ -1,0 +1,11 @@
+package com.example.tech_challenge.presenters;
+
+import com.example.tech_challenge.dtos.response.TokenResponse;
+import com.example.tech_challenge.entities.Token;
+
+public class TokenPresenter {
+
+    public static TokenResponse toResponse(Token token) {
+        return new TokenResponse(token.getToken(), token.getLogin());
+    }
+}

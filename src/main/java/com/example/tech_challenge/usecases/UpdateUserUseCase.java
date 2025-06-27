@@ -22,9 +22,17 @@ public class UpdateUserUseCase {
         this.addressGateway = addressGateway;
     }
 
+    public User execute(UpdateUserRequest updateUserRequest, String login) {
+        User oldUser = userGateway.findUserByLogin(login);
+        return updateUser(updateUserRequest, oldUser);
+    }
+
     public User execute(UpdateUserRequest updateUserRequest, Long id) {
         User oldUser = userGateway.findUserById(id);
+        return updateUser(updateUserRequest, oldUser);
+    }
 
+    private User updateUser(UpdateUserRequest updateUserRequest, User oldUser) {
         Address address = null;
         AddressDto addressDto = null;
         if (!Objects.isNull(updateUserRequest.address())) {

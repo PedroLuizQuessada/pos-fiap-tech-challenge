@@ -10,6 +10,10 @@ public class DeleteUserUseCase {
         this.userGateway = userGateway;
     }
 
+    public void execute(String login) {
+        userGateway.deleteUserByLogin(login);
+    }
+
     public void execute(Long id) {
         userGateway.deleteUserById(id);
     }

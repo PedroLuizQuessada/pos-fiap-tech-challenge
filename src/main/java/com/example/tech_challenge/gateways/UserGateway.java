@@ -54,6 +54,11 @@ public class UserGateway {
         return createEntity(userDto);
     }
 
+    public void deleteUserByLogin(String login) {
+        User userDto = findUserByLogin(login);
+        userDataSource.deleteUser(createDto(userDto));
+    }
+
     public void deleteUserById(Long id) {
         User userDto = findUserById(id);
         userDataSource.deleteUser(createDto(userDto));

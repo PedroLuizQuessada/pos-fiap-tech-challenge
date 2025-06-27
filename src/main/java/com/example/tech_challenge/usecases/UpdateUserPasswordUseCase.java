@@ -17,8 +17,8 @@ public class UpdateUserPasswordUseCase {
         this.userGateway = userGateway;
     }
 
-    public void execute(UpdateUserPasswordRequest updateUserPasswordRequest, Long id) {
-        User user = userGateway.findUserById(id);
+    public void execute(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
+        User user = userGateway.findUserByLogin(login);
 
         Address address = null;
         AddressDto addressDto = null;
