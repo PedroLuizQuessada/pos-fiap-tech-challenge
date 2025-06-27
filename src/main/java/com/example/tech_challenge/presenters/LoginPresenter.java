@@ -1,6 +1,6 @@
 package com.example.tech_challenge.presenters;
 
-import com.example.tech_challenge.dtos.response.LoginResponse;
+import com.example.tech_challenge.dtos.responses.LoginResponse;
 import com.example.tech_challenge.entities.User;
 
 public class LoginPresenter {

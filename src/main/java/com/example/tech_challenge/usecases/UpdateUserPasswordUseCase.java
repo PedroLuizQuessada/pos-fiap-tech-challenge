@@ -1,6 +1,6 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.request.UpdateUserPasswordRequest;
+import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;

@@ -1,4 +1,4 @@
-package com.example.tech_challenge.exception;
+package com.example.tech_challenge.exceptions;
 
 public class EmailAlreadyInUseException extends RuntimeException {
     public EmailAlreadyInUseException() {

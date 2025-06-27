@@ -1,4 +1,4 @@
-package com.example.tech_challenge.infraestructure.config;
+package com.example.tech_challenge.infraestructure.configs;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.infraestructure.security.CustomAccessDeniedHandler;

@@ -1,4 +1,4 @@
-package com.example.tech_challenge.dtos.response;
+package com.example.tech_challenge.dtos.responses;
 
 public record TokenResponse(String token, String login) {
 }

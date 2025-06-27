@@ -4,7 +4,7 @@ import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.exception.UserNotFoundException;
+import com.example.tech_challenge.exceptions.UserNotFoundException;
 
 import java.util.Objects;
 import java.util.Optional;

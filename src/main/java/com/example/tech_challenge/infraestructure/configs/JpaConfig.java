@@ -1,4 +1,4 @@
-package com.example.tech_challenge.infraestructure.config;
+package com.example.tech_challenge.infraestructure.configs;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Value;

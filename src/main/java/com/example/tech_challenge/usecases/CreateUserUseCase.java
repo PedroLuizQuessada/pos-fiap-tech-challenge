@@ -1,14 +1,14 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.request.CreateUserRequest;
+import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.enums.AuthorityEnum;
-import com.example.tech_challenge.exception.AdminCreationNotAllowedException;
-import com.example.tech_challenge.exception.EmailAlreadyInUseException;
-import com.example.tech_challenge.exception.LoginAlreadyInUseException;
+import com.example.tech_challenge.exceptions.AdminCreationNotAllowedException;
+import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
+import com.example.tech_challenge.exceptions.LoginAlreadyInUseException;
 import com.example.tech_challenge.gateways.UserGateway;
 
 import java.util.Objects;

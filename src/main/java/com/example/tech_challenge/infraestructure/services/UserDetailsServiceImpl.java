@@ -2,7 +2,7 @@ package com.example.tech_challenge.infraestructure.services;
 
 import com.example.tech_challenge.controllers.LoginController;
 import com.example.tech_challenge.datasources.UserDataSource;
-import com.example.tech_challenge.dtos.response.LoginResponse;
+import com.example.tech_challenge.dtos.responses.LoginResponse;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
