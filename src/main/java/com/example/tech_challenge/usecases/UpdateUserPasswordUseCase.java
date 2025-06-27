@@ -21,7 +21,7 @@ public class UpdateUserPasswordUseCase {
         this.tokenGateway = tokenGateway;
     }
 
-    public void execute(UpdateUserPasswordRequest updateUserPasswordRequest, UserDetails userDetails, String token) {
+    public String execute(UpdateUserPasswordRequest updateUserPasswordRequest, UserDetails userDetails, String token) {
         String login = (!Objects.isNull(userDetails)) ? userDetails.getUsername() : tokenGateway.getTokenUsername(token);
         User user = userGateway.findUserByLogin(login);
 
@@ -40,5 +40,6 @@ public class UpdateUserPasswordUseCase {
 
         userGateway.updateUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(),
                 user.getLastUpdateDate(), addressDto, user.getAuthority()));
+        return user.getLogin();
     }
 }

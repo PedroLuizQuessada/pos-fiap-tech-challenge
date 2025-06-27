@@ -78,10 +78,10 @@ public class UserController {
         deleteUserUseCase.execute(id);
     }
 
-    public void updatePasswordUser(UserDetails userDetails, String token, UpdateUserPasswordRequest updateUserPasswordRequest) {
+    public String updatePasswordUser(UserDetails userDetails, String token, UpdateUserPasswordRequest updateUserPasswordRequest) {
         UserGateway userGateway = new UserGateway(userDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway, tokenGateway);
-        updateUserPasswordUseCase.execute(updateUserPasswordRequest, userDetails, token);
+        return updateUserPasswordUseCase.execute(updateUserPasswordRequest, userDetails, token);
     }
 }
