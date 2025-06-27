@@ -1,4 +1,4 @@
-package com.example.tech_challenge.infraestructure.security;
+package com.example.tech_challenge.infraestructure.services;
 
 import com.example.tech_challenge.controllers.LoginController;
 import com.example.tech_challenge.datasources.UserDataSource;

@@ -3,7 +3,7 @@ package com.example.tech_challenge.infraestructure.config;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.infraestructure.security.CustomAccessDeniedHandler;
 import com.example.tech_challenge.infraestructure.security.CustomAuthenticationEntryPoint;
-import com.example.tech_challenge.infraestructure.security.UserDetailsServiceImpl;
+import com.example.tech_challenge.infraestructure.services.UserDetailsServiceImpl;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
