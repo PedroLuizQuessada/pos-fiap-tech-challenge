@@ -2,6 +2,7 @@ package com.example.tech_challenge.infraestructure.api.user;
 
 import com.example.tech_challenge.controllers.UserController;
 import com.example.tech_challenge.datasources.AddressDataSource;
+import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.request.UpdateUserRequest;
 import com.example.tech_challenge.dtos.response.TokenResponse;
@@ -24,8 +25,6 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -36,8 +35,8 @@ public class UserApiV1 {
 
     private final UserController userController;
 
-    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
-        this.userController = new UserController(userDataSource, addressDataSource, jwtEncoder, jwtDecoder);
+    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource) {
+        this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource);
     }
 
     @Operation(summary = "Gera token de acesso",
@@ -133,10 +132,9 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
                                                @RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        log.info("Updating user: {}", userDetails.getUsername());
-        UserResponse userResponse = userController.updateUser(updateUserRequest, userDetails.getUsername());
+        UserResponse userResponse = userController.updateUser(userDetails, token, updateUserRequest);
         log.info("Updated user: {}", userResponse.login());
 
         return ResponseEntity
@@ -185,11 +183,11 @@ public class UserApiV1 {
                     description = "Usuário apagado com sucesso")
     })
     @DeleteMapping
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails, HttpSession httpSession) {
-        log.info("Deleting user: {}", userDetails.getUsername());
-        userController.deleteUser(userDetails.getUsername());
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
+                                       HttpSession httpSession) {
+        String loginDeletedUser = userController.deleteUser(userDetails, token);
         httpSession.invalidate();
-        log.info("Deleted user: {}", userDetails.getUsername());
+        log.info("Deleted user: {}", loginDeletedUser);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
@@ -232,10 +230,9 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/senha")
-    public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        log.info("Updating user password: {}", userDetails.getUsername());
-        userController.updatePasswordUser(updateUserPasswordRequest, userDetails.getUsername());
+        userController.updatePasswordUser(userDetails, token, updateUserPasswordRequest);
         log.info("Updated user password: {}", userDetails.getUsername());
 
         return ResponseEntity
@@ -243,4 +240,3 @@ public class UserApiV1 {
                 .build();
     }
 }
-//TODO métodos que recebem userDetails devem também receber header Authorization
