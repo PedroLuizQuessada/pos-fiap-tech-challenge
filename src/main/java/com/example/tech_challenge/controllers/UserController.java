@@ -1,6 +1,7 @@
 package com.example.tech_challenge.controllers;
 
 import com.example.tech_challenge.datasources.AddressDataSource;
+import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.request.CreateUserRequest;
 import com.example.tech_challenge.dtos.request.UpdateUserPasswordRequest;
@@ -10,30 +11,28 @@ import com.example.tech_challenge.dtos.response.UserResponse;
 import com.example.tech_challenge.entities.Token;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
+import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.presenters.TokenPresenter;
 import com.example.tech_challenge.presenters.UserPresenter;
 import com.example.tech_challenge.usecases.*;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 
 public class UserController {
 
     private final UserDataSource userDataSource;
     private final AddressDataSource addressDataSource;
-    private final JwtEncoder jwtEncoder;
-    private final JwtDecoder jwtDecoder;
+    private final TokenDataSource tokenDataSource;
 
-    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
+    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource) {
         this.userDataSource = userDataSource;
         this.addressDataSource = addressDataSource;
-        this.jwtEncoder = jwtEncoder;
-        this.jwtDecoder = jwtDecoder;
+        this.tokenDataSource = tokenDataSource;
     }
 
     public TokenResponse generateToken(UserDetails userDetails, String oldToken) {
-        GenerateTokenUseCase generateTokenUseCase = new GenerateTokenUseCase(jwtEncoder, jwtDecoder);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        GenerateTokenUseCase generateTokenUseCase = new GenerateTokenUseCase(tokenGateway);
         Token token = generateTokenUseCase.execute(userDetails, oldToken);
         return TokenPresenter.toResponse(token);
     }
@@ -45,37 +44,42 @@ public class UserController {
         return UserPresenter.toResponse(user);
     }
 
-    public UserResponse updateUser(UpdateUserRequest updateUserRequest, String login) {
+    public UserResponse updateUser(UserDetails userDetails, String token, UpdateUserRequest updateUserRequest) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
-        User user = updateUserUseCase.execute(updateUserRequest, login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway, tokenGateway);
+        User user = updateUserUseCase.execute(updateUserRequest, userDetails, token);
         return UserPresenter.toResponse(user);
     }
 
     public UserResponse updateUser(UpdateUserRequest updateUserRequest, Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway, tokenGateway);
         User user = updateUserUseCase.execute(updateUserRequest, id);
         return UserPresenter.toResponse(user);
     }
 
-    public void deleteUser(String login) {
+    public String deleteUser(UserDetails userDetails, String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway);
-        deleteUserUseCase.execute(login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, tokenGateway);
+        return deleteUserUseCase.execute(userDetails, token);
     }
 
     public void deleteUser(Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, tokenGateway);
         deleteUserUseCase.execute(id);
     }
 
-    public void updatePasswordUser(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
+    public void updatePasswordUser(UserDetails userDetails, String token, UpdateUserPasswordRequest updateUserPasswordRequest) {
         UserGateway userGateway = new UserGateway(userDataSource);
-        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway);
-        updateUserPasswordUseCase.execute(updateUserPasswordRequest, login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway, tokenGateway);
+        updateUserPasswordUseCase.execute(updateUserPasswordRequest, userDetails, token);
     }
 }

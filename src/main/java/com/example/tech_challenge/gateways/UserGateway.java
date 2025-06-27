@@ -1,7 +1,6 @@
 package com.example.tech_challenge.gateways;
 
 import com.example.tech_challenge.datasources.UserDataSource;
-import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
@@ -54,14 +53,8 @@ public class UserGateway {
         return createEntity(userDto);
     }
 
-    public void deleteUserByLogin(String login) {
-        User userDto = findUserByLogin(login);
-        userDataSource.deleteUser(createDto(userDto));
-    }
-
-    public void deleteUserById(Long id) {
-        User userDto = findUserById(id);
-        userDataSource.deleteUser(createDto(userDto));
+    public void deleteUser(UserDto userDto) {
+        userDataSource.deleteUser(userDto);
     }
 
     private User createEntity(UserDto userDto) {
@@ -73,16 +66,5 @@ public class UserGateway {
 
         return new User(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
                 address, userDto.authority(), false);
-    }
-
-    private UserDto createDto(User user) {
-        AddressDto addressDto = null;
-        if (!Objects.isNull(user.getAddress()))
-            addressDto = new AddressDto(user.getAddress().getId(), user.getAddress().getState(), user.getAddress().getCity(),
-                    user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipCode(),
-                    user.getAddress().getAditionalInfo());
-
-        return new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
-                addressDto, user.getAuthority());
     }
 }

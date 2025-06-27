@@ -8,7 +8,9 @@ import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.exception.EmailAlreadyInUseException;
 import com.example.tech_challenge.exception.LoginAlreadyInUseException;
 import com.example.tech_challenge.gateways.AddressGateway;
+import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Objects;
 
@@ -16,13 +18,16 @@ public class UpdateUserUseCase {
 
     private final UserGateway userGateway;
     private final AddressGateway addressGateway;
+    private final TokenGateway tokenGateway;
 
-    public UpdateUserUseCase(UserGateway userGateway, AddressGateway addressGateway) {
+    public UpdateUserUseCase(UserGateway userGateway, AddressGateway addressGateway, TokenGateway tokenGateway) {
         this.userGateway = userGateway;
         this.addressGateway = addressGateway;
+        this.tokenGateway = tokenGateway;
     }
 
-    public User execute(UpdateUserRequest updateUserRequest, String login) {
+    public User execute(UpdateUserRequest updateUserRequest, UserDetails userDetails, String token) {
+        String login = (!Objects.isNull(userDetails)) ? userDetails.getUsername() : tokenGateway.getTokenUsername(token);
         User oldUser = userGateway.findUserByLogin(login);
         return updateUser(updateUserRequest, oldUser);
     }
