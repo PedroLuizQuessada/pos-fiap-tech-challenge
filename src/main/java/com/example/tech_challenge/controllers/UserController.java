@@ -64,15 +64,17 @@ public class UserController {
 
     public String deleteUser(UserDetails userDetails, String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, tokenGateway);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, tokenGateway);
         return deleteUserUseCase.execute(userDetails, token);
     }
 
     public void deleteUser(Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, tokenGateway);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, tokenGateway);
         deleteUserUseCase.execute(id);
     }
 

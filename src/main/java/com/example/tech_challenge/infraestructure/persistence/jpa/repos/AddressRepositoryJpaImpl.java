@@ -2,11 +2,9 @@ package com.example.tech_challenge.infraestructure.persistence.jpa.repos;
 
 import com.example.tech_challenge.datasources.AddressDataSource;
 import com.example.tech_challenge.dtos.AddressDto;
-import com.example.tech_challenge.infraestructure.persistence.jpa.mappers.AddressJpaDtoMapper;
-import com.example.tech_challenge.infraestructure.persistence.jpa.models.AddressJpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +14,11 @@ public class AddressRepositoryJpaImpl implements AddressDataSource {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private AddressJpaDtoMapper addressMapper;
-
     @Override
     @Transactional
     public void deleteAddress(AddressDto addressDto) {
-        AddressJpa addressJpa = addressMapper.toAddressJpa(addressDto);
-        addressJpa = entityManager.merge(addressJpa);
-        entityManager.remove(addressJpa);
+        Query query = entityManager.createQuery("DELETE FROM AddressJpa address WHERE address.id = :id");
+        query.setParameter("id", addressDto.id());
+        query.executeUpdate();
     }
 }

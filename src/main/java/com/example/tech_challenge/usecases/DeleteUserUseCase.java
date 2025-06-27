@@ -3,6 +3,7 @@ package com.example.tech_challenge.usecases;
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.User;
+import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +13,12 @@ import java.util.Objects;
 public class DeleteUserUseCase {
 
     private final UserGateway userGateway;
+    private final AddressGateway addressGateway;
     private final TokenGateway tokenGateway;
 
-    public DeleteUserUseCase(UserGateway userGateway, TokenGateway tokenGateway) {
+    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, TokenGateway tokenGateway) {
         this.userGateway = userGateway;
+        this.addressGateway = addressGateway;
         this.tokenGateway = tokenGateway;
     }
 
@@ -45,6 +48,8 @@ public class DeleteUserUseCase {
 
     private String deleteUser(UserDto userDto) {
         userGateway.deleteUser(userDto);
+        if (!Objects.isNull(userDto.addressDto()))
+            addressGateway.delete(userDto.addressDto());
         return userDto.login();
     }
 }
