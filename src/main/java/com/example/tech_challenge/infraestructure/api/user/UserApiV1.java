@@ -231,8 +231,8 @@ public class UserApiV1 {
     @PutMapping("/senha")
     public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        userController.updatePasswordUser(userDetails, token, updateUserPasswordRequest);
-        log.info("Updated user password: {}", userDetails.getUsername());
+        String loginUpdatedUser = userController.updatePasswordUser(userDetails, token, updateUserPasswordRequest);
+        log.info("Updated user password: {}", loginUpdatedUser);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

@@ -79,7 +79,7 @@ public class User {
         if (Objects.isNull(password) || password.isEmpty())
             throw new BadArgumentException("O usuário deve possuir uma senha");
 
-        if (password.length() < 5)
+        if (password.length() < 6)
             throw new BadArgumentException("A senha do usuário deve possuir ao menos 6 caracteres");
     }
 
