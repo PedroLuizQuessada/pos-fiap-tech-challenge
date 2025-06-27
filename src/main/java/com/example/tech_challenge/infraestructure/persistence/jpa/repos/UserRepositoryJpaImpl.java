@@ -75,8 +75,8 @@ public class UserRepositoryJpaImpl implements UserDataSource {
     @Override
     @Transactional
     public void deleteUser(UserDto userDto) {
-        UserJpa userJpa = userJpaDtoMapper.toUserJpa(userDto);
-        userJpa = entityManager.merge(userJpa);
-        entityManager.remove(userJpa);
+        Query query = entityManager.createQuery("DELETE FROM UserJpa user WHERE user.id = :id");
+        query.setParameter("id", userDto.id());
+        query.executeUpdate();
     }
 }
