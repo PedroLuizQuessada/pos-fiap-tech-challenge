@@ -18,7 +18,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -165,7 +164,7 @@ public class UserApiV1 {
     })
     @PutMapping("/admin/{id}")
     public ResponseEntity<UserResponse> adminUpdate(@RequestBody @Valid UpdateUserRequest updateUserRequest,
-                                            @PathVariable("id") @NotNull Long id) {
+                                                    @PathVariable("id") Long id) {
         log.info("Admin updating user: {}", id);
         UserResponse userResponse = userController.updateUser(updateUserRequest, id);
         log.info("Admin updated user: {}", id);
@@ -209,7 +208,7 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<Void> adminDelete(@PathVariable("id") @NotNull Long id) {
+    public ResponseEntity<Void> adminDelete(@PathVariable("id") Long id) {
         log.info("Admin deleting user: {}", id);
         userController.deleteUser(id);
         log.info("Admin deleted user: {}", id);
