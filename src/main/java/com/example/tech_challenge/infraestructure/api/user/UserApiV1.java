@@ -57,7 +57,7 @@ public class UserApiV1 {
     })
     @GetMapping("/gerar-token")
     public ResponseEntity<TokenResponse> generateToken(@AuthenticationPrincipal UserDetails userDetails,
-                                                    @RequestHeader("Authorization") String token) {
+                                                    @RequestHeader(name = "Authorization", required = false) String token) {
         TokenResponse response = userController.generateToken(userDetails, token);
         log.info("Logged user: {}", response.login());
 
@@ -131,7 +131,8 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
+    public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserRequest updateUserRequest) {
         UserResponse userResponse = userController.updateUser(userDetails, token, updateUserRequest);
         log.info("Updated user: {}", userResponse.login());
@@ -182,7 +183,8 @@ public class UserApiV1 {
                     description = "Usuário apagado com sucesso")
     })
     @DeleteMapping
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestHeader(name = "Authorization", required = false) String token,
                                        HttpSession httpSession) {
         String loginDeletedUser = userController.deleteUser(userDetails, token);
         httpSession.invalidate();
@@ -229,7 +231,8 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/senha")
-    public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestHeader("Authorization") String token,
+    public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
         String loginUpdatedUser = userController.updatePasswordUser(userDetails, token, updateUserPasswordRequest);
         log.info("Updated user password: {}", loginUpdatedUser);
