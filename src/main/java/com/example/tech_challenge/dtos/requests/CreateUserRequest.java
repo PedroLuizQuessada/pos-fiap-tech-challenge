@@ -1,4 +1,4 @@
-package com.example.tech_challenge.dtos.request;
+package com.example.tech_challenge.dtos.requests;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
 

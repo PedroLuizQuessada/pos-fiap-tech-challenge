@@ -1,7 +1,7 @@
 package com.example.tech_challenge.entities;
 
 import com.example.tech_challenge.enums.AuthorityEnum;
-import com.example.tech_challenge.exception.BadArgumentException;
+import com.example.tech_challenge.exceptions.BadArgumentException;
 import lombok.Getter;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,6 +1,6 @@
 package com.example.tech_challenge.infraestructure.security;
 
-import com.example.tech_challenge.exception.*;
+import com.example.tech_challenge.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;

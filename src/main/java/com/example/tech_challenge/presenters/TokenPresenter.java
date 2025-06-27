@@ -1,6 +1,6 @@
 package com.example.tech_challenge.presenters;
 
-import com.example.tech_challenge.dtos.response.TokenResponse;
+import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.entities.Token;
 
 public class TokenPresenter {

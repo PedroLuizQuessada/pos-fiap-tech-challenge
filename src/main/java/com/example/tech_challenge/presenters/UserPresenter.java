@@ -1,6 +1,6 @@
 package com.example.tech_challenge.presenters;
 
-import com.example.tech_challenge.dtos.response.UserResponse;
+import com.example.tech_challenge.dtos.responses.UserResponse;
 import com.example.tech_challenge.entities.User;
 
 import java.util.Objects;

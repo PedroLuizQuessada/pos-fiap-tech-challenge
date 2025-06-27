@@ -1,6 +1,6 @@
 package com.example.tech_challenge.entities;
 
-import com.example.tech_challenge.exception.TokenException;
+import com.example.tech_challenge.exceptions.TokenException;
 import lombok.Getter;
 
 import java.util.Objects;

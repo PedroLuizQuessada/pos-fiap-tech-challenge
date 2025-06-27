@@ -1,7 +1,7 @@
 package com.example.tech_challenge.controllers;
 
 import com.example.tech_challenge.datasources.UserDataSource;
-import com.example.tech_challenge.dtos.response.LoginResponse;
+import com.example.tech_challenge.dtos.responses.LoginResponse;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.presenters.LoginPresenter;
