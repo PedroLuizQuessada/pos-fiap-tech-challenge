@@ -41,6 +41,9 @@ public class UserGateway {
     }
 
     public User findUserById(Long id) {
+        if (Objects.isNull(id))
+            throw new UserNotFoundException();
+
         Optional<UserDto> userDtoOptional = userDataSource.findUserById(id);
 
         if (userDtoOptional.isEmpty())
