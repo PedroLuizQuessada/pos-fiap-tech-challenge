@@ -1,6 +1,5 @@
 package com.example.tech_challenge.entities;
 
-import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exceptions.BadArgumentException;
 import lombok.Getter;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -19,23 +18,23 @@ public class User {
     private final String password;
     private final Date lastUpdateDate;
     private final Address address;
-    private final AuthorityEnum authority;
+    private final UserType userType;
 
     public User(Long id, String name, String email, String login, String password, Date lastUpdateDate, Address address,
-                AuthorityEnum authority, boolean encodePassword) {
+                UserType userType, boolean encodePassword) {
 
         validateName(name);
         validateEmail(email);
         validateLogin(login);
         validatePassword(password);
-        validateAuthorityEnum(authority);
+        validateUserType(userType);
 
         this.id = id;
         this.name = name;
         this.email = email;
         this.login = login;
         this.address = address;
-        this.authority = authority;
+        this.userType = userType;
 
         if (encodePassword) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -83,8 +82,9 @@ public class User {
             throw new BadArgumentException("A senha do usuário deve possuir ao menos 6 caracteres");
     }
 
-    private void validateAuthorityEnum(AuthorityEnum authority) {
-        if (Objects.isNull(authority))
-            throw new BadArgumentException("O usuário deve possuir um tipo de autorização");
+    private void validateUserType(UserType userType) {
+        if (Objects.isNull(userType)) {
+            throw new BadArgumentException("O usuário deve possuir um tipo de usuário");
+        }
     }
 }

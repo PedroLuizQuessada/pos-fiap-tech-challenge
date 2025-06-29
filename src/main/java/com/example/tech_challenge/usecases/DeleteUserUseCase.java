@@ -2,6 +2,7 @@ package com.example.tech_challenge.usecases;
 
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
+import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.TokenGateway;
@@ -27,15 +28,17 @@ public class DeleteUserUseCase {
 
         User user = userGateway.findUserByLogin(login);
         AddressDto addressDto = getAddressDto(user);
+        UserTypeDto userTypeDto = getUserTypeDto(user);
         return deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
-                addressDto, user.getAuthority()));
+                addressDto, userTypeDto));
     }
 
     public void execute(Long id) {
         User user = userGateway.findUserById(id);
         AddressDto addressDto = getAddressDto(user);
+        UserTypeDto userTypeDto = getUserTypeDto(user);
         deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
-                addressDto, user.getAuthority()));
+                addressDto, userTypeDto));
     }
 
     private AddressDto getAddressDto(User user) {
@@ -44,6 +47,13 @@ public class DeleteUserUseCase {
             addressDto = new AddressDto(user.getAddress().getId(), user.getAddress().getState(), user.getAddress().getCity(),
                     user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipCode(), user.getAddress().getAditionalInfo());
         return addressDto;
+    }
+
+    private UserTypeDto getUserTypeDto(User user) {
+        UserTypeDto userTypeDto = null;
+        if (!Objects.isNull(user.getUserType()))
+            userTypeDto = new UserTypeDto(user.getUserType().getId(), user.getUserType().getName());
+        return userTypeDto;
     }
 
     private String deleteUser(UserDto userDto) {

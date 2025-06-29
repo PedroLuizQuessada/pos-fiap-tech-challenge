@@ -3,6 +3,7 @@ package com.example.tech_challenge.controllers;
 import com.example.tech_challenge.datasources.AddressDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
+import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
@@ -13,6 +14,7 @@ import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.gateways.UserTypeGateway;
 import com.example.tech_challenge.presenters.TokenPresenter;
 import com.example.tech_challenge.presenters.UserPresenter;
 import com.example.tech_challenge.usecases.*;
@@ -23,11 +25,13 @@ public class UserController {
     private final UserDataSource userDataSource;
     private final AddressDataSource addressDataSource;
     private final TokenDataSource tokenDataSource;
+    private final UserTypeDataSource userTypeDataSource;
 
-    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource) {
+    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource, UserTypeDataSource userTypeDataSource) {
         this.userDataSource = userDataSource;
         this.addressDataSource = addressDataSource;
         this.tokenDataSource = tokenDataSource;
+        this.userTypeDataSource = userTypeDataSource;
     }
 
     public TokenResponse generateToken(UserDetails userDetails, String oldToken) {
@@ -39,9 +43,10 @@ public class UserController {
 
     public UserResponse createUser(CreateUserRequest createUserRequest, boolean allowAdmin) {
         UserGateway userGateway = new UserGateway(userDataSource);
-        CreateUserUseCase createUserUseCase = new CreateUserUseCase(userGateway);
+        UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
+        CreateUserUseCase createUserUseCase = new CreateUserUseCase(userGateway, userTypeGateway);
         User user = createUserUseCase.execute(createUserRequest, allowAdmin);
-        return UserPresenter.toResponse(user);
+        return allowAdmin ? UserPresenter.toAdminResponse(user) : UserPresenter.toResponse(user);
     }
 
     public UserResponse updateUser(UserDetails userDetails, String token, UpdateUserRequest updateUserRequest) {
@@ -59,7 +64,7 @@ public class UserController {
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway, tokenGateway);
         User user = updateUserUseCase.execute(updateUserRequest, id);
-        return UserPresenter.toResponse(user);
+        return UserPresenter.toAdminResponse(user);
     }
 
     public String deleteUser(UserDetails userDetails, String token) {

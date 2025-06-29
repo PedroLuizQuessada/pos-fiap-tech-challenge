@@ -1,6 +1,5 @@
 package com.example.tech_challenge.infraestructure.persistence.jpa.models;
 
-import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.infraestructure.exceptions.BadJpaArgumentException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -38,17 +37,17 @@ public class UserJpa {
     @JoinColumn(name = "address", referencedColumnName = "id")
     private AddressJpa addressJpa;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AuthorityEnum authority;
+    @ManyToOne
+    @JoinColumn(name = "user_type", referencedColumnName = "id", nullable = false)
+    private UserTypeJpa userTypeJpa;
 
     public UserJpa(Long id, String name, String email, String login, String password, Date lastUpdateDate,
-                   AddressJpa addressJpa, AuthorityEnum authority) {
+                   AddressJpa addressJpa, UserTypeJpa userTypeJpa) {
         validateName(name);
         validateEmail(email);
         validateLogin(login);
         validatePassword(password);
-        validateAuthority(authority);
+        validateUserTypeJpa(userTypeJpa);
 
         this.id = id;
         this.name = name;
@@ -57,7 +56,7 @@ public class UserJpa {
         this.password = password;
         this.lastUpdateDate = lastUpdateDate;
         this.addressJpa = addressJpa;
-        this.authority = authority;
+        this.userTypeJpa = userTypeJpa;
     }
 
     private void validateName(String name) {
@@ -92,8 +91,8 @@ public class UserJpa {
             throw new BadJpaArgumentException("Falha ao gerar senha criptografada do usuário, favor contactar o administrador");
     }
 
-    private void validateAuthority(AuthorityEnum authority) {
-        if (Objects.isNull(authority))
-            throw new BadJpaArgumentException("O usuário deve possuir tipo de autorização para ser armazenado no banco de dados");
+    private void validateUserTypeJpa(UserTypeJpa userTypeJpa) {
+        if (Objects.isNull(userTypeJpa))
+            throw new BadJpaArgumentException("O usuário deve possuir tipo de usuário para ser armazenado no banco de dados");
     }
 }

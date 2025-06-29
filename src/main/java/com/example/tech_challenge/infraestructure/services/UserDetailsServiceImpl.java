@@ -23,6 +23,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         LoginResponse userResponse = loginController.login(username);
         return new org.springframework.security.core.userdetails.User(userResponse.login(), userResponse.password(),
-                List.of(new SimpleGrantedAuthority(userResponse.authority().name())));
+                List.of(new SimpleGrantedAuthority(userResponse.userType())));
     }
 }

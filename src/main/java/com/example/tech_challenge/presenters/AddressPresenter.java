@@ -6,7 +6,12 @@ import com.example.tech_challenge.entities.Address;
 public class AddressPresenter {
 
     public static AddressResponse toResponse(Address address) {
-        return new AddressResponse(address.getState(), address.getCity(), address.getStreet(),
+        return new AddressResponse(null, address.getState(), address.getCity(), address.getStreet(),
+                address.getNumber(), address.getZipCode(), address.getAditionalInfo());
+    }
+
+    public static AddressResponse toAdminResponse(Address address) {
+        return new AddressResponse(address.getId(), address.getState(), address.getCity(), address.getStreet(),
                 address.getNumber(), address.getZipCode(), address.getAditionalInfo());
     }
 }

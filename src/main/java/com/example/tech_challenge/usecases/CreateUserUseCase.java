@@ -1,28 +1,33 @@
 package com.example.tech_challenge.usecases;
 
+import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
+import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.enums.AuthorityEnum;
 import com.example.tech_challenge.exceptions.AdminCreationNotAllowedException;
 import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
 import com.example.tech_challenge.exceptions.LoginAlreadyInUseException;
 import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.gateways.UserTypeGateway;
 
 import java.util.Objects;
 
 public class CreateUserUseCase {
 
     private final UserGateway userGateway;
+    private final UserTypeGateway userTypeGateway;
 
-    public CreateUserUseCase(UserGateway userGateway) {
+    public CreateUserUseCase(UserGateway userGateway, UserTypeGateway userTypeGateway) {
         this.userGateway = userGateway;
+        this.userTypeGateway = userTypeGateway;
     }
 
     public User execute(CreateUserRequest createUser, boolean allowAdmin) {
-        if (!allowAdmin && AuthorityEnum.ADMIN.equals(createUser.authority()))
+        if (!allowAdmin && AuthorityEnum.ADMIN.getId().equals(createUser.userType())) //TODO testar quando userType é passado nulo
             throw new AdminCreationNotAllowedException();
 
         Address address = null;
@@ -35,14 +40,17 @@ public class CreateUserUseCase {
                     createUser.address().number(), createUser.address().zipCode(), createUser.address().aditionalInfo());
         }
 
+        UserType userType = userTypeGateway.findUserTypeById(createUser.userType());
+        UserTypeDto userTypeDto = new UserTypeDto(userType.getId(), userType.getName());
+
         User user = new User(null, createUser.name(), createUser.email(), createUser.login(), createUser.password(),
-                null, address, createUser.authority(), true);
+                null, address, userType, true);
 
         checkEmailAlreadyInUse(createUser.email());
         checkLoginAlreadyInUse(createUser.login());
 
         return userGateway.createUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(),
-                user.getLastUpdateDate(), addressDto, user.getAuthority()));
+                user.getLastUpdateDate(), addressDto, userTypeDto));
     }
 
     private void checkEmailAlreadyInUse(String email) {

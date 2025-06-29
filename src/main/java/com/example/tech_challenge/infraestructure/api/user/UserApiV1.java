@@ -4,6 +4,7 @@ import com.example.tech_challenge.controllers.UserController;
 import com.example.tech_challenge.datasources.AddressDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
+import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
 import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.dtos.responses.UserResponse;
@@ -26,16 +27,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+//TODO adicionar response 401 nos endpoints que requerem autenticação
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
-@Tag(name = "User Controller V1", description = "Versão 1 do controlador referente a usuários")
+@Tag(name = "User API V1", description = "Versão 1 do controlador referente a usuários")
 public class UserApiV1 {
 
     private final UserController userController;
 
-    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource) {
-        this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource);
+    public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource,
+                     UserTypeDataSource userTypeDataSource) {
+        this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource, userTypeDataSource);
     }
 
     @Operation(summary = "Gera token de acesso",
@@ -76,6 +79,10 @@ public class UserApiV1 {
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser criado",
                     content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Tipo de usuário não encontrado",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping
@@ -103,6 +110,10 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "403",
                     description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Tipo de usuário não encontrado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })

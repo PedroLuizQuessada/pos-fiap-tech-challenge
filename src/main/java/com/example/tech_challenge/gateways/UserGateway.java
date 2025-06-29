@@ -4,6 +4,7 @@ import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
+import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserNotFoundException;
 
 import java.util.Objects;
@@ -64,7 +65,11 @@ public class UserGateway {
                     userDto.addressDto().street(), userDto.addressDto().number(), userDto.addressDto().zipCode(),
                     userDto.addressDto().aditionalInfo());
 
+        UserType userType = null;
+        if (!Objects.isNull(userDto.userTypeDto()))
+            userType = new UserType(userDto.userTypeDto().id(), userDto.userTypeDto().name());
+
         return new User(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
-                address, userDto.authority(), false);
+                address, userType, false);
     }
 }
