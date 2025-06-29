@@ -56,7 +56,7 @@ public class UserTypeApiV1 {
     })
     @PostMapping
     public ResponseEntity<UserTypeResponse> create(@RequestBody @Valid UserTypeRequest userTypeRequest) {
-        log.info("Creating user type: {}", userTypeRequest.name()); //TODO tratar request body nulo
+        log.info("Creating user type: {}", userTypeRequest.name());
         UserTypeResponse userTypeResponse = userTypeController.createUserType(userTypeRequest);
         log.info("User type created: {}", userTypeResponse.name());
 

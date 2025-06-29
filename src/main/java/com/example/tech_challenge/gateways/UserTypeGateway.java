@@ -6,6 +6,7 @@ import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserTypeNotFoundException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class UserTypeGateway {
@@ -32,6 +33,9 @@ public class UserTypeGateway {
     }
 
     public UserType findUserTypeById(Long id) {
+        if (Objects.isNull(id))
+            throw new UserTypeNotFoundException();
+
         Optional<UserTypeDto> optionalUserTypeDto = userTypeDataSource.findUserTypeById(id);
 
         if (optionalUserTypeDto.isEmpty())
