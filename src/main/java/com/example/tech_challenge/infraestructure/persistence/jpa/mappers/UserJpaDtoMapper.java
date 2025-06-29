@@ -12,16 +12,18 @@ import java.util.Objects;
 public class UserJpaDtoMapper {
 
     private final AddressJpaDtoMapper addressJpaDtoMapper;
+    private final UserTypeJpaDtoMapper userTypeJpaDtoMapper;
 
     public UserJpa toUserJpa(UserDto userDto) {
         return new UserJpa(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
-                !Objects.isNull(userDto.addressDto()) ? addressJpaDtoMapper.toAddressJpa(userDto.addressDto()) : null, userDto.authority());
+                !Objects.isNull(userDto.addressDto()) ? addressJpaDtoMapper.toAddressJpa(userDto.addressDto()) : null,
+                !Objects.isNull(userDto.userTypeDto()) ? userTypeJpaDtoMapper.toUserTypeJpa(userDto.userTypeDto()) : null);
     }
 
     public UserDto toUserDto(UserJpa userJpa) {
         return new UserDto(userJpa.getId(), userJpa.getName(), userJpa.getEmail(), userJpa.getLogin(), userJpa.getPassword(),
                 userJpa.getLastUpdateDate(), !Objects.isNull(userJpa.getAddressJpa()) ? addressJpaDtoMapper.toAddressDto(userJpa.getAddressJpa()) : null,
-                userJpa.getAuthority());
+                !Objects.isNull(userJpa.getUserTypeJpa()) ? userTypeJpaDtoMapper.toUserTypeDto(userJpa.getUserTypeJpa()) : null);
     }
 
 }

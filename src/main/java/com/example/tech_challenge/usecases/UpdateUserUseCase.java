@@ -1,10 +1,12 @@
 package com.example.tech_challenge.usecases;
 
+import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
+import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
 import com.example.tech_challenge.exceptions.LoginAlreadyInUseException;
 import com.example.tech_challenge.gateways.AddressGateway;
@@ -50,8 +52,11 @@ public class UpdateUserUseCase {
                     updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo());
         }
 
+        UserType oldUserType = oldUser.getUserType();
+        UserTypeDto oldUserTypeDto = new UserTypeDto(oldUserType.getId(), oldUserType.getName());
+
         User user = new User(oldUser.getId(), updateUserRequest.name(), updateUserRequest.email(), updateUserRequest.login(),
-                oldUser.getPassword(), null, address, oldUser.getAuthority(), false);
+                oldUser.getPassword(), null, address, oldUserType, false);
 
         if (!Objects.equals(updateUserRequest.email(), oldUser.getEmail())) {
             checkEmailAlreadyInUse(updateUserRequest.email());
@@ -61,7 +66,7 @@ public class UpdateUserUseCase {
         }
 
         user = userGateway.updateUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(),
-                user.getLastUpdateDate(), addressDto, user.getAuthority()));
+                user.getLastUpdateDate(), addressDto, oldUserTypeDto));
 
         if (Objects.isNull(updateUserRequest.address()) && !Objects.isNull(oldUser.getAddress()))
             addressGateway.delete(new AddressDto(oldUser.getAddress().getId(), oldUser.getAddress().getState(), oldUser.getAddress().getCity(),

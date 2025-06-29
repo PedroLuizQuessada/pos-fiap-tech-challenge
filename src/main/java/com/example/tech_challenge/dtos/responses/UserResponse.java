@@ -1,9 +1,10 @@
 package com.example.tech_challenge.dtos.responses;
 
-import com.example.tech_challenge.enums.AuthorityEnum;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.sql.Date;
 
-public record UserResponse(String name, String email, String login, Date lastUpdateDate, AddressResponse address, AuthorityEnum authority) {
+public record UserResponse(@JsonInclude(JsonInclude.Include.NON_NULL) Long id, String name, String email, String login,
+                           Date lastUpdateDate, AddressResponse address, UserTypeResponse userTypeResponse) {
 
 }
