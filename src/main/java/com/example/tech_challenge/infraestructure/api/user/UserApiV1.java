@@ -27,7 +27,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-//TODO adicionar response 401 nos endpoints que requerem autenticação
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
@@ -42,7 +41,8 @@ public class UserApiV1 {
     }
 
     @Operation(summary = "Gera token de acesso",
-                security = @SecurityRequirement(name = "basicAuth"))
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
                             description = "Token gerado com sucesso",
@@ -108,6 +108,10 @@ public class UserApiV1 {
                     description = "Valores inválidos para os atributos do usuário a ser criado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "403",
                     description = "Usuário autenticado não é 'ADMIN'",
                     content = @Content(mediaType = "application/json",
@@ -139,6 +143,10 @@ public class UserApiV1 {
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
                     content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
@@ -163,6 +171,10 @@ public class UserApiV1 {
                             schema = @Schema(implementation = UserResponse.class))),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "403",
@@ -191,7 +203,11 @@ public class UserApiV1 {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "204",
-                    description = "Usuário apagado com sucesso")
+                    description = "Usuário apagado com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
@@ -211,6 +227,10 @@ public class UserApiV1 {
     @ApiResponses({
             @ApiResponse(responseCode = "204",
                     description = "Usuário apagado com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "403",
                     description = "Usuário autenticado não é 'ADMIN'",
                     content = @Content(mediaType = "application/json",
@@ -238,6 +258,10 @@ public class UserApiV1 {
                     description = "Senha do usuário atualizada com sucesso"),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para os atributos do usuário a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
