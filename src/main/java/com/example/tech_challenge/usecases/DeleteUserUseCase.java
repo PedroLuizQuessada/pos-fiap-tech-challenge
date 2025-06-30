@@ -5,9 +5,7 @@ import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
-import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Objects;
 
@@ -15,21 +13,17 @@ public class DeleteUserUseCase {
 
     private final UserGateway userGateway;
     private final AddressGateway addressGateway;
-    private final TokenGateway tokenGateway;
 
-    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, TokenGateway tokenGateway) {
+    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway) {
         this.userGateway = userGateway;
         this.addressGateway = addressGateway;
-        this.tokenGateway = tokenGateway;
     }
 
-    public String execute(UserDetails userDetails, String token) {
-        String login = (!Objects.isNull(userDetails)) ? userDetails.getUsername() : tokenGateway.getTokenUsername(token);
-
+    public void execute(String login) {
         User user = userGateway.findUserByLogin(login);
         AddressDto addressDto = getAddressDto(user);
         UserTypeDto userTypeDto = getUserTypeDto(user);
-        return deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
+        deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
                 addressDto, userTypeDto));
     }
 
@@ -56,10 +50,9 @@ public class DeleteUserUseCase {
         return userTypeDto;
     }
 
-    private String deleteUser(UserDto userDto) {
+    private void deleteUser(UserDto userDto) {
         userGateway.deleteUser(userDto);
         if (!Objects.isNull(userDto.addressDto()))
             addressGateway.delete(userDto.addressDto());
-        return userDto.login();
     }
 }

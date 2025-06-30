@@ -7,24 +7,19 @@ import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.entities.UserType;
-import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Objects;
 
 public class UpdateUserPasswordUseCase {
 
     private final UserGateway userGateway;
-    private final TokenGateway tokenGateway;
 
-    public UpdateUserPasswordUseCase(UserGateway userGateway, TokenGateway tokenGateway) {
+    public UpdateUserPasswordUseCase(UserGateway userGateway) {
         this.userGateway = userGateway;
-        this.tokenGateway = tokenGateway;
     }
 
-    public String execute(UpdateUserPasswordRequest updateUserPasswordRequest, UserDetails userDetails, String token) {
-        String login = (!Objects.isNull(userDetails)) ? userDetails.getUsername() : tokenGateway.getTokenUsername(token);
+    public void execute(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
         User user = userGateway.findUserByLogin(login);
 
         Address address = user.getAddress();
@@ -44,6 +39,5 @@ public class UpdateUserPasswordUseCase {
 
         userGateway.updateUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(),
                 user.getLastUpdateDate(), addressDto, userTypeDto));
-        return user.getLogin();
     }
 }
