@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface UserTypeDataSource {
     UserTypeDto createUserType(UserTypeDto userTypeDto);
     UserTypeDto updateUserType(UserTypeDto userTypeDto);
+    Long countByName(String name);
     List<UserTypeDto> findAllUserTypes();
     Optional<UserTypeDto> findUserTypeById(Long id);
     void deleteUserType(UserTypeDto userTypeDto);

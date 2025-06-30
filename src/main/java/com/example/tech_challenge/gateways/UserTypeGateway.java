@@ -27,6 +27,10 @@ public class UserTypeGateway {
         return createEntity(userTypeDto);
     }
 
+    public Long countByName(String name) {
+        return userTypeDataSource.countByName(name);
+    }
+
     public List<UserType> findAllUserTypes() {
         List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes();
         return userTypeList.stream().map(this::createEntity).toList();

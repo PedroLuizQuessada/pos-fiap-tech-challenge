@@ -17,7 +17,7 @@ public class UserTypeJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type_name", nullable = false, unique = true, length = 45) //TODO tratar unique
+    @Column(name = "type_name", nullable = false, unique = true, length = 45)
     private String name;
 
     public UserTypeJpa(Long id, String name) {
