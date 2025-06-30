@@ -92,9 +92,9 @@ public class UserTypeApiV1 {
     })
     @PutMapping("/{id}")
     public ResponseEntity<UserTypeResponse> update(@RequestBody @Valid UserTypeRequest userTypeRequest, @PathVariable("id") Long id) {
-        log.info("Updating user: {}", id);
+        log.info("Updating user type: {}", id);
         UserTypeResponse userTypeResponse = userTypeController.updateUserType(userTypeRequest, id);
-        log.info("Updated user: {}", id);
+        log.info("Updated user type: {}", id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

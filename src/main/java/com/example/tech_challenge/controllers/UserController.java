@@ -18,7 +18,6 @@ import com.example.tech_challenge.gateways.UserTypeGateway;
 import com.example.tech_challenge.presenters.TokenPresenter;
 import com.example.tech_challenge.presenters.UserPresenter;
 import com.example.tech_challenge.usecases.*;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserController {
 
@@ -34,10 +33,10 @@ public class UserController {
         this.userTypeDataSource = userTypeDataSource;
     }
 
-    public TokenResponse generateToken(UserDetails userDetails, String oldToken) {
+    public TokenResponse generateToken(String userType, String login) {
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         GenerateTokenUseCase generateTokenUseCase = new GenerateTokenUseCase(tokenGateway);
-        Token token = generateTokenUseCase.execute(userDetails, oldToken);
+        Token token = generateTokenUseCase.execute(userType, login);
         return TokenPresenter.toResponse(token);
     }
 
@@ -49,44 +48,39 @@ public class UserController {
         return allowAdmin ? UserPresenter.toAdminResponse(user) : UserPresenter.toResponse(user);
     }
 
-    public UserResponse updateUser(UserDetails userDetails, String token, UpdateUserRequest updateUserRequest) {
+    public UserResponse updateUser(UpdateUserRequest updateUserRequest, String login) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway, tokenGateway);
-        User user = updateUserUseCase.execute(updateUserRequest, userDetails, token);
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
+        User user = updateUserUseCase.execute(updateUserRequest, login);
         return UserPresenter.toResponse(user);
     }
 
     public UserResponse updateUser(UpdateUserRequest updateUserRequest, Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway, tokenGateway);
+        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
         User user = updateUserUseCase.execute(updateUserRequest, id);
         return UserPresenter.toAdminResponse(user);
     }
 
-    public String deleteUser(UserDetails userDetails, String token) {
+    public void deleteUser(String login) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, tokenGateway);
-        return deleteUserUseCase.execute(userDetails, token);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway);
+        deleteUserUseCase.execute(login);
     }
 
     public void deleteUser(Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, tokenGateway);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway);
         deleteUserUseCase.execute(id);
     }
 
-    public String updatePasswordUser(UserDetails userDetails, String token, UpdateUserPasswordRequest updateUserPasswordRequest) {
+    public void updatePasswordUser(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
         UserGateway userGateway = new UserGateway(userDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway, tokenGateway);
-        return updateUserPasswordUseCase.execute(updateUserPasswordRequest, userDetails, token);
+        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway);
+        updateUserPasswordUseCase.execute(updateUserPasswordRequest, login);
     }
 }

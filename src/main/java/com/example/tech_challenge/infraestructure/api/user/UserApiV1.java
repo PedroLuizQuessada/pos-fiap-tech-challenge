@@ -1,11 +1,10 @@
 package com.example.tech_challenge.infraestructure.api.user;
 
+import com.example.tech_challenge.controllers.RequesterController;
 import com.example.tech_challenge.controllers.UserController;
-import com.example.tech_challenge.datasources.AddressDataSource;
-import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.datasources.UserDataSource;
-import com.example.tech_challenge.datasources.UserTypeDataSource;
+import com.example.tech_challenge.datasources.*;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
+import com.example.tech_challenge.dtos.responses.RequesterResponse;
 import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.dtos.responses.UserResponse;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
@@ -27,6 +26,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
@@ -34,10 +35,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserApiV1 {
 
     private final UserController userController;
+    private final RequesterController requesterController;
 
     public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource,
-                     UserTypeDataSource userTypeDataSource) {
+                     UserTypeDataSource userTypeDataSource, RequesterDataSource requesterDataSource) {
         this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource, userTypeDataSource);
+        this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
     @Operation(summary = "Gera token de acesso",
@@ -61,8 +64,12 @@ public class UserApiV1 {
     @GetMapping("/gerar-token")
     public ResponseEntity<TokenResponse> generateToken(@AuthenticationPrincipal UserDetails userDetails,
                                                     @RequestHeader(name = "Authorization", required = false) String token) {
-        TokenResponse response = userController.generateToken(userDetails, token);
-        log.info("Logged user: {}", response.login());
+        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
+                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
+                requesterController.getRequester(token);
+        log.info("Generating token for user: {}", requesterResponse.login());
+        TokenResponse response = userController.generateToken(requesterResponse.userType(), requesterResponse.login());
+        log.info("Generated token for user: {}", response.login());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -153,7 +160,11 @@ public class UserApiV1 {
     public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails,
                                                @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        UserResponse userResponse = userController.updateUser(userDetails, token, updateUserRequest);
+        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
+                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
+                requesterController.getRequester(token);
+        log.info("Updating user: {}", requesterResponse.login());
+        UserResponse userResponse = userController.updateUser(updateUserRequest, requesterResponse.login());
         log.info("Updated user: {}", userResponse.login());
 
         return ResponseEntity
@@ -213,9 +224,13 @@ public class UserApiV1 {
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
                                        @RequestHeader(name = "Authorization", required = false) String token,
                                        HttpSession httpSession) {
-        String loginDeletedUser = userController.deleteUser(userDetails, token);
+        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
+                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
+                requesterController.getRequester(token);
+        log.info("Deleting user: {}", requesterResponse.login());
+        userController.deleteUser(requesterResponse.login());
         httpSession.invalidate();
-        log.info("Deleted user: {}", loginDeletedUser);
+        log.info("Deleted user: {}", requesterResponse.login());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
@@ -269,8 +284,12 @@ public class UserApiV1 {
     public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails,
                                                @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        String loginUpdatedUser = userController.updatePasswordUser(userDetails, token, updateUserPasswordRequest);
-        log.info("Updated user password: {}", loginUpdatedUser);
+        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
+                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
+                requesterController.getRequester(token);
+        log.info("Updating user password: {}", requesterResponse.login());
+        userController.updatePasswordUser(updateUserPasswordRequest, requesterResponse.login());
+        log.info("Updated user password: {}", requesterResponse.login());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)

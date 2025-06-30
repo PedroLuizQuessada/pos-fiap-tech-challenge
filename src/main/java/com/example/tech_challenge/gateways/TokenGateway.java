@@ -1,9 +1,10 @@
 package com.example.tech_challenge.gateways;
 
 import com.example.tech_challenge.datasources.TokenDataSource;
+import com.example.tech_challenge.dtos.RequesterDto;
 import com.example.tech_challenge.dtos.TokenDto;
+import com.example.tech_challenge.entities.Requester;
 import com.example.tech_challenge.entities.Token;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class TokenGateway {
 
@@ -13,17 +14,13 @@ public class TokenGateway {
         this.tokenDataSource = tokenDataSource;
     }
 
-    public Token generateToken(UserDetails userDetails) {
-        TokenDto tokenDto = tokenDataSource.generateToken(userDetails);
+    public Token generateToken(String userType, String login) {
+        TokenDto tokenDto = tokenDataSource.generateToken(userType, login);
         return new Token(tokenDto.token(), tokenDto.login());
     }
 
-    public Token generateToken(String oldToken) {
-        TokenDto tokenDto = tokenDataSource.generateToken(oldToken);
-        return new Token(tokenDto.token(), tokenDto.login());
-    }
-
-    public String getTokenUsername(String token) {
-        return tokenDataSource.getTokenUsername(token);
+    public Requester getRequester(String token) {
+        RequesterDto requesterDto = tokenDataSource.getRequester(token);
+        return new Requester(requesterDto.userType(), requesterDto.login());
     }
 }

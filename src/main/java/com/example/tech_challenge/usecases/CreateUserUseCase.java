@@ -27,7 +27,7 @@ public class CreateUserUseCase {
     }
 
     public User execute(CreateUserRequest createUser, boolean allowAdmin) {
-        if (!allowAdmin && AuthorityEnum.ADMIN.getId().equals(createUser.userType())) //TODO testar quando userType é passado nulo
+        if (!allowAdmin && AuthorityEnum.ADMIN.getId().equals(createUser.userType()))
             throw new AdminCreationNotAllowedException();
 
         Address address = null;
