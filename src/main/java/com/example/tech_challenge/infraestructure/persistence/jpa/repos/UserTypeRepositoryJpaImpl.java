@@ -40,6 +40,13 @@ public class UserTypeRepositoryJpaImpl implements UserTypeDataSource {
     }
 
     @Override
+    public Long countByName(String name) {
+        Query query = entityManager.createQuery("SELECT count(*) FROM UserTypeJpa userType WHERE userType.name = :name");
+        query.setParameter("name", name);
+        return (Long) query.getSingleResult();
+    }
+
+    @Override
     public List<UserTypeDto> findAllUserTypes() {
         Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType");
         List<UserTypeJpa> userTypeJpaList = query.getResultList();
