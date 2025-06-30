@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class UserPresenter {
 
+    private UserPresenter(){}
+
     public static UserResponse toResponse(User user) {
         return new UserResponse(null, user.getName(), user.getEmail(), user.getLogin(), user.getLastUpdateDate(),
                 !Objects.isNull(user.getAddress()) ? AddressPresenter.toResponse(user.getAddress()) : null,
