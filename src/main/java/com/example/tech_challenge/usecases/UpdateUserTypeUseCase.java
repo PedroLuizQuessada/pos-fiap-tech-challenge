@@ -6,6 +6,8 @@ import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserTypeNameAlreadyInUseException;
 import com.example.tech_challenge.gateways.UserTypeGateway;
 
+import java.util.Objects;
+
 public class UpdateUserTypeUseCase {
 
     private final UserTypeGateway userTypeGateway;
@@ -15,9 +17,10 @@ public class UpdateUserTypeUseCase {
     }
 
     public UserType execute(UserTypeRequest updateUserType, Long id) {
-        UserType userType = new UserType(id, updateUserType.name());
-        if (!updateUserType.name().equals(userType.getName()))
+        UserType oldUserType = userTypeGateway.findUserTypeById(id);
+        if (!Objects.equals(updateUserType.name(), oldUserType.getName()))
             checkNameAlreadyInUse(updateUserType.name());
+        UserType userType = new UserType(id, updateUserType.name());
         return userTypeGateway.updateUserType(new UserTypeDto(userType.getId(), userType.getName()));
     }
 

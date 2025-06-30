@@ -48,7 +48,7 @@ public class UserTypeRepositoryJpaImpl implements UserTypeDataSource {
 
     @Override
     public List<UserTypeDto> findAllUserTypes() {
-        Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType");
+        Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType ORDER BY userType.id");
         List<UserTypeJpa> userTypeJpaList = query.getResultList();
         return userTypeJpaList.stream().map(userTypeJpa -> userTypeJpaDtoMapper.toUserTypeDto(userTypeJpa)).toList();
     }
