@@ -64,12 +64,10 @@ public class UserApiV1 {
     @GetMapping("/gerar-token")
     public ResponseEntity<TokenResponse> generateToken(@AuthenticationPrincipal UserDetails userDetails,
                                                     @RequestHeader(name = "Authorization", required = false) String token) {
-        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
-                requesterController.getRequester(token);
-        log.info("Generating token for user: {}", requesterResponse.login());
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("User {} generating token", requesterResponse.login());
         TokenResponse response = userController.generateToken(requesterResponse.userType(), requesterResponse.login());
-        log.info("Generated token for user: {}", response.login());
+        log.info("User {} generated token", response.login());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -129,10 +127,13 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/admin")
-    public ResponseEntity<UserResponse> adminCreate(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        log.info("Admin creating user: {}", createUserRequest.login());
+    public ResponseEntity<UserResponse> adminCreate(@AuthenticationPrincipal UserDetails userDetails,
+                                                    @RequestHeader(name = "Authorization", required = false) String token,
+                                                    @RequestBody @Valid CreateUserRequest createUserRequest) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} creating user: {}", requesterResponse.login(), createUserRequest.login());
         UserResponse userResponse = userController.createUser(createUserRequest, true);
-        log.info("Admin created user: {}", userResponse.login());
+        log.info("Admin {} created user: {}", requesterResponse.login(), userResponse.login());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -160,9 +161,7 @@ public class UserApiV1 {
     public ResponseEntity<UserResponse> update(@AuthenticationPrincipal UserDetails userDetails,
                                                @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserRequest updateUserRequest) {
-        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
-                requesterController.getRequester(token);
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
         log.info("Updating user: {}", requesterResponse.login());
         UserResponse userResponse = userController.updateUser(updateUserRequest, requesterResponse.login());
         log.info("Updated user: {}", userResponse.login());
@@ -198,11 +197,14 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/admin/{id}")
-    public ResponseEntity<UserResponse> adminUpdate(@RequestBody @Valid UpdateUserRequest updateUserRequest,
+    public ResponseEntity<UserResponse> adminUpdate(@AuthenticationPrincipal UserDetails userDetails,
+                                                    @RequestHeader(name = "Authorization", required = false) String token,
+                                                    @RequestBody @Valid UpdateUserRequest updateUserRequest,
                                                     @PathVariable("id") Long id) {
-        log.info("Admin updating user: {}", id);
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} updating user: {}", requesterResponse.login(), id);
         UserResponse userResponse = userController.updateUser(updateUserRequest, id);
-        log.info("Admin updated user: {}", id);
+        log.info("Admin {} updated user: {}", requesterResponse.login(), id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -224,9 +226,7 @@ public class UserApiV1 {
     public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
                                        @RequestHeader(name = "Authorization", required = false) String token,
                                        HttpSession httpSession) {
-        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
-                requesterController.getRequester(token);
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
         log.info("Deleting user: {}", requesterResponse.login());
         userController.deleteUser(requesterResponse.login());
         httpSession.invalidate();
@@ -256,10 +256,13 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<Void> adminDelete(@PathVariable("id") Long id) {
-        log.info("Admin deleting user: {}", id);
+    public ResponseEntity<Void> adminDelete(@AuthenticationPrincipal UserDetails userDetails,
+                                            @RequestHeader(name = "Authorization", required = false) String token,
+                                            @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} deleting user: {}", requesterResponse.login(), id);
         userController.deleteUser(id);
-        log.info("Admin deleted user: {}", id);
+        log.info("Admin {} deleted user: {}", requesterResponse.login(), id);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
@@ -284,9 +287,7 @@ public class UserApiV1 {
     public ResponseEntity<Void> updatePassword(@AuthenticationPrincipal UserDetails userDetails,
                                                @RequestHeader(name = "Authorization", required = false) String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
-        RequesterResponse requesterResponse = (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(String.valueOf(userDetails.getAuthorities().stream().findFirst()), userDetails.getUsername()) :
-                requesterController.getRequester(token);
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
         log.info("Updating user password: {}", requesterResponse.login());
         userController.updatePasswordUser(updateUserPasswordRequest, requesterResponse.login());
         log.info("Updated user password: {}", requesterResponse.login());
@@ -294,5 +295,12 @@ public class UserApiV1 {
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
+    }
+
+    private RequesterResponse getRequester(UserDetails userDetails, String token) {
+        return (!Objects.isNull(userDetails)) ?
+                requesterController.getRequester(userDetails.getAuthorities().stream().findFirst().isPresent() ?
+                                String.valueOf(userDetails.getAuthorities().stream().findFirst().get()) : null, userDetails.getUsername()) :
+                requesterController.getRequester(token);
     }
 }
