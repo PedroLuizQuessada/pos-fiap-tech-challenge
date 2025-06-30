@@ -5,6 +5,8 @@ import com.example.tech_challenge.entities.Token;
 
 public class TokenPresenter {
 
+    private TokenPresenter(){}
+
     public static TokenResponse toResponse(Token token) {
         return new TokenResponse(token.getToken(), token.getLogin());
     }

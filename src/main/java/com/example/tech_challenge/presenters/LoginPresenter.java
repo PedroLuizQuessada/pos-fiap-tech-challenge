@@ -5,6 +5,8 @@ import com.example.tech_challenge.entities.User;
 
 public class LoginPresenter {
 
+    private LoginPresenter(){}
+
     public static LoginResponse toResponse(User user) {
         return new LoginResponse(user.getLogin(), user.getPassword(), user.getUserType().getName());
     }

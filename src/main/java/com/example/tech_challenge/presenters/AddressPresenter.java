@@ -5,6 +5,8 @@ import com.example.tech_challenge.entities.Address;
 
 public class AddressPresenter {
 
+    private AddressPresenter(){}
+
     public static AddressResponse toResponse(Address address) {
         return new AddressResponse(null, address.getState(), address.getCity(), address.getStreet(),
                 address.getNumber(), address.getZipCode(), address.getAditionalInfo());
