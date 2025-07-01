@@ -102,7 +102,7 @@ public class UserApiV1 {
     }
 
     @Operation(summary = "Admin cria um usuário",
-            description = "Requer autenticação e nível de autorização 'ADMIN'",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "201",
@@ -172,7 +172,7 @@ public class UserApiV1 {
     }
 
     @Operation(summary = "Admin atualiza um usuário",
-            description = "Requer autenticação e nível de autorização 'ADMIN'",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -237,7 +237,7 @@ public class UserApiV1 {
     }
 
     @Operation(summary = "Admin apaga um usuário",
-            description = "Requer autenticação e nível de autorização 'ADMIN'",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "204",

@@ -358,7 +358,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+											"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -385,7 +385,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -430,7 +430,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"name\": \"nome usuario 2\",\n    \"email\": \"email2@gmail.com\",\n    \"login\": \"LoginUsuario2\",\n    \"lastUpdateDate\": null,\n    \"address\": {\n        \"state\": \"estado usuario 2\",\n        \"city\": \"cidade usuario 2\",\n        \"street\": \"rua usuario 2\",\n        \"number\": \"número usuario 2\",\n        \"zipCode\": \"cep usuario 2\",\n        \"aditionalInfo\": \"complemento usuario 2\"\n    },\n    \"authority\": \"CUSTOMER\"\n}"
+											"body": "{\n    \"name\": \"nome usuario 2\",\n    \"email\": \"email2@gmail.com\",\n    \"login\": \"LoginUsuario2\",\n    \"lastUpdateDate\": \"2025-06-30\",\n    \"address\": {\n        \"state\": \"estado usuario 2\",\n        \"city\": \"cidade usuario 2\",\n        \"street\": \"rua usuario 2\",\n        \"number\": \"número usuario 2\",\n        \"zipCode\": \"cep usuario 2\",\n        \"aditionalInfo\": \"complemento usuario 2\"\n    },\n    \"userTypeResponse\": {\n        \"name\": \"CUSTOMER\"\n    }\n}"
 										},
 										{
 											"name": "E-mail já em uso (400)",
@@ -439,7 +439,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -489,7 +489,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -539,7 +539,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email3gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"authority\": null,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email3gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"userType\": 2,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -580,7 +580,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um tipo de autorização. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. A senha não pode conter ':'. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Tipo de usuário não encontrado. O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
 										},
 										{
 											"name": "Campos de endereço inválidos (400)",
@@ -589,7 +589,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -637,13 +637,13 @@
 											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O endereço deve possuir um estado. O endereço deve possuir uma cidade. O endereço deve possuir uma rua. O endereço deve possuir um CEP. O endereço deve possuir um número. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios\"\n}"
 										},
 										{
-											"name": "Autoridade Admin (400)",
+											"name": "Tipo de Usuário Admin (400)",
 											"originalRequest": {
 												"method": "POST",
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 3 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 3\",\r\n        \"city\": \"cidade usuario 3\",\r\n        \"street\": \"rua usuario 3\",\r\n        \"number\": \"número usuario 3\",\r\n        \"zipCode\": \"cep usuario 3\",\r\n        \"aditionalInfo\": \"complemento usuario 3\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -719,7 +719,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
+											"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -747,7 +747,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 3\",\r\n    \"email\": \"email3@gmail.com\",\r\n    \"login\": \"LoginUsuario3\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 3 senha correta}}\"\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -793,7 +793,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"name\": \"nome usuario 3\",\n    \"email\": \"email3@gmail.com\",\n    \"login\": \"LoginUsuario3\",\n    \"lastUpdateDate\": null,\n    \"address\": null,\n    \"authority\": \"ADMIN\"\n}"
+											"body": "{\n    \"id\": 3,\n    \"name\": \"nome usuario 3\",\n    \"email\": \"email3@gmail.com\",\n    \"login\": \"LoginUsuario3\",\n    \"lastUpdateDate\": \"2025-06-30\",\n    \"address\": null,\n    \"userTypeResponse\": {\n        \"id\": 1,\n        \"name\": \"ADMIN\"\n    }\n}"
 										},
 										{
 											"name": "E-mail  já em uso (400)",
@@ -802,7 +802,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email1@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -857,7 +857,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario1\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -912,7 +912,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email4gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"authority\": null,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"\",\r\n    \"email\": \"email4gmail.com\",\r\n    \"login\": \"Lo\",\r\n    \"userType\": null,\r\n    \"password\": \":\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -954,7 +954,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido. O usuário deve possuir um tipo de autorização. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. A senha não pode conter ':'. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Tipo de usuário não encontrado. O nome do usuário deve possuir de 3 a 45 caracteres. E-mail inválido.. A senha do usuário deve possuir de 3 a 45 caracteres. O usuário deve possuir um nome. O login do usuário deve possuir de 3 a 45 caracteres. \",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin\"\n}"
 										},
 										{
 											"name": "Campos de endereço inválidos (400)",
@@ -963,7 +963,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"CUSTOMER\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"\",\r\n        \"city\": null,\r\n        \"number\": \"\",\r\n        \"zipCode\": null,\r\n        \"aditionalInfo\": \"\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -1035,7 +1035,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+											"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1063,7 +1063,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"authority\": \"ADMIN\",\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
+													"raw": "{\r\n    \"name\": \"nome usuario 4\",\r\n    \"email\": \"email4@gmail.com\",\r\n    \"login\": \"LoginUsuario4\",\r\n    \"userType\": 1,\r\n    \"password\": \"{{Usuario 4 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 4\",\r\n        \"city\": \"cidade usuario 4\",\r\n        \"street\": \"rua usuario 4\",\r\n        \"number\": \"número usuario 4\",\r\n        \"zipCode\": \"cep usuario 4\",\r\n        \"aditionalInfo\": \"complemento usuario 4\"\r\n    }\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -1212,7 +1212,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"name\": \"novo nome usuario 2\",\n    \"email\": \"novoemail2@gmail.com\",\n    \"login\": \"NovoLoginUsuario2\",\n    \"lastUpdateDate\": \"2025-05-27\",\n    \"address\": {\n        \"state\": \"novo estado usuario 2\",\n        \"city\": \"nova cidade usuario 2\",\n        \"street\": \"nova rua usuario 2\",\n        \"number\": \"novo número usuario 2\",\n        \"zipCode\": \"novo cep usuario 2\",\n        \"aditionalInfo\": \"novo complemento usuario 2\"\n    },\n    \"authority\": \"CUSTOMER\"\n}"
+											"body": "{\n    \"name\": \"novo nome usuario 2\",\n    \"email\": \"novoemail2@gmail.com\",\n    \"login\": \"NovoLoginUsuario2\",\n    \"lastUpdateDate\": \"2025-05-27\",\n    \"address\": {\n        \"state\": \"novo estado usuario 2\",\n        \"city\": \"nova cidade usuario 2\",\n        \"street\": \"nova rua usuario 2\",\n        \"number\": \"novo número usuario 2\",\n        \"zipCode\": \"novo cep usuario 2\",\n        \"aditionalInfo\": \"novo complemento usuario 2\"\n    },\n    \"userTypeResponse\": {\n        \"name\": \"CUSTOMER\"\n    }\n}"
 										}
 									]
 								},
@@ -1569,7 +1569,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\r\n    \"name\": \"segundo novo nome usuário 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"lastUpdateDate\": \"2025-05-27\",\r\n    \"address\": \"null\",\r\n    \"authority\": \"CUSTOMER\"\r\n}"
+											"body": "{\r\n    \"name\": \"segundo novo nome usuário 2\",\r\n    \"email\": \"segundonovoemail2@gmail.com\",\r\n    \"login\": \"SegundoNovoLoginUsuario2\",\r\n    \"lastUpdateDate\": \"2025-05-27\",\r\n    \"address\": \"null\",\r\n    \"userTypeResponse\": {\r\n        \"id\": 2,\r\n        \"name\": \"CUSTOMER\"\r\n    }\r\n}"
 										},
 										{
 											"name": "E-mail já em uso (400)",
@@ -1829,7 +1829,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Usuário 4 não encontrado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/4\"\n}"
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Usuário não encontrado\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/4\"\n}"
 										}
 									]
 								},
@@ -2028,13 +2028,13 @@
 											"type": "basic",
 											"basic": [
 												{
-													"key": "password",
-													"value": "{{Usuario 2 senha correta}}",
+													"key": "username",
+													"value": "NovoLoginUsuario2",
 													"type": "string"
 												},
 												{
-													"key": "username",
-													"value": "SegundoNovoLoginUsuario2",
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
 													"type": "string"
 												}
 											]
@@ -2208,7 +2208,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\r\n    \"type\": \"about:blank\",\r\n    \"title\": \"Not Found\",\r\n    \"status\": 404,\r\n    \"detail\": \"Usuário 2 não encontrado\",\r\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\r\n}"
+											"body": "{\r\n    \"type\": \"about:blank\",\r\n    \"title\": \"Not Found\",\r\n    \"status\": 404,\r\n    \"detail\": \"Usuário não encontrado\",\r\n    \"instance\": \"/tech-challenge/api/v1/usuarios/admin/2\"\r\n}"
 										}
 									]
 								}
@@ -2406,6 +2406,1622 @@
 											],
 											"cookie": [],
 											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"A senha do usuário deve possuir ao menos 6 caracteres\",\n    \"instance\": \"/tech-challenge/api/v1/usuarios/senha\"\n}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "tipos de usuários",
+			"item": [
+				{
+					"name": "V1",
+					"item": [
+						{
+							"name": "Consultar Todos Tipos de Usuário",
+							"item": [
+								{
+									"name": "Consultar Todos Tipos de Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha atualizada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Sucesso (200)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:09:05 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"ADMIN\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"CUSTOMER\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"OWNER\"\n    }\n]"
+										}
+									]
+								},
+								{
+									"name": "Criar Novo Usuário Não Admin",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/usuarios",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"usuarios"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Successo (201)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"nome usuario 2\",\r\n    \"email\": \"email2@gmail.com\",\r\n    \"login\": \"LoginUsuario2\",\r\n    \"userType\": 2,\r\n    \"password\": \"{{Usuario 2 senha correta}}\",\r\n    \"address\": {\r\n        \"state\": \"estado usuario 2\",\r\n        \"city\": \"cidade usuario 2\",\r\n        \"street\": \"rua usuario 2\",\r\n        \"number\": \"número usuario 2\",\r\n        \"zipCode\": \"cep usuario 2\",\r\n        \"aditionalInfo\": \"complemento usuario 2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/usuarios",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"usuarios"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Wed, 07 May 2025 14:36:19 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"name\": \"nome usuario 2\",\n    \"email\": \"email2@gmail.com\",\n    \"login\": \"LoginUsuario2\",\n    \"lastUpdateDate\": \"2025-06-30\",\n    \"address\": {\n        \"state\": \"estado usuario 2\",\n        \"city\": \"cidade usuario 2\",\n        \"street\": \"rua usuario 2\",\n        \"number\": \"número usuario 2\",\n        \"zipCode\": \"cep usuario 2\",\n        \"aditionalInfo\": \"complemento usuario 2\"\n    },\n    \"userTypeResponse\": {\n        \"name\": \"CUSTOMER\"\n    }\n}"
+										}
+									]
+								},
+								{
+									"name": "Consultar Todos Tipos de Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json;charset=ISO-8859-1"
+												},
+												{
+													"key": "Content-Length",
+													"value": "157"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:12:05 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido.\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario\",\n    \"properties\": null\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Criar Tipo de Usuário",
+							"item": [
+								{
+									"name": "Criar Tipo de Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha atualizada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"NOVO_TIPO\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Sucesso (201)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"NOVO_TIPO\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jun 2025 23:52:17 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"id\": 4,\n    \"name\": \"NOVO_TIPO\"\n}"
+										},
+										{
+											"name": "Nome já em uso (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"ADMIN\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jun 2025 23:54:19 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Nome do tipo de usuário já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario\"\n}"
+										},
+										{
+											"name": "Nome vazio (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jun 2025 23:56:23 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O tipo de usuário deve possuir um nome\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario\"\n}"
+										},
+										{
+											"name": "Nome nulo (400)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": null\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Mon, 30 Jun 2025 23:57:05 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O tipo de usuário deve possuir um nome\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Criar Tipo de Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"NOVO_TIPO\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"NOVO_TIPO\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json;charset=ISO-8859-1"
+												},
+												{
+													"key": "Content-Length",
+													"value": "157"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:01:51 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido.\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario\",\n    \"properties\": null\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Apagar Tipo de Usuário",
+							"item": [
+								{
+									"name": "Apagar Tipo de Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha atualizada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario",
+												"4"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Sucesso (204)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"4"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:17:54 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "Tipo de usuário não encontrado (404)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"4"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:18:16 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Tipo de usuário não encontrado\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/4\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Apagar Tipo de Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario",
+												"4"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"4"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json;charset=ISO-8859-1"
+												},
+												{
+													"key": "Content-Length",
+													"value": "159"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:24:01 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido.\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/4\",\n    \"properties\": null\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Atualizar Tipo de Usuário",
+							"item": [
+								{
+									"name": "Atualizar Tipo de Usuário (usuário admin)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 1 senha atualizada}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario1",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"CLIENT\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Sucesso (200)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"CLIENT\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"2"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:35:31 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"id\": 2,\n    \"name\": \"CLIENT\"\n}"
+										},
+										{
+											"name": "Nome já em uso (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"ADMIN\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:36:29 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"Nome do tipo de usuário já está sendo usado\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/2\"\n}"
+										},
+										{
+											"name": "Nome vazio (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:37:18 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O tipo de usuário deve possuir um nome\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/2\"\n}"
+										},
+										{
+											"name": "Nome nulo (400)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": null\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"2"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:37:48 GMT"
+												},
+												{
+													"key": "Connection",
+													"value": "close"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Bad Request\",\n    \"status\": 400,\n    \"detail\": \"O tipo de usuário deve possuir um nome\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/2\"\n}"
+										},
+										{
+											"name": "Tipo de usuário não encontrado (404)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"CLIENT\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/4",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"4"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												},
+												{
+													"key": "Transfer-Encoding",
+													"value": "chunked"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:40:52 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Not Found\",\n    \"status\": 404,\n    \"detail\": \"Tipo de usuário não encontrado\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/4\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Atualizar Tipo de Usuário (usuário customer)",
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{Usuario 2 senha correta}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "LoginUsuario2",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"CLIENT\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+											"host": [
+												"{{APP URL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tipos-usuario",
+												"2"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Usuário não Admin (403)",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"name\": \"CLIENT\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/2",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"2"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json;charset=ISO-8859-1"
+												},
+												{
+													"key": "Content-Length",
+													"value": "159"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:39:13 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"type\": \"about:blank\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"Recurso não permitido.\",\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/2\",\n    \"properties\": null\n}"
 										}
 									]
 								}

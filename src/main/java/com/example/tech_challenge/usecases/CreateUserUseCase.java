@@ -7,7 +7,7 @@ import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.entities.UserType;
-import com.example.tech_challenge.enums.AuthorityEnum;
+import com.example.tech_challenge.enums.UserTypeEnum;
 import com.example.tech_challenge.exceptions.AdminCreationNotAllowedException;
 import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
 import com.example.tech_challenge.exceptions.LoginAlreadyInUseException;
@@ -27,7 +27,7 @@ public class CreateUserUseCase {
     }
 
     public User execute(CreateUserRequest createUser, boolean allowAdmin) {
-        if (!allowAdmin && AuthorityEnum.ADMIN.getId().equals(createUser.userType()))
+        if (!allowAdmin && UserTypeEnum.ADMIN.getId().equals(createUser.userType()))
             throw new AdminCreationNotAllowedException();
 
         Address address = null;
