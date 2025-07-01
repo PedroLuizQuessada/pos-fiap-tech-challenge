@@ -1,6 +1,6 @@
 package com.example.tech_challenge.infraestructure.configs;
 
-import com.example.tech_challenge.enums.AuthorityEnum;
+import com.example.tech_challenge.enums.UserTypeEnum;
 import com.example.tech_challenge.infraestructure.security.CustomAccessDeniedHandler;
 import com.example.tech_challenge.infraestructure.security.CustomAuthenticationEntryPoint;
 import com.example.tech_challenge.infraestructure.services.UserDetailsServiceImpl;
@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
-                                .requestMatchers(ADMIN_LIST_URL).hasAuthority(AuthorityEnum.ADMIN.name())
+                                .requestMatchers(ADMIN_LIST_URL).hasAuthority(UserTypeEnum.ADMIN.name())
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
