@@ -3291,6 +3291,68 @@
 											"body": null
 										},
 										{
+											"name": "Tipo de usuário possui usuários associados (400)",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{APP URL}}/api/v1/tipos-usuario/1",
+													"host": [
+														"{{APP URL}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"tipos-usuario",
+														"1"
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "plain",
+											"header": [
+												{
+													"key": "X-Content-Type-Options",
+													"value": "nosniff"
+												},
+												{
+													"key": "X-XSS-Protection",
+													"value": "0"
+												},
+												{
+													"key": "Cache-Control",
+													"value": "no-cache, no-store, max-age=0, must-revalidate"
+												},
+												{
+													"key": "Pragma",
+													"value": "no-cache"
+												},
+												{
+													"key": "Expires",
+													"value": "0"
+												},
+												{
+													"key": "X-Frame-Options",
+													"value": "DENY"
+												},
+												{
+													"key": "Date",
+													"value": "Tue, 01 Jul 2025 00:17:54 GMT"
+												},
+												{
+													"key": "Keep-Alive",
+													"value": "timeout=60"
+												},
+												{
+													"key": "Connection",
+													"value": "keep-alive"
+												}
+											],
+											"cookie": [],
+											"body": "{\r\n    \"type\": \"about:blank\",\r\n    \"title\": \"Bad Request\",\r\n    \"status\": 400,\r\n    \"detail\": \"O tipo de usuário não pode ser apagado pois existem 1 usuários associados a ele\",\r\n    \"instance\": \"/tech-challenge/api/v1/tipos-usuario/1\"\r\n}"
+										},
+										{
 											"name": "Tipo de usuário não encontrado (404)",
 											"originalRequest": {
 												"method": "DELETE",

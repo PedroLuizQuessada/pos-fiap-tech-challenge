@@ -79,4 +79,11 @@ public class UserRepositoryJpaImpl implements UserDataSource {
         query.setParameter("id", userDto.id());
         query.executeUpdate();
     }
+
+    @Override
+    public Long countByUserType(Long userTypeId) {
+        Query query = entityManager.createQuery("SELECT count(*) FROM UserJpa user WHERE user.userTypeJpa.id = :userTypeId");
+        query.setParameter("userTypeId", userTypeId);
+        return (Long) query.getSingleResult();
+    }
 }

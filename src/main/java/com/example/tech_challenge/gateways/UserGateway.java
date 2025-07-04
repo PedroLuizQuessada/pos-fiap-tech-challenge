@@ -61,6 +61,10 @@ public class UserGateway {
         userDataSource.deleteUser(userDto);
     }
 
+    public Long countByUserType(Long userTypeId) {
+        return userDataSource.countByUserType(userTypeId);
+    }
+
     private User createEntity(UserDto userDto) {
         Address address = null;
         if (!Objects.isNull(userDto.addressDto()))

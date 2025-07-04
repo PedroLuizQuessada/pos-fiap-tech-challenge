@@ -16,7 +16,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class,
-            AdminCreationNotAllowedException.class, BadArgumentException.class, UserTypeNameAlreadyInUseException.class })
+            AdminCreationNotAllowedException.class, BadArgumentException.class, UserTypeNameAlreadyInUseException.class,
+            UserTypeDeletionException.class })
     public ProblemDetail handleBadRequest(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());

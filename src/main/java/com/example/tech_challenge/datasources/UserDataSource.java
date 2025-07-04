@@ -12,4 +12,5 @@ public interface UserDataSource {
     Optional<UserDto> findUserById(Long id);
     UserDto updateUser(UserDto userDto);
     void deleteUser(UserDto userDto);
+    Long countByUserType(Long userTypeId);
 }

@@ -1,9 +1,11 @@
 package com.example.tech_challenge.controllers;
 
+import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.requests.UserTypeRequest;
 import com.example.tech_challenge.dtos.responses.UserTypeResponse;
 import com.example.tech_challenge.entities.UserType;
+import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.gateways.UserTypeGateway;
 import com.example.tech_challenge.presenters.UserTypePresenter;
 import com.example.tech_challenge.usecases.CreateUserTypeUseCase;
@@ -15,9 +17,11 @@ import java.util.List;
 
 public class UserTypeController {
 
+    private final UserDataSource userDataSource;
     private final UserTypeDataSource userTypeDataSource;
 
-    public UserTypeController(UserTypeDataSource userTypeDataSource) {
+    public UserTypeController(UserDataSource userDataSource, UserTypeDataSource userTypeDataSource) {
+        this.userDataSource = userDataSource;
         this.userTypeDataSource = userTypeDataSource;
     }
 
@@ -43,8 +47,9 @@ public class UserTypeController {
     }
 
     public void deleteUserType(Long id) {
+        UserGateway userGateway = new UserGateway(userDataSource);
         UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
-        DeleteUserTypeUseCase deleteUserTypeUseCase = new DeleteUserTypeUseCase(userTypeGateway);
+        DeleteUserTypeUseCase deleteUserTypeUseCase = new DeleteUserTypeUseCase(userGateway, userTypeGateway);
         deleteUserTypeUseCase.execute(id);
     }
 }
