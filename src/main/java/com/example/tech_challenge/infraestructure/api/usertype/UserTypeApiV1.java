@@ -4,6 +4,7 @@ import com.example.tech_challenge.controllers.RequesterController;
 import com.example.tech_challenge.controllers.UserTypeController;
 import com.example.tech_challenge.datasources.RequesterDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
+import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.requests.UserTypeRequest;
 import com.example.tech_challenge.dtos.responses.RequesterResponse;
@@ -37,8 +38,9 @@ public class UserTypeApiV1 {
     private final UserTypeController userTypeController;
     private final RequesterController requesterController;
 
-    public UserTypeApiV1(UserTypeDataSource userTypeDataSource, RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.userTypeController = new UserTypeController(userTypeDataSource);
+    public UserTypeApiV1(UserDataSource userDataSource, UserTypeDataSource userTypeDataSource,
+                         RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
+        this.userTypeController = new UserTypeController(userDataSource, userTypeDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
@@ -152,6 +154,10 @@ public class UserTypeApiV1 {
     @ApiResponses({
             @ApiResponse(responseCode = "204",
                     description = "Tipo de usuário apagado com sucesso"),
+            @ApiResponse(responseCode = "400",
+                    description = "Existem usuários associados ao tipo de usuário",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
