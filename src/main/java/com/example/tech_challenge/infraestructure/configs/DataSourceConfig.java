@@ -2,6 +2,7 @@ package com.example.tech_challenge.infraestructure.configs;
 
 import com.example.tech_challenge.datasources.*;
 import com.example.tech_challenge.infraestructure.persistence.jpa.repos.AddressRepositoryJpaImpl;
+import com.example.tech_challenge.infraestructure.persistence.jpa.repos.RestaurantRepositoryJpaImpl;
 import com.example.tech_challenge.infraestructure.persistence.jpa.repos.UserRepositoryJpaImpl;
 import com.example.tech_challenge.infraestructure.persistence.jpa.repos.UserTypeRepositoryJpaImpl;
 import com.example.tech_challenge.infraestructure.services.RequesterServiceImpl;
@@ -35,5 +36,10 @@ public class DataSourceConfig {
     @Bean
     public RequesterDataSource requesterDataSource() {
         return new RequesterServiceImpl();
+    }
+
+    @Bean
+    public RestaurantDataSource restaurantDataSource() {
+        return new RestaurantRepositoryJpaImpl();
     }
 }

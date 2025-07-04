@@ -49,6 +49,8 @@ public class SecurityConfig {
     private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/admin", "/api/v1/usuarios/admin/**",
             "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**" };
 
+    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes" };
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -66,6 +68,7 @@ public class SecurityConfig {
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
                                 .requestMatchers(ADMIN_LIST_URL).hasAuthority(UserTypeEnum.ADMIN.name())
+                                .requestMatchers(OWNER_LIST_URL).hasAuthority(UserTypeEnum.OWNER.name())
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
