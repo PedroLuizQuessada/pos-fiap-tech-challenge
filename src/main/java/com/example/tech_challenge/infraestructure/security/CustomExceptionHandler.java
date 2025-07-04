@@ -17,7 +17,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class,
             AdminCreationNotAllowedException.class, BadArgumentException.class, UserTypeNameAlreadyInUseException.class,
-            UserTypeDeletionException.class })
+            UserTypeDeletionException.class, RestaurantNameAlreadyInUseException.class })
     public ProblemDetail handleBadRequest(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());

@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum UserTypeEnum {
 
-    ADMIN(1L);
+    ADMIN(1L),
+    OWNER(3L);
 
     @Getter
     private final Long id;
