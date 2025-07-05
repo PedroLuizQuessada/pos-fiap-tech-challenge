@@ -24,7 +24,6 @@ public class CreateRestaurantUseCase {
         this.restaurantGateway = restaurantGateway;
     }
 
-    //TODO impedir deletion dos User Types ADMIN e OWNER
     public Restaurant execute(RestaurantRequest createRestaurant, String ownerLogin) {
         User owner = userGateway.findUserByLogin(ownerLogin);
         UserDto ownerDto = getOwnerDto(owner);
