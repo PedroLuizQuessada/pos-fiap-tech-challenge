@@ -1,11 +1,11 @@
-package com.example.tech_challenge.presenters;
+package com.example.tech_challenge.mappers;
 
 import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.entities.Token;
 
-public class TokenPresenter {
+public class TokenMapper {
 
-    private TokenPresenter(){}
+    private TokenMapper(){}
 
     public static TokenResponse toResponse(Token token) {
         return new TokenResponse(token.getToken(), token.getLogin());

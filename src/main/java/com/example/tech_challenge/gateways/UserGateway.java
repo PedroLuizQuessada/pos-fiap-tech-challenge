@@ -2,10 +2,9 @@ package com.example.tech_challenge.gateways;
 
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.UserDto;
-import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserNotFoundException;
+import com.example.tech_challenge.mappers.UserMapper;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +23,7 @@ public class UserGateway {
         if (userDtoOptional.isEmpty())
             throw new UserNotFoundException();
 
-        return createEntity(userDtoOptional.get());
+        return UserMapper.toEntity(userDtoOptional.get(), false);
     }
 
     public Long countByEmail(String email) {
@@ -37,7 +36,7 @@ public class UserGateway {
 
     public User createUser(UserDto createUserDto) {
         UserDto userDto = userDataSource.createUser(createUserDto);
-        return createEntity(userDto);
+        return UserMapper.toEntity(userDto, false);
     }
 
     public User findUserById(Long id) {
@@ -49,12 +48,12 @@ public class UserGateway {
         if (userDtoOptional.isEmpty())
             throw new UserNotFoundException();
 
-        return createEntity(userDtoOptional.get());
+        return UserMapper.toEntity(userDtoOptional.get(), false);
     }
 
     public User updateUser(UserDto updateUserDto) {
         UserDto userDto = userDataSource.updateUser(updateUserDto);
-        return createEntity(userDto);
+        return UserMapper.toEntity(userDto, false);
     }
 
     public void deleteUser(UserDto userDto) {
@@ -63,20 +62,5 @@ public class UserGateway {
 
     public Long countByUserType(Long userTypeId) {
         return userDataSource.countByUserType(userTypeId);
-    }
-
-    private User createEntity(UserDto userDto) {
-        Address address = null;
-        if (!Objects.isNull(userDto.addressDto()))
-            address = new Address(userDto.addressDto().id(), userDto.addressDto().state(), userDto.addressDto().city(),
-                    userDto.addressDto().street(), userDto.addressDto().number(), userDto.addressDto().zipCode(),
-                    userDto.addressDto().aditionalInfo());
-
-        UserType userType = null;
-        if (!Objects.isNull(userDto.userTypeDto()))
-            userType = new UserType(userDto.userTypeDto().id(), userDto.userTypeDto().name());
-
-        return new User(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
-                address, userType, false);
     }
 }

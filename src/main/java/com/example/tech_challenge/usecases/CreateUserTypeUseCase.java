@@ -1,10 +1,10 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.dtos.requests.UserTypeRequest;
 import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserTypeNameAlreadyInUseException;
 import com.example.tech_challenge.gateways.UserTypeGateway;
+import com.example.tech_challenge.mappers.UserTypeMapper;
 
 public class CreateUserTypeUseCase {
 
@@ -15,9 +15,9 @@ public class CreateUserTypeUseCase {
     }
 
     public UserType execute(UserTypeRequest createUserType) {
-        UserType userType = new UserType(null, createUserType.name());
+        UserType userType = UserTypeMapper.toEntity(createUserType);
         checkNameAlreadyInUse(createUserType.name());
-        return userTypeGateway.createUserType(new UserTypeDto(userType.getId(), userType.getName()));
+        return userTypeGateway.createUserType(UserTypeMapper.toDto(userType));
     }
 
     private void checkNameAlreadyInUse(String name) {

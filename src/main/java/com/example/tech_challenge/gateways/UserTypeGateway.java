@@ -4,6 +4,7 @@ import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.UserTypeNotFoundException;
+import com.example.tech_challenge.mappers.UserTypeMapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,12 +20,12 @@ public class UserTypeGateway {
 
     public UserType createUserType(UserTypeDto createUserTypeDto) {
         UserTypeDto userTypeDto = userTypeDataSource.createUserType(createUserTypeDto);
-        return createEntity(userTypeDto);
+        return UserTypeMapper.toEntity(userTypeDto);
     }
 
     public UserType updateUserType(UserTypeDto updateUserTypeDto) {
         UserTypeDto userTypeDto = userTypeDataSource.updateUserType(updateUserTypeDto);
-        return createEntity(userTypeDto);
+        return UserTypeMapper.toEntity(userTypeDto);
     }
 
     public Long countByName(String name) {
@@ -33,7 +34,7 @@ public class UserTypeGateway {
 
     public List<UserType> findAllUserTypes() {
         List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes();
-        return userTypeList.stream().map(this::createEntity).toList();
+        return userTypeList.stream().map(UserTypeMapper::toEntity).toList();
     }
 
     public UserType findUserTypeById(Long id) {
@@ -45,15 +46,11 @@ public class UserTypeGateway {
         if (optionalUserTypeDto.isEmpty())
             throw new UserTypeNotFoundException();
 
-        return createEntity(optionalUserTypeDto.get());
+        return UserTypeMapper.toEntity(optionalUserTypeDto.get());
     }
 
     public void delete(UserTypeDto userTypeDto) {
 
         userTypeDataSource.deleteUserType(userTypeDto);
-    }
-
-    private UserType createEntity(UserTypeDto userTypeDto) {
-        return new UserType(userTypeDto.id(), userTypeDto.name());
     }
 }

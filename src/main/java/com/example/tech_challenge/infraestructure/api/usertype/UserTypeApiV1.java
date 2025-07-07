@@ -79,12 +79,12 @@ public class UserTypeApiV1 {
                 .body(userTypeResponse);
     }
 
-    @Operation(summary = "Atualiza um tipo de usuário",
+    @Operation(summary = "Atualiza o nome de um tipo de usuário",
             description = "Requer autenticação e tipo de usuário 'ADMIN'",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
-                    description = "Tipo de usuário atualizado com sucesso",
+                    description = "Nome do tipo de usuário atualizado com sucesso",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserTypeResponse.class))),
             @ApiResponse(responseCode = "400",
@@ -109,9 +109,9 @@ public class UserTypeApiV1 {
                                                    @RequestHeader(name = "Authorization", required = false) String token,
                                                    @RequestBody @Valid UserTypeRequest userTypeRequest, @PathVariable("id") Long id) {
         RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} updating user type: {}", requesterResponse.login(), id);
-        UserTypeResponse userTypeResponse = userTypeController.updateUserType(userTypeRequest, id);
-        log.info("User {} updated user type: {}", requesterResponse.login(), id);
+        log.info("User {} updating user type name: {}", requesterResponse.login(), id);
+        UserTypeResponse userTypeResponse = userTypeController.updateUserTypeName(userTypeRequest, id);
+        log.info("User {} updated user type name: {}", requesterResponse.login(), id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
