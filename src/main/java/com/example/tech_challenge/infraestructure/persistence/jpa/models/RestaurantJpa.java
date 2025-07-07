@@ -30,7 +30,7 @@ public class RestaurantJpa {
     @Column(name = "opening_hours", nullable = false)
     private String openingHours;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner", referencedColumnName = "id", nullable = false)
     private UserJpa userJpa;
 
