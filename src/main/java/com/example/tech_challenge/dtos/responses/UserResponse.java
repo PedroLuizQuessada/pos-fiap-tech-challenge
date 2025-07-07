@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.sql.Date;
 
 public record UserResponse(@JsonInclude(JsonInclude.Include.NON_NULL) Long id, String name, String email, String login,
-                           Date lastUpdateDate, AddressResponse address, UserTypeResponse userTypeResponse) {
+                           Date lastUpdateDate, AddressResponse address, UserTypeResponse userType) {
 
 }

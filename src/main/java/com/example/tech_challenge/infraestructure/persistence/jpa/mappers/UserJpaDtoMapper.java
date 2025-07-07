@@ -16,8 +16,8 @@ public class UserJpaDtoMapper {
 
     public UserJpa toUserJpa(UserDto userDto) {
         return new UserJpa(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
-                !Objects.isNull(userDto.addressDto()) ? addressJpaDtoMapper.toAddressJpa(userDto.addressDto()) : null,
-                !Objects.isNull(userDto.userTypeDto()) ? userTypeJpaDtoMapper.toUserTypeJpa(userDto.userTypeDto()) : null);
+                !Objects.isNull(userDto.address()) ? addressJpaDtoMapper.toAddressJpa(userDto.address()) : null,
+                !Objects.isNull(userDto.userType()) ? userTypeJpaDtoMapper.toUserTypeJpa(userDto.userType()) : null);
     }
 
     public UserDto toUserDto(UserJpa userJpa) {

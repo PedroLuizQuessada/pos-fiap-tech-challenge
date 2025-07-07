@@ -14,8 +14,8 @@ public class UserMapper {
 
     public static User toEntity(UserDto userDto, boolean encodePassword) {
         return new User(userDto.id(), userDto.name(), userDto.email(), userDto.login(), userDto.password(), userDto.lastUpdateDate(),
-                !Objects.isNull(userDto.addressDto()) ? AddressMapper.toEntity(userDto.addressDto()) : null,
-                !Objects.isNull(userDto.userTypeDto()) ? UserTypeMapper.toEntity(userDto.userTypeDto()) : null,
+                !Objects.isNull(userDto.address()) ? AddressMapper.toEntity(userDto.address()) : null,
+                !Objects.isNull(userDto.userType()) ? UserTypeMapper.toEntity(userDto.userType()) : null,
                 encodePassword);
     }
 
