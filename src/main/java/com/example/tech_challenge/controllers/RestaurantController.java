@@ -7,7 +7,7 @@ import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.UserGateway;
-import com.example.tech_challenge.presenters.RestaurantPresenter;
+import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.usecases.CreateRestaurantUseCase;
 
 public class RestaurantController {
@@ -25,6 +25,6 @@ public class RestaurantController {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         CreateRestaurantUseCase createRestaurantUseCase = new CreateRestaurantUseCase(userGateway, restaurantGateway);
         Restaurant restaurant = createRestaurantUseCase.execute(restaurantRequest, login);
-        return RestaurantPresenter.toResponse(restaurant);
+        return RestaurantMapper.toResponse(restaurant);
     }
 }

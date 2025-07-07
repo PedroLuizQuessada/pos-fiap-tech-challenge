@@ -1,16 +1,15 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
 import com.example.tech_challenge.dtos.AddressDto;
-import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
 import com.example.tech_challenge.exceptions.LoginAlreadyInUseException;
 import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.mappers.AddressMapper;
+import com.example.tech_challenge.mappers.UserMapper;
 
 import java.util.Objects;
 
@@ -34,38 +33,30 @@ public class UpdateUserUseCase {
         return updateUser(updateUserRequest, oldUser);
     }
 
-    private User updateUser(UpdateUserRequest updateUserRequest, User oldUser) {
-        Address address = null;
-        AddressDto addressDto = null;
-        if (!Objects.isNull(updateUserRequest.address())) {
-            address = new Address(!Objects.isNull(oldUser.getAddress()) ? oldUser.getAddress().getId() : null, updateUserRequest.address().state(),
-                    updateUserRequest.address().city(), updateUserRequest.address().street(), updateUserRequest.address().number(),
-                    updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo());
+    private User updateUser(UpdateUserRequest updateUserRequest, User user) {
+        Address oldAddress = user.getAddress();
+        Address address = !Objects.isNull(updateUserRequest.address()) ?
+                AddressMapper.toEntity(new AddressDto(!Objects.isNull(user.getAddress()) ? user.getAddress().getId() : null,
+                        updateUserRequest.address().state(), updateUserRequest.address().city(), updateUserRequest.address().street(),
+                        updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo()))
+                : null;
 
-            addressDto = new AddressDto(!Objects.isNull(oldUser.getAddress()) ? oldUser.getAddress().getId() : null,
-                    updateUserRequest.address().state(), updateUserRequest.address().city(), updateUserRequest.address().street(),
-                    updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo());
-        }
-
-        UserType oldUserType = oldUser.getUserType();
-        UserTypeDto oldUserTypeDto = new UserTypeDto(oldUserType.getId(), oldUserType.getName());
-
-        User user = new User(oldUser.getId(), updateUserRequest.name(), updateUserRequest.email(), updateUserRequest.login(),
-                oldUser.getPassword(), null, address, oldUserType, false);
-
-        if (!Objects.equals(updateUserRequest.email(), oldUser.getEmail())) {
+        if (!Objects.equals(updateUserRequest.email(), user.getEmail())) {
             checkEmailAlreadyInUse(updateUserRequest.email());
         }
-        if (!Objects.equals(updateUserRequest.login(), oldUser.getLogin())) {
+        if (!Objects.equals(updateUserRequest.login(), user.getLogin())) {
             checkLoginAlreadyInUse(updateUserRequest.login());
         }
 
-        user = userGateway.updateUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(),
-                user.getLastUpdateDate(), addressDto, oldUserTypeDto));
+        user.setName(updateUserRequest.name());
+        user.setEmail(updateUserRequest.email());
+        user.setLogin(updateUserRequest.login());
+        user.setAddress(address);
 
-        if (Objects.isNull(updateUserRequest.address()) && !Objects.isNull(oldUser.getAddress()))
-            addressGateway.delete(new AddressDto(oldUser.getAddress().getId(), oldUser.getAddress().getState(), oldUser.getAddress().getCity(),
-                    oldUser.getAddress().getStreet(), oldUser.getAddress().getNumber(), oldUser.getAddress().getZipCode(), oldUser.getAddress().getAditionalInfo()));
+        user = userGateway.updateUser(UserMapper.toDto(user));
+
+        if (Objects.isNull(updateUserRequest.address()) && !Objects.isNull(oldAddress))
+            addressGateway.delete(AddressMapper.toDto(oldAddress));
 
         return user;
     }

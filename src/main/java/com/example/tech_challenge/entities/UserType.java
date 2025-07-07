@@ -8,12 +8,17 @@ import java.util.Objects;
 @Getter
 public class UserType {
     private final Long id;
-    private final String name;
+    private String name;
 
     public UserType(Long id, String name) {
         validateName(name);
 
         this.id = id;
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        validateName(name);
         this.name = name;
     }
 

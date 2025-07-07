@@ -1,31 +1,31 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.dtos.requests.UserTypeRequest;
 import com.example.tech_challenge.entities.UserType;
 import com.example.tech_challenge.enums.UserTypeEnum;
 import com.example.tech_challenge.exceptions.NativeUserTypeAlterationException;
 import com.example.tech_challenge.exceptions.UserTypeNameAlreadyInUseException;
 import com.example.tech_challenge.gateways.UserTypeGateway;
+import com.example.tech_challenge.mappers.UserTypeMapper;
 
 import java.util.Objects;
 
-public class UpdateUserTypeUseCase {
+public class UpdateUserTypeNameUseCase {
 
     private final UserTypeGateway userTypeGateway;
 
-    public UpdateUserTypeUseCase(UserTypeGateway userTypeGateway) {
+    public UpdateUserTypeNameUseCase(UserTypeGateway userTypeGateway) {
         this.userTypeGateway = userTypeGateway;
     }
 
     public UserType execute(UserTypeRequest updateUserType, Long id) {
         if (!Objects.isNull(UserTypeEnum.getUserTypeById(id)))
             throw new NativeUserTypeAlterationException();
-        UserType oldUserType = userTypeGateway.findUserTypeById(id);
-        if (!Objects.equals(updateUserType.name(), oldUserType.getName()))
+        UserType userType = userTypeGateway.findUserTypeById(id);
+        if (!Objects.equals(updateUserType.name(), userType.getName()))
             checkNameAlreadyInUse(updateUserType.name());
-        UserType userType = new UserType(id, updateUserType.name());
-        return userTypeGateway.updateUserType(new UserTypeDto(userType.getId(), userType.getName()));
+        userType.setName(updateUserType.name());
+        return userTypeGateway.updateUserType(UserTypeMapper.toDto(userType));
     }
 
     private void checkNameAlreadyInUse(String name) {

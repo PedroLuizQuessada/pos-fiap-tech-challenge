@@ -1,11 +1,10 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.UserDto;
-import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.mappers.UserMapper;
 
 import java.util.Objects;
 
@@ -21,33 +20,12 @@ public class DeleteUserUseCase {
 
     public void execute(String login) {
         User user = userGateway.findUserByLogin(login);
-        AddressDto addressDto = getAddressDto(user);
-        UserTypeDto userTypeDto = getUserTypeDto(user);
-        deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
-                addressDto, userTypeDto));
+        deleteUser(UserMapper.toDto(user));
     }
 
     public void execute(Long id) {
         User user = userGateway.findUserById(id);
-        AddressDto addressDto = getAddressDto(user);
-        UserTypeDto userTypeDto = getUserTypeDto(user);
-        deleteUser(new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLogin(), user.getPassword(), user.getLastUpdateDate(),
-                addressDto, userTypeDto));
-    }
-
-    private AddressDto getAddressDto(User user) {
-        AddressDto addressDto = null;
-        if (!Objects.isNull(user.getAddress()))
-            addressDto = new AddressDto(user.getAddress().getId(), user.getAddress().getState(), user.getAddress().getCity(),
-                    user.getAddress().getStreet(), user.getAddress().getNumber(), user.getAddress().getZipCode(), user.getAddress().getAditionalInfo());
-        return addressDto;
-    }
-
-    private UserTypeDto getUserTypeDto(User user) {
-        UserTypeDto userTypeDto = null;
-        if (!Objects.isNull(user.getUserType()))
-            userTypeDto = new UserTypeDto(user.getUserType().getId(), user.getUserType().getName());
-        return userTypeDto;
+        deleteUser(UserMapper.toDto(user));
     }
 
     private void deleteUser(UserDto userDto) {

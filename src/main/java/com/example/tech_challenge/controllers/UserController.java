@@ -15,8 +15,8 @@ import com.example.tech_challenge.gateways.AddressGateway;
 import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.gateways.UserTypeGateway;
-import com.example.tech_challenge.presenters.TokenPresenter;
-import com.example.tech_challenge.presenters.UserPresenter;
+import com.example.tech_challenge.mappers.TokenMapper;
+import com.example.tech_challenge.mappers.UserMapper;
 import com.example.tech_challenge.usecases.*;
 
 public class UserController {
@@ -37,7 +37,7 @@ public class UserController {
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         GenerateTokenUseCase generateTokenUseCase = new GenerateTokenUseCase(tokenGateway);
         Token token = generateTokenUseCase.execute(userType, login);
-        return TokenPresenter.toResponse(token);
+        return TokenMapper.toResponse(token);
     }
 
     public UserResponse createUser(CreateUserRequest createUserRequest, boolean allowAdmin) {
@@ -45,7 +45,7 @@ public class UserController {
         UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
         CreateUserUseCase createUserUseCase = new CreateUserUseCase(userGateway, userTypeGateway);
         User user = createUserUseCase.execute(createUserRequest, allowAdmin);
-        return allowAdmin ? UserPresenter.toAdminResponse(user) : UserPresenter.toResponse(user);
+        return allowAdmin ? UserMapper.toAdminResponse(user) : UserMapper.toResponse(user);
     }
 
     public UserResponse updateUser(UpdateUserRequest updateUserRequest, String login) {
@@ -53,7 +53,7 @@ public class UserController {
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
         UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
         User user = updateUserUseCase.execute(updateUserRequest, login);
-        return UserPresenter.toResponse(user);
+        return UserMapper.toResponse(user);
     }
 
     public UserResponse updateUser(UpdateUserRequest updateUserRequest, Long id) {
@@ -61,7 +61,7 @@ public class UserController {
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
         UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
         User user = updateUserUseCase.execute(updateUserRequest, id);
-        return UserPresenter.toAdminResponse(user);
+        return UserMapper.toAdminResponse(user);
     }
 
     public void deleteUser(String login) {

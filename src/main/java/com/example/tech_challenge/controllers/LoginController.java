@@ -4,7 +4,7 @@ import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.responses.LoginResponse;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.UserGateway;
-import com.example.tech_challenge.presenters.LoginPresenter;
+import com.example.tech_challenge.mappers.LoginMapper;
 import com.example.tech_challenge.usecases.LoginUseCase;
 
 public class LoginController {
@@ -19,6 +19,6 @@ public class LoginController {
         UserGateway userGateway = new UserGateway(this.userDataSource);
         LoginUseCase loginUseCase = new LoginUseCase(userGateway);
         User user = loginUseCase.execute(login);
-        return LoginPresenter.toResponse(user);
+        return LoginMapper.toResponse(user);
     }
 }
