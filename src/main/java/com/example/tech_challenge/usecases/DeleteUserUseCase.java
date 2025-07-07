@@ -30,7 +30,7 @@ public class DeleteUserUseCase {
 
     private void deleteUser(UserDto userDto) {
         userGateway.deleteUser(userDto);
-        if (!Objects.isNull(userDto.addressDto()))
-            addressGateway.delete(userDto.addressDto());
+        if (!Objects.isNull(userDto.address()))
+            addressGateway.delete(userDto.address());
     }
 }
