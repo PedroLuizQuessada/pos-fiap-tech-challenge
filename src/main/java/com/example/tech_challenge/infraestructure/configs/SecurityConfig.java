@@ -47,7 +47,7 @@ public class SecurityConfig {
             "/api/test/**" };
 
     private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/admin", "/api/v1/usuarios/admin/**",
-            "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**" };
+            "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**", "/api/v1/restaurantes/admin/**" };
 
     private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes" };
 

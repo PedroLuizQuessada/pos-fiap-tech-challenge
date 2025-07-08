@@ -41,6 +41,7 @@ public class UpdateUserUseCase {
                         updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo()))
                 : null;
 
+        //TODO sets antes de checks
         if (!Objects.equals(updateUserRequest.email(), user.getEmail())) {
             checkEmailAlreadyInUse(updateUserRequest.email());
         }

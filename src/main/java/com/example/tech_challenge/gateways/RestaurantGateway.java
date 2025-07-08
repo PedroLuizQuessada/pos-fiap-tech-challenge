@@ -5,6 +5,8 @@ import com.example.tech_challenge.dtos.RestaurantDto;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 
+import java.util.List;
+
 public class RestaurantGateway {
 
     private final RestaurantDataSource restaurantDataSource;
@@ -20,5 +22,10 @@ public class RestaurantGateway {
 
     public Long countByName(String name) {
         return restaurantDataSource.countByName(name);
+    }
+
+    public List<Restaurant> findRestaurantsByOwner(Long ownerId) {
+        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurantsByOwner(ownerId);
+        return restaurantList.stream().map(RestaurantMapper::toEntity).toList();
     }
 }

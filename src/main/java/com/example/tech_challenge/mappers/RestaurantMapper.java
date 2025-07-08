@@ -38,4 +38,11 @@ public class RestaurantMapper {
                 restaurant.getKitchenType(), restaurant.getOpeningHours(),
                 !Objects.isNull(restaurant.getOwner()) ? UserMapper.toResponse(restaurant.getOwner()) : null);
     }
+
+    public static RestaurantResponse toAdminResponse(Restaurant restaurant) {
+        return new RestaurantResponse(restaurant.getId(), restaurant.getName(),
+                !Objects.isNull(restaurant.getAddress()) ? AddressMapper.toAdminResponse(restaurant.getAddress()) : null,
+                restaurant.getKitchenType(), restaurant.getOpeningHours(),
+                !Objects.isNull(restaurant.getOwner()) ? UserMapper.toAdminResponse(restaurant.getOwner()) : null);
+    }
 }
