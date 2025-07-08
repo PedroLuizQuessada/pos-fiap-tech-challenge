@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
 
@@ -33,5 +35,13 @@ public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
         Query query = entityManager.createQuery("SELECT count(*) FROM RestaurantJpa restaurant WHERE restaurant.name = :name");
         query.setParameter("name", name);
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public List<RestaurantDto> findRestaurantsByOwner(Long ownerId) {
+        Query query = entityManager.createQuery("SELECT restaurant FROM RestaurantJpa restaurant WHERE restaurant.userJpa.id = :ownerId ORDER BY restaurant.id");
+        query.setParameter("ownerId", ownerId);
+        List<RestaurantJpa> restaurantJpaList = query.getResultList();
+        return restaurantJpaList.stream().map(restaurantJpa -> restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa)).toList();
     }
 }

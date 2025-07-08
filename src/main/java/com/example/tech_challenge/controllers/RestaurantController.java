@@ -9,6 +9,9 @@ import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.usecases.CreateRestaurantUseCase;
+import com.example.tech_challenge.usecases.FindRestaurantsByOwnerUseCase;
+
+import java.util.List;
 
 public class RestaurantController {
 
@@ -26,5 +29,21 @@ public class RestaurantController {
         CreateRestaurantUseCase createRestaurantUseCase = new CreateRestaurantUseCase(userGateway, restaurantGateway);
         Restaurant restaurant = createRestaurantUseCase.execute(restaurantRequest, login);
         return RestaurantMapper.toResponse(restaurant);
+    }
+
+    public List<RestaurantResponse> findRestaurantsByOwner(String ownerLogin) {
+        List<Restaurant> restaurantList = getFindRestaurantsByOwnerUseCase().execute(ownerLogin);
+        return restaurantList.stream().map(RestaurantMapper::toResponse).toList();
+    }
+
+    public List<RestaurantResponse> findRestaurantsByOwner(Long ownerId) {
+        List<Restaurant> restaurantList = getFindRestaurantsByOwnerUseCase().execute(ownerId);
+        return restaurantList.stream().map(RestaurantMapper::toAdminResponse).toList();
+    }
+
+    private FindRestaurantsByOwnerUseCase getFindRestaurantsByOwnerUseCase() {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        return new FindRestaurantsByOwnerUseCase(restaurantGateway, userGateway);
     }
 }
