@@ -41,18 +41,20 @@ public class UpdateUserUseCase {
                         updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo()))
                 : null;
 
-        //TODO sets antes de checks
-        if (!Objects.equals(updateUserRequest.email(), user.getEmail())) {
-            checkEmailAlreadyInUse(updateUserRequest.email());
-        }
-        if (!Objects.equals(updateUserRequest.login(), user.getLogin())) {
-            checkLoginAlreadyInUse(updateUserRequest.login());
-        }
+        String oldEmail = user.getEmail();
+        String oldLogin = user.getLogin();
 
         user.setName(updateUserRequest.name());
         user.setEmail(updateUserRequest.email());
         user.setLogin(updateUserRequest.login());
         user.setAddress(address);
+
+        if (!Objects.equals(updateUserRequest.email(), oldEmail)) {
+            checkEmailAlreadyInUse(updateUserRequest.email());
+        }
+        if (!Objects.equals(updateUserRequest.login(), oldLogin)) {
+            checkLoginAlreadyInUse(updateUserRequest.login());
+        }
 
         user = userGateway.updateUser(UserMapper.toDto(user));
 
