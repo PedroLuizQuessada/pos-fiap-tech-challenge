@@ -22,10 +22,14 @@ public class UpdateUserTypeNameUseCase {
         if (!Objects.isNull(UserTypeEnum.getUserTypeById(id)))
             throw new NativeUserTypeAlterationException();
         UserType userType = userTypeGateway.findUserTypeById(id);
-        //TODO setter before checkers
-        if (!Objects.equals(updateUserType.name(), userType.getName()))
-            checkNameAlreadyInUse(updateUserType.name());
+
+        String oldName = userType.getName();
+
         userType.setName(updateUserType.name());
+
+        if (!Objects.equals(updateUserType.name(), oldName))
+            checkNameAlreadyInUse(updateUserType.name());
+
         return userTypeGateway.updateUserType(UserTypeMapper.toDto(userType));
     }
 
