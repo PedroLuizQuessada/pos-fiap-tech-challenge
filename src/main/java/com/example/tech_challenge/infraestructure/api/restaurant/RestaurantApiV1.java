@@ -2,11 +2,9 @@ package com.example.tech_challenge.infraestructure.api.restaurant;
 
 import com.example.tech_challenge.controllers.RequesterController;
 import com.example.tech_challenge.controllers.RestaurantController;
-import com.example.tech_challenge.datasources.RequesterDataSource;
-import com.example.tech_challenge.datasources.RestaurantDataSource;
-import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.datasources.UserDataSource;
+import com.example.tech_challenge.datasources.*;
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
+import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RequesterResponse;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,9 +36,9 @@ public class RestaurantApiV1 {
     private final RestaurantController restaurantController;
     private final RequesterController requesterController;
 
-    public RestaurantApiV1(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource,
+    public RestaurantApiV1(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource, AddressDataSource addressDataSource,
                            RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.restaurantController = new RestaurantController(userDataSource, restaurantDataSource);
+        this.restaurantController = new RestaurantController(userDataSource, restaurantDataSource, addressDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
@@ -127,7 +125,7 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/admin/{owner-id}")
-    public ResponseEntity<List<RestaurantResponse>> findAll(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<List<RestaurantResponse>> adminFindAll(@AuthenticationPrincipal UserDetails userDetails,
                                                             @RequestHeader(name = "Authorization", required = false) String token,
                                                             @PathVariable("owner-id") Long ownerId) {
         RequesterResponse requesterResponse = getRequester(userDetails, token);
@@ -138,6 +136,85 @@ public class RestaurantApiV1 {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantResponseList);
+    }
+
+    @Operation(summary = "Atualiza o seu próprio restaurante",
+            description = "Requer autenticação e tipo de usuário 'OWNER'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Restaurante atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestaurantResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do restaurante a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'OWNER'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Restaurante a ser atualizado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping
+    public ResponseEntity<RestaurantResponse> update(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestHeader(name = "Authorization", required = false) String token,
+                                               @RequestBody @Valid UpdateRestaurantRequest updateAddressRequest) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("User {} updating restaurant: {}", requesterResponse.login(), updateAddressRequest.oldName());
+        RestaurantResponse restaurantResponse = restaurantController.updateRestaurant(updateAddressRequest, requesterResponse.login());
+        log.info("User {} updated restaurant: {}", requesterResponse.login(), restaurantResponse.name());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(restaurantResponse);
+    }
+
+    @Operation(summary = "Admin atualiza um restaurante",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Restaurante atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = RestaurantResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do restaurante a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Restaurante a ser atualizado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<RestaurantResponse> adminUpdate(@AuthenticationPrincipal UserDetails userDetails,
+                                                    @RequestHeader(name = "Authorization", required = false) String token,
+                                                    @RequestBody @Valid RestaurantRequest restaurantRequest,
+                                                    @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} updating restaurant: {}", requesterResponse.login(), id);
+        RestaurantResponse restaurantResponse = restaurantController.updateRestaurant(restaurantRequest, id);
+        log.info("Admin {} updated restaurant: {}", requesterResponse.login(), restaurantResponse.name());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(restaurantResponse);
     }
 
     private RequesterResponse getRequester(UserDetails userDetails, String token) {

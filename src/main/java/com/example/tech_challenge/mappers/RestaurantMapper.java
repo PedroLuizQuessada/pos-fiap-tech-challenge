@@ -2,6 +2,7 @@ package com.example.tech_challenge.mappers;
 
 import com.example.tech_challenge.dtos.RestaurantDto;
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
+import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.entities.User;
@@ -11,6 +12,11 @@ import java.util.Objects;
 public class RestaurantMapper {
 
     private RestaurantMapper() {}
+
+    public static RestaurantRequest toRequest(UpdateRestaurantRequest updateRestaurantRequest) {
+        return new RestaurantRequest(updateRestaurantRequest.name(), updateRestaurantRequest.address(),
+                updateRestaurantRequest.kitchenType(), updateRestaurantRequest.openingHours());
+    }
 
     public static Restaurant toEntity(RestaurantDto restaurantDto) {
         return new Restaurant(restaurantDto.id(), restaurantDto.name(),
@@ -26,7 +32,7 @@ public class RestaurantMapper {
     }
 
     public static RestaurantDto toDto(Restaurant restaurant) {
-        return new RestaurantDto(null, restaurant.getName(),
+        return new RestaurantDto(restaurant.getId(), restaurant.getName(),
                 !Objects.isNull(restaurant.getAddress()) ? AddressMapper.toDto(restaurant.getAddress()) : null, restaurant.getKitchenType(),
                 restaurant.getOpeningHours(),
                 !Objects.isNull(restaurant.getOwner()) ? UserMapper.toDto(restaurant.getOwner()) : null);

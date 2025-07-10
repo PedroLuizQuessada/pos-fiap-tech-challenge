@@ -1,0 +1,67 @@
+package com.example.tech_challenge.usecases;
+
+import com.example.tech_challenge.dtos.AddressDto;
+import com.example.tech_challenge.dtos.requests.RestaurantRequest;
+import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
+import com.example.tech_challenge.entities.Address;
+import com.example.tech_challenge.entities.Restaurant;
+import com.example.tech_challenge.exceptions.RestaurantNameAlreadyInUseException;
+import com.example.tech_challenge.gateways.AddressGateway;
+import com.example.tech_challenge.gateways.RestaurantGateway;
+import com.example.tech_challenge.mappers.AddressMapper;
+import com.example.tech_challenge.mappers.RestaurantMapper;
+
+import java.util.Objects;
+
+public class UpdateRestaurantUseCase {
+
+    private final RestaurantGateway restaurantGateway;
+    private final AddressGateway addressGateway;
+
+    public UpdateRestaurantUseCase(RestaurantGateway restaurantGateway, AddressGateway addressGateway) {
+        this.restaurantGateway = restaurantGateway;
+        this.addressGateway = addressGateway;
+    }
+
+    public Restaurant execute(UpdateRestaurantRequest updateAddress, String ownerLogin) {
+        Restaurant restaurant = restaurantGateway.findRestaurantByNameAndOwnerLogin(updateAddress.oldName(), ownerLogin);
+        return updateRestaurant(RestaurantMapper.toRequest(updateAddress), restaurant);
+    }
+
+    public Restaurant execute(RestaurantRequest updateRestaurant, Long id) {
+        Restaurant restaurant = restaurantGateway.findRestaurantById(id);
+        return updateRestaurant(updateRestaurant, restaurant);
+    }
+
+    private Restaurant updateRestaurant(RestaurantRequest updateRestaurant, Restaurant restaurant) {
+        Address oldAddress = restaurant.getAddress();
+        Address address = !Objects.isNull(updateRestaurant.address()) ?
+                AddressMapper.toEntity(new AddressDto(!Objects.isNull(restaurant.getAddress()) ? restaurant.getAddress().getId() : null,
+                        updateRestaurant.address().state(), updateRestaurant.address().city(), updateRestaurant.address().street(),
+                        updateRestaurant.address().number(), updateRestaurant.address().zipCode(), updateRestaurant.address().aditionalInfo()))
+                : null;
+
+        String oldName = restaurant.getName();
+
+        restaurant.setName(updateRestaurant.name());
+        restaurant.setAddress(address);
+        restaurant.setKitchenType(updateRestaurant.kitchenType());
+        restaurant.setOpeningHours(updateRestaurant.openingHours());
+
+        if (!Objects.equals(updateRestaurant.name(), oldName))
+            checkNameAlreadyInUse(updateRestaurant.name());
+
+        restaurant = restaurantGateway.updateRestaurant(RestaurantMapper.toDto(restaurant));
+
+        if (Objects.isNull(updateRestaurant.address()) && !Objects.isNull(oldAddress))
+            addressGateway.delete(AddressMapper.toDto(oldAddress));
+
+        return restaurant;
+    }
+
+    private void checkNameAlreadyInUse(String name) {
+        if (restaurantGateway.countByName(name) > 0) {
+            throw new RestaurantNameAlreadyInUseException();
+        }
+    }
+}

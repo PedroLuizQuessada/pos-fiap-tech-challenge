@@ -23,7 +23,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(value = { UserNotFoundException.class, UserTypeNotFoundException.class })
+    @ExceptionHandler(value = { UserNotFoundException.class, UserTypeNotFoundException.class, RestaurantNotFoundException.class })
     public ProblemDetail handleNotFound(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
