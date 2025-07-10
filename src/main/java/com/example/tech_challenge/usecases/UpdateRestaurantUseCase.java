@@ -1,6 +1,5 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
 import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.entities.Address;
@@ -36,9 +35,7 @@ public class UpdateRestaurantUseCase {
     private Restaurant updateRestaurant(RestaurantRequest updateRestaurant, Restaurant restaurant) {
         Address oldAddress = restaurant.getAddress();
         Address address = !Objects.isNull(updateRestaurant.address()) ?
-                AddressMapper.toEntity(new AddressDto(!Objects.isNull(restaurant.getAddress()) ? restaurant.getAddress().getId() : null,
-                        updateRestaurant.address().state(), updateRestaurant.address().city(), updateRestaurant.address().street(),
-                        updateRestaurant.address().number(), updateRestaurant.address().zipCode(), updateRestaurant.address().aditionalInfo()))
+                AddressMapper.toEntity(updateRestaurant.address(), !Objects.isNull(restaurant.getAddress()) ? restaurant.getAddress().getId() : null)
                 : null;
 
         String oldName = restaurant.getName();

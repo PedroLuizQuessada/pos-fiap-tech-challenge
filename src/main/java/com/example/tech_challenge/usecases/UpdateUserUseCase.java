@@ -1,7 +1,6 @@
 package com.example.tech_challenge.usecases;
 
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
-import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.exceptions.EmailAlreadyInUseException;
@@ -36,9 +35,7 @@ public class UpdateUserUseCase {
     private User updateUser(UpdateUserRequest updateUserRequest, User user) {
         Address oldAddress = user.getAddress();
         Address address = !Objects.isNull(updateUserRequest.address()) ?
-                AddressMapper.toEntity(new AddressDto(!Objects.isNull(user.getAddress()) ? user.getAddress().getId() : null,
-                        updateUserRequest.address().state(), updateUserRequest.address().city(), updateUserRequest.address().street(),
-                        updateUserRequest.address().number(), updateUserRequest.address().zipCode(), updateUserRequest.address().aditionalInfo()))
+                AddressMapper.toEntity(updateUserRequest.address(), !Objects.isNull(user.getAddress()) ? user.getAddress().getId() : null)
                 : null;
 
         String oldEmail = user.getEmail();

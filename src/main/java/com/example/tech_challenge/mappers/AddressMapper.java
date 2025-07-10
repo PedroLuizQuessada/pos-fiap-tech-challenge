@@ -19,6 +19,11 @@ public class AddressMapper {
                 addressDto.number(), addressDto.zipCode(), addressDto.aditionalInfo());
     }
 
+    public static Address toEntity(AddressRequest addressDto, Long id) {
+        return new Address(id, addressDto.state(), addressDto.city(), addressDto.street(),
+                addressDto.number(), addressDto.zipCode(), addressDto.aditionalInfo());
+    }
+
     public static AddressDto toDto(Address address) {
         return new AddressDto(address.getId(), address.getState(), address.getCity(), address.getStreet(), address.getNumber(),
                 address.getZipCode(), address.getAditionalInfo());
