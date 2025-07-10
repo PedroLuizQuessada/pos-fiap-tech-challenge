@@ -5,6 +5,7 @@ import com.example.tech_challenge.dtos.RestaurantDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.mappers.RestaurantJpaDtoMapper;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.RestaurantJpa;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
@@ -43,5 +45,33 @@ public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
         query.setParameter("ownerId", ownerId);
         List<RestaurantJpa> restaurantJpaList = query.getResultList();
         return restaurantJpaList.stream().map(restaurantJpa -> restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa)).toList();
+    }
+
+    @Override
+    public Optional<RestaurantDto> findRestaurantByNameAndOwnerLogin(String name, String ownerLogin) {
+        Query query = entityManager.createQuery("SELECT restaurant FROM RestaurantJpa restaurant WHERE restaurant.name = :name AND restaurant.userJpa.login = :login");
+        query.setParameter("name", name);
+        query.setParameter("login", ownerLogin);
+        try {
+            RestaurantJpa restaurantJpa = (RestaurantJpa) query.getSingleResult();
+            return Optional.ofNullable(restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<RestaurantDto> findRestaurantById(Long id) {
+        Optional<RestaurantJpa> optionalRestaurantJpa = Optional.ofNullable(entityManager.find(RestaurantJpa.class, id));
+        return optionalRestaurantJpa.map(restaurantJpaDtoMapper::toRestaurantDto);
+    }
+
+    @Override
+    @Transactional
+    public RestaurantDto updateRestaurant(RestaurantDto restaurantDto) {
+        RestaurantJpa restaurantJpa = restaurantJpaDtoMapper.toRestaurantJpa(restaurantDto);
+        restaurantJpa = entityManager.merge(restaurantJpa);
+        return restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa);
     }
 }

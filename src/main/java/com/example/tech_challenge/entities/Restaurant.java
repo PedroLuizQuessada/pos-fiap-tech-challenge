@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 @Getter
 public class Restaurant {
     private final Long id;
-    private final String name;
-    private final Address address;
-    private final String kitchenType;
-    private final String openingHours;
+    private String name;
+    private Address address;
+    private String kitchenType;
+    private String openingHours;
     private final User owner;
 
     public Restaurant(Long id, String name, Address address, String kitchenType, String openingHours, User owner) {
@@ -29,6 +29,25 @@ public class Restaurant {
         this.kitchenType = kitchenType;
         this.openingHours = openingHours;
         this.owner = owner;
+    }
+
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setKitchenType(String kitchenType) {
+        validateKitchenType(kitchenType);
+        this.kitchenType = kitchenType;
+    }
+
+    public void setOpeningHours(String openingHours) {
+        validateOpeningHours(openingHours);
+        this.openingHours = openingHours;
     }
 
     private void validateName(String name) {
