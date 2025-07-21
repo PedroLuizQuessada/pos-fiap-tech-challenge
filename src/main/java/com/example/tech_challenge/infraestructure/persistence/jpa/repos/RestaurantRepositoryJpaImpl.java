@@ -74,4 +74,12 @@ public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
         restaurantJpa = entityManager.merge(restaurantJpa);
         return restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa);
     }
+
+    @Override
+    @Transactional
+    public void deleteRestaurant(RestaurantDto restaurantDto) {
+        Query query = entityManager.createQuery("DELETE FROM RestaurantJpa restaurant WHERE restaurant.id = :id");
+        query.setParameter("id", restaurantDto.id());
+        query.executeUpdate();
+    }
 }
