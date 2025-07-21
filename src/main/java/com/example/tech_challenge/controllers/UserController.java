@@ -1,9 +1,6 @@
 package com.example.tech_challenge.controllers;
 
-import com.example.tech_challenge.datasources.AddressDataSource;
-import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.datasources.UserDataSource;
-import com.example.tech_challenge.datasources.UserTypeDataSource;
+import com.example.tech_challenge.datasources.*;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
@@ -11,10 +8,7 @@ import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.dtos.responses.UserResponse;
 import com.example.tech_challenge.entities.Token;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.gateways.AddressGateway;
-import com.example.tech_challenge.gateways.TokenGateway;
-import com.example.tech_challenge.gateways.UserGateway;
-import com.example.tech_challenge.gateways.UserTypeGateway;
+import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.TokenMapper;
 import com.example.tech_challenge.mappers.UserMapper;
 import com.example.tech_challenge.usecases.*;
@@ -25,12 +19,15 @@ public class UserController {
     private final AddressDataSource addressDataSource;
     private final TokenDataSource tokenDataSource;
     private final UserTypeDataSource userTypeDataSource;
+    private final RestaurantDataSource restaurantDataSource;
 
-    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource, UserTypeDataSource userTypeDataSource) {
+    public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource,
+                          UserTypeDataSource userTypeDataSource, RestaurantDataSource restaurantDataSource) {
         this.userDataSource = userDataSource;
         this.addressDataSource = addressDataSource;
         this.tokenDataSource = tokenDataSource;
         this.userTypeDataSource = userTypeDataSource;
+        this.restaurantDataSource = restaurantDataSource;
     }
 
     public TokenResponse generateToken(String userType, String login) {
@@ -67,14 +64,16 @@ public class UserController {
     public void deleteUser(String login) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway);
         deleteUserUseCase.execute(login);
     }
 
     public void deleteUser(Long id) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway);
         deleteUserUseCase.execute(id);
     }
 

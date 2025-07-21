@@ -38,8 +38,8 @@ public class UserApiV1 {
     private final RequesterController requesterController;
 
     public UserApiV1(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource,
-                     UserTypeDataSource userTypeDataSource, RequesterDataSource requesterDataSource) {
-        this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource, userTypeDataSource);
+                     UserTypeDataSource userTypeDataSource, RequesterDataSource requesterDataSource, RestaurantDataSource restaurantDataSource) {
+        this.userController = new UserController(userDataSource, addressDataSource, tokenDataSource, userTypeDataSource, restaurantDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 

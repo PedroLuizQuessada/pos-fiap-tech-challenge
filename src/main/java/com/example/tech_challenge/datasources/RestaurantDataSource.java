@@ -12,4 +12,5 @@ public interface RestaurantDataSource {
     Optional<RestaurantDto> findRestaurantByNameAndOwnerLogin(String name, String ownerLogin);
     Optional<RestaurantDto> findRestaurantById(Long id);
     RestaurantDto updateRestaurant(RestaurantDto restaurantDto);
+    void deleteRestaurant(RestaurantDto restaurantDto);
 }

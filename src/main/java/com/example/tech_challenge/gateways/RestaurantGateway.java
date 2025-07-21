@@ -53,4 +53,8 @@ public class RestaurantGateway {
         RestaurantDto restaurantDto = restaurantDataSource.updateRestaurant(updateRestaurantDto);
         return RestaurantMapper.toEntity(restaurantDto);
     }
+
+    public void deleteRestaurant(RestaurantDto restaurantDto) {
+        restaurantDataSource.deleteRestaurant(restaurantDto);
+    }
 }

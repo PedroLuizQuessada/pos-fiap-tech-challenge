@@ -3,6 +3,7 @@ package com.example.tech_challenge.controllers;
 import com.example.tech_challenge.datasources.AddressDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
+import com.example.tech_challenge.dtos.requests.DeleteRestaurantRequest;
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
 import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
@@ -12,6 +13,7 @@ import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.usecases.CreateRestaurantUseCase;
+import com.example.tech_challenge.usecases.DeleteRestaurantUseCase;
 import com.example.tech_challenge.usecases.FindRestaurantsByOwnerUseCase;
 import com.example.tech_challenge.usecases.UpdateRestaurantUseCase;
 
@@ -61,6 +63,20 @@ public class RestaurantController {
         UpdateRestaurantUseCase updateRestaurantUseCase = new UpdateRestaurantUseCase(restaurantGateway, addressGateway);
         Restaurant restaurant = updateRestaurantUseCase.execute(updateRestaurant, id);
         return RestaurantMapper.toResponse(restaurant);
+    }
+
+    public void deleteRestaurant(DeleteRestaurantRequest deleteRestaurantRequest, String login) {
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
+        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway);
+        deleteRestaurantUseCase.execute(deleteRestaurantRequest, login);
+    }
+
+    public void deleteRestaurant(Long id) {
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
+        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway);
+        deleteRestaurantUseCase.execute(id);
     }
 
     private FindRestaurantsByOwnerUseCase getFindRestaurantsByOwnerUseCase() {
