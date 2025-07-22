@@ -1,16 +1,13 @@
 package com.example.tech_challenge.infraestructure.configs;
 
 import com.example.tech_challenge.datasources.*;
-import com.example.tech_challenge.infraestructure.persistence.jpa.repos.AddressRepositoryJpaImpl;
-import com.example.tech_challenge.infraestructure.persistence.jpa.repos.RestaurantRepositoryJpaImpl;
-import com.example.tech_challenge.infraestructure.persistence.jpa.repos.UserRepositoryJpaImpl;
-import com.example.tech_challenge.infraestructure.persistence.jpa.repos.UserTypeRepositoryJpaImpl;
+import com.example.tech_challenge.infraestructure.persistence.jpa.repos.*;
 import com.example.tech_challenge.infraestructure.services.RequesterServiceImpl;
 import com.example.tech_challenge.infraestructure.services.TokenServiceJwtImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration //TODO alterar isso para uso de profile do Spring
 public class DataSourceConfig {
 
     @Bean
@@ -41,5 +38,10 @@ public class DataSourceConfig {
     @Bean
     public RestaurantDataSource restaurantDataSource() {
         return new RestaurantRepositoryJpaImpl();
+    }
+
+    @Bean
+    public MenuItemDataSource menuItemDataSource() {
+        return new MenuItemRepositoryJpaImpl();
     }
 }

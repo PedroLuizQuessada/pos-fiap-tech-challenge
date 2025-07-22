@@ -47,9 +47,9 @@ public class SecurityConfig {
             "/api/test/**" };
 
     private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/admin", "/api/v1/usuarios/admin/**",
-            "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**", "/api/v1/restaurantes/admin/**" };
+            "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**", "/api/v1/restaurantes/admin/**", "/api/v1/cardapio-itens/admin/**" };
 
-    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes", "/api/v1/cardapio-itens" };
+    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes", "/api/v1/cardapio-itens", "/api/v1/cardapio-itens/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
