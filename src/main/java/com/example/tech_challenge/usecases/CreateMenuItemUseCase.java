@@ -1,6 +1,6 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.requests.MenuItemRequest;
+import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.exceptions.MenuItemNameAlreadyInUseException;
@@ -18,7 +18,7 @@ public class CreateMenuItemUseCase {
         this.restaurantGateway = restaurantGateway;
     }
 
-    public MenuItem execute(MenuItemRequest createMenuItem, String ownerLogin) {
+    public MenuItem execute(CreateMenuItemRequest createMenuItem, String ownerLogin) {
         Restaurant restaurant = restaurantGateway.findRestaurantByIdAndOwnerLogin(createMenuItem.restaurant(), ownerLogin);
         MenuItem menuItem = MenuItemMapper.toEntity(createMenuItem, restaurant);
         checkNameAlreadyInUse(menuItem.getName(), restaurant.getId());

@@ -3,9 +3,11 @@ package com.example.tech_challenge.gateways;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.dtos.MenuItemDto;
 import com.example.tech_challenge.entities.MenuItem;
+import com.example.tech_challenge.exceptions.MenuItemNotFoundException;
 import com.example.tech_challenge.mappers.MenuItemMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MenuItemGateway {
 
@@ -32,5 +34,28 @@ public class MenuItemGateway {
     public List<MenuItem> findMenuItensByRestaurant(Long restaurant) {
         List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurant(restaurant);
         return menuItemDtoList.stream().map(MenuItemMapper::toEntity).toList();
+    }
+
+    public MenuItem findMenuItensByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name) {
+        Optional<MenuItemDto> optionalMenuItemDto = menuItemDataSource.findByRestaurantAndOwnerLoginAndName(restaurant, ownerLogin, name);
+
+        if (optionalMenuItemDto.isEmpty())
+            throw new MenuItemNotFoundException();
+
+        return MenuItemMapper.toEntity(optionalMenuItemDto.get());
+    }
+
+    public MenuItem findMenuItemById(Long id) {
+        Optional<MenuItemDto> optionalMenuItemDto = menuItemDataSource.findById(id);
+
+        if (optionalMenuItemDto.isEmpty())
+            throw new MenuItemNotFoundException();
+
+        return MenuItemMapper.toEntity(optionalMenuItemDto.get());
+    }
+
+    public MenuItem updateMenuItem(MenuItemDto updateMenuItemDto) {
+        MenuItemDto menuItemDto = menuItemDataSource.updateMenuItem(updateMenuItemDto);
+        return MenuItemMapper.toEntity(menuItemDto);
     }
 }

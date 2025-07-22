@@ -1,7 +1,7 @@
 package com.example.tech_challenge.mappers;
 
 import com.example.tech_challenge.dtos.MenuItemDto;
-import com.example.tech_challenge.dtos.requests.MenuItemRequest;
+import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.entities.Restaurant;
@@ -12,7 +12,7 @@ public class MenuItemMapper {
 
     private MenuItemMapper() {}
 
-    public static MenuItem toEntity(MenuItemRequest menuItemRequest, Restaurant restaurant) {
+    public static MenuItem toEntity(CreateMenuItemRequest menuItemRequest, Restaurant restaurant) {
         return new MenuItem(null, restaurant, menuItemRequest.name(),
                 menuItemRequest.description(), menuItemRequest.price(), menuItemRequest.availableOnline(), menuItemRequest.picture());
     }
