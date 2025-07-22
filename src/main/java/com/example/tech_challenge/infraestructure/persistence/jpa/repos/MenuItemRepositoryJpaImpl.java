@@ -5,6 +5,7 @@ import com.example.tech_challenge.dtos.MenuItemDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.mappers.MenuItemJpaDtoMapper;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.MenuItemJpa;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
@@ -53,5 +55,34 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
         query.setParameter("restaurant", restaurant);
         List<MenuItemJpa> menuItemJpaList = query.getResultList();
         return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
+    }
+
+    @Override
+    public Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin AND menuItem.name = :name");
+        query.setParameter("restaurant", restaurant);
+        query.setParameter("ownerLogin", ownerLogin);
+        query.setParameter("name", name);
+        try {
+            MenuItemJpa menuItemJpa = (MenuItemJpa) query.getSingleResult();
+            return Optional.ofNullable(menuItemJpaDtoMapper.toMenuItemDto(menuItemJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<MenuItemDto> findById(Long id) {
+        Optional<MenuItemJpa> optionalMenuItemJpa = Optional.ofNullable(entityManager.find(MenuItemJpa.class, id));
+        return optionalMenuItemJpa.map(menuItemJpaDtoMapper::toMenuItemDto);
+    }
+
+    @Override
+    @Transactional
+    public MenuItemDto updateMenuItem(MenuItemDto menuItemDto) {
+        MenuItemJpa menuItemJpa = menuItemJpaDtoMapper.toMenuItemJpa(menuItemDto);
+        menuItemJpa = entityManager.merge(menuItemJpa);
+        return menuItemJpaDtoMapper.toMenuItemDto(menuItemJpa);
     }
 }

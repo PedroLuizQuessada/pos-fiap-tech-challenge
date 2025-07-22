@@ -6,11 +6,10 @@ import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RequesterDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.dtos.requests.MenuItemRequest;
+import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.dtos.responses.RequesterResponse;
-import com.example.tech_challenge.dtos.responses.RestaurantResponse;
-import com.example.tech_challenge.dtos.responses.UserTypeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,7 +52,7 @@ public class MenuItemApiV1 {
             @ApiResponse(responseCode = "201",
                     description = "Item do cardápio criado com sucesso",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = RestaurantResponse.class))),
+                            schema = @Schema(implementation = MenuItemResponse.class))),
             @ApiResponse(responseCode = "400",
                     description = "Valores inválidos para o item do cardápio a ser criado",
                     content = @Content(mediaType = "application/json",
@@ -70,7 +69,7 @@ public class MenuItemApiV1 {
     @PostMapping
     public ResponseEntity<MenuItemResponse> create(@AuthenticationPrincipal UserDetails userDetails,
                                                    @RequestHeader(name = "Authorization", required = false) String token,
-                                                   @RequestBody @Valid MenuItemRequest menuItemRequest) {
+                                                   @RequestBody @Valid CreateMenuItemRequest menuItemRequest) {
         RequesterResponse requesterResponse = getRequester(userDetails, token);
         log.info("User {} creating menu item: {}", requesterResponse.login(), menuItemRequest.name());
         MenuItemResponse menuItemResponse = menuItemController.createMenuItem(menuItemRequest, requesterResponse.login());
@@ -88,7 +87,7 @@ public class MenuItemApiV1 {
             @ApiResponse(responseCode = "200",
                     description = "Itens do cardápio do restaurante consultados com sucesso",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserTypeResponse.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = MenuItemResponse.class)))),
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
@@ -119,7 +118,7 @@ public class MenuItemApiV1 {
             @ApiResponse(responseCode = "200",
                     description = "Itens do cardápio do restaurante consultados com sucesso",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = UserTypeResponse.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = MenuItemResponse.class)))),
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
@@ -141,6 +140,84 @@ public class MenuItemApiV1 {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(menuItemResponseList);
+    }
+
+    @Operation(summary = "Atualiza o item do cardápio",
+            description = "Requer autenticação e tipo de usuário 'OWNER'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Item do cardápio atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MenuItemResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do item do cardápio a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'OWNER'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Item do cardápio a ser atualizado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping
+    public ResponseEntity<MenuItemResponse> update(@AuthenticationPrincipal UserDetails userDetails,
+                                                   @RequestHeader(name = "Authorization", required = false) String token,
+                                                   @RequestBody @Valid UpdateMenuItemRequest menuItemRequest) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("User {} updating menu item: {}", requesterResponse.login(), menuItemRequest.oldName());
+        MenuItemResponse menuItemResponse = menuItemController.updateMenuItem(menuItemRequest, requesterResponse.login());
+        log.info("User {} updated menu item: {}", requesterResponse.login(), menuItemResponse.name());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuItemResponse);
+    }
+
+    @Operation(summary = "Atualiza o item do cardápio",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Item do cardápio atualizado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MenuItemResponse.class))),
+            @ApiResponse(responseCode = "400",
+                    description = "Valores inválidos para os atributos do item do cardápio a ser atualizado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Item do cardápio a ser atualizado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<MenuItemResponse> adminUpdate(@AuthenticationPrincipal UserDetails userDetails,
+                                                   @RequestHeader(name = "Authorization", required = false) String token,
+                                                   @RequestBody @Valid UpdateMenuItemRequest menuItemRequest, @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} updating menu item: {}", requesterResponse.login(), id);
+        MenuItemResponse menuItemResponse = menuItemController.updateMenuItem(menuItemRequest, id);
+        log.info("Admin {} updated menu item: {}", requesterResponse.login(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuItemResponse);
     }
 
     private RequesterResponse getRequester(UserDetails userDetails, String token) {

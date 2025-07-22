@@ -9,11 +9,11 @@ import java.util.Objects;
 public class MenuItem {
     private final Long id;
     private final Restaurant restaurant;
-    private final String name;
-    private final String description;
-    private final Double price;
-    private final Boolean availableOnline;
-    private final String picture;
+    private String name;
+    private String description;
+    private Double price;
+    private Boolean availableOnline;
+    private String picture;
 
     public MenuItem(Long id, Restaurant restaurant, String name, String description, Double price, Boolean availableOnline, String picture) {
         validateRestaurant(restaurant);
@@ -29,6 +29,31 @@ public class MenuItem {
         this.description = description;
         this.price = price;
         this.availableOnline = availableOnline;
+        this.picture = picture;
+    }
+
+    public void setName(String name) {
+        validateName(name);
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        validateDescription(description);
+        this.description = description;
+    }
+
+    public void setPrice(Double price) {
+        validatePrice(price);
+        this.price = price;
+    }
+
+    public void setAvailableOnline(Boolean availableOnline) {
+        validateAvailableOnline(availableOnline);
+        this.availableOnline = availableOnline;
+    }
+
+    public void setPicture(String picture) {
+        validatePicture(picture);
         this.picture = picture;
     }
 
