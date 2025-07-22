@@ -68,6 +68,20 @@ public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
     }
 
     @Override
+    public Optional<RestaurantDto> findRestaurantByIdAndOwnerLogin(Long id, String ownerLogin) {
+        Query query = entityManager.createQuery("SELECT restaurant FROM RestaurantJpa restaurant WHERE restaurant.id = :id AND restaurant.userJpa.login = :login");
+        query.setParameter("id", id);
+        query.setParameter("login", ownerLogin);
+        try {
+            RestaurantJpa restaurantJpa = (RestaurantJpa) query.getSingleResult();
+            return Optional.ofNullable(restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     @Transactional
     public RestaurantDto updateRestaurant(RestaurantDto restaurantDto) {
         RestaurantJpa restaurantJpa = restaurantJpaDtoMapper.toRestaurantJpa(restaurantDto);

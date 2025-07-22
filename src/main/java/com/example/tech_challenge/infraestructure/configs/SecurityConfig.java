@@ -49,7 +49,7 @@ public class SecurityConfig {
     private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/admin", "/api/v1/usuarios/admin/**",
             "/api/v1/tipos-usuario", "/api/v1/tipos-usuario/**", "/api/v1/restaurantes/admin/**" };
 
-    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes" };
+    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes", "/api/v1/cardapio-itens" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
