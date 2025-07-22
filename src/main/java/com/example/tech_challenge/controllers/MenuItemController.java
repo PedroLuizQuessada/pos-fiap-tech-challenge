@@ -9,6 +9,9 @@ import com.example.tech_challenge.gateways.MenuItemGateway;
 import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.mappers.MenuItemMapper;
 import com.example.tech_challenge.usecases.CreateMenuItemUseCase;
+import com.example.tech_challenge.usecases.FindMenuItensByRestaurantUseCase;
+
+import java.util.List;
 
 public class MenuItemController {
 
@@ -26,5 +29,19 @@ public class MenuItemController {
         CreateMenuItemUseCase createMenuItemUseCase = new CreateMenuItemUseCase(menuItemGateway, restaurantGateway);
         MenuItem menuItem = createMenuItemUseCase.execute(menuItemRequest, ownerLogin);
         return MenuItemMapper.toResponse(menuItem);
+    }
+
+    public List<MenuItemResponse> findMenuItem(Long restaurant, String ownerLogin) {
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        FindMenuItensByRestaurantUseCase findMenuItensByRestaurantUseCase = new FindMenuItensByRestaurantUseCase(menuItemGateway);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(restaurant, ownerLogin);
+        return menuItemList.stream().map(MenuItemMapper::toResponse).toList();
+    }
+
+    public List<MenuItemResponse> findMenuItem(Long restaurant) {
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        FindMenuItensByRestaurantUseCase findMenuItensByRestaurantUseCase = new FindMenuItensByRestaurantUseCase(menuItemGateway);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(restaurant);
+        return menuItemList.stream().map(MenuItemMapper::toAdminResponse).toList();
     }
 }

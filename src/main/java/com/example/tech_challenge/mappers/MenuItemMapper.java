@@ -31,4 +31,9 @@ public class MenuItemMapper {
         return new MenuItemResponse(null, !Objects.isNull(menuItem.getRestaurant()) ? RestaurantMapper.toResponse(menuItem.getRestaurant()) : null,
                 menuItem.getName(), menuItem.getDescription(), menuItem.getPrice(), menuItem.getAvailableOnline(), menuItem.getPicture());
     }
+
+    public static MenuItemResponse toAdminResponse(MenuItem menuItem) {
+        return new MenuItemResponse(null, !Objects.isNull(menuItem.getRestaurant()) ? RestaurantMapper.toAdminResponse(menuItem.getRestaurant()) : null,
+                menuItem.getName(), menuItem.getDescription(), menuItem.getPrice(), menuItem.getAvailableOnline(), menuItem.getPicture());
+    }
 }

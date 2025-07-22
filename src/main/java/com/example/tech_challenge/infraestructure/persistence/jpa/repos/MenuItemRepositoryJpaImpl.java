@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
 
@@ -34,5 +36,22 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
         query.setParameter("name", name);
         query.setParameter("restaurant", restaurant);
         return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public List<MenuItemDto> findByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin ORDER BY menuItem.id");
+        query.setParameter("restaurant", restaurant);
+        query.setParameter("ownerLogin", ownerLogin);
+        List<MenuItemJpa> menuItemJpaList = query.getResultList();
+        return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
+    }
+
+    @Override
+    public List<MenuItemDto> findByRestaurant(Long restaurant) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant ORDER BY menuItem.id");
+        query.setParameter("restaurant", restaurant);
+        List<MenuItemJpa> menuItemJpaList = query.getResultList();
+        return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
     }
 }

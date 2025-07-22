@@ -10,7 +10,9 @@ import com.example.tech_challenge.dtos.requests.MenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.dtos.responses.RequesterResponse;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
+import com.example.tech_challenge.dtos.responses.UserTypeResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,6 +28,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -76,6 +79,68 @@ public class MenuItemApiV1 {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(menuItemResponse);
+    }
+
+    @Operation(summary = "Owner consulta todos os itens do cardápio de um restaurante",
+            description = "Requer autenticação e tipo de usuário 'OWNER'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Itens do cardápio do restaurante consultados com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserTypeResponse.class)))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'OWNER'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@AuthenticationPrincipal UserDetails userDetails,
+                                                                   @RequestHeader(name = "Authorization", required = false) String token,
+                                                                   @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("User {} finding menu items from restaurant {}", requesterResponse.login(), id);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItem(id, requesterResponse.login());
+        log.info("User {} found {} from restaurant {}", requesterResponse.login(), menuItemResponseList.size(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuItemResponseList);
+    }
+
+    @Operation(summary = "Admin consulta todos os itens do cardápio de um restaurante",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Itens do cardápio do restaurante consultados com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserTypeResponse.class)))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/admin/{id}")
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@AuthenticationPrincipal UserDetails userDetails,
+                                                          @RequestHeader(name = "Authorization", required = false) String token,
+                                                                   @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} finding menu items from restaurant {}", requesterResponse.login(), id);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItem(id);
+        log.info("Admin {} found {} from restaurant {}", requesterResponse.login(), menuItemResponseList.size(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(menuItemResponseList);
     }
 
     private RequesterResponse getRequester(UserDetails userDetails, String token) {
