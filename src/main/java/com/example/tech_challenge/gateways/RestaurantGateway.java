@@ -49,6 +49,15 @@ public class RestaurantGateway {
         return RestaurantMapper.toEntity(restaurantDtoOptional.get());
     }
 
+    public Restaurant findRestaurantByIdAndOwnerLogin(Long id, String ownerLogin) {
+        Optional<RestaurantDto> restaurantDtoOptional = restaurantDataSource.findRestaurantByIdAndOwnerLogin(id, ownerLogin);
+
+        if (restaurantDtoOptional.isEmpty())
+            throw new RestaurantNotFoundException();
+
+        return RestaurantMapper.toEntity(restaurantDtoOptional.get());
+    }
+
     public Restaurant updateRestaurant(RestaurantDto updateRestaurantDto) {
         RestaurantDto restaurantDto = restaurantDataSource.updateRestaurant(updateRestaurantDto);
         return RestaurantMapper.toEntity(restaurantDto);
