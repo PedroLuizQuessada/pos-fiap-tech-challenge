@@ -1,6 +1,7 @@
 package com.example.tech_challenge.controllers;
 
 import com.example.tech_challenge.datasources.AddressDataSource;
+import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.dtos.requests.DeleteRestaurantRequest;
@@ -9,6 +10,7 @@ import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.gateways.AddressGateway;
+import com.example.tech_challenge.gateways.MenuItemGateway;
 import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.UserGateway;
 import com.example.tech_challenge.mappers.RestaurantMapper;
@@ -24,11 +26,13 @@ public class RestaurantController {
     private final UserDataSource userDataSource;
     private final RestaurantDataSource restaurantDataSource;
     private final AddressDataSource addressDataSource;
+    private final MenuItemDataSource menuItemDataSource;
 
-    public RestaurantController(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource, AddressDataSource addressDataSource) {
+    public RestaurantController(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource, AddressDataSource addressDataSource, MenuItemDataSource menuItemDataSource) {
         this.userDataSource = userDataSource;
         this.restaurantDataSource = restaurantDataSource;
         this.addressDataSource = addressDataSource;
+        this.menuItemDataSource = menuItemDataSource;
     }
 
     public RestaurantResponse createRestaurant(RestaurantRequest restaurantRequest, String login) {
@@ -68,14 +72,16 @@ public class RestaurantController {
     public void deleteRestaurant(DeleteRestaurantRequest deleteRestaurantRequest, String login) {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway);
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway, menuItemGateway);
         deleteRestaurantUseCase.execute(deleteRestaurantRequest, login);
     }
 
     public void deleteRestaurant(Long id) {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway);
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway, menuItemGateway);
         deleteRestaurantUseCase.execute(id);
     }
 

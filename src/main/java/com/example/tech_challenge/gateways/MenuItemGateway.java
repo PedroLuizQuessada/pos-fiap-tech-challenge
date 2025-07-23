@@ -58,4 +58,8 @@ public class MenuItemGateway {
         MenuItemDto menuItemDto = menuItemDataSource.updateMenuItem(updateMenuItemDto);
         return MenuItemMapper.toEntity(menuItemDto);
     }
+
+    public void deleteMenuItem(MenuItemDto menuItemDto) {
+        menuItemDataSource.deleteMenuItem(menuItemDto);
+    }
 }

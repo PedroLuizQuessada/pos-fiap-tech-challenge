@@ -20,14 +20,16 @@ public class UserController {
     private final TokenDataSource tokenDataSource;
     private final UserTypeDataSource userTypeDataSource;
     private final RestaurantDataSource restaurantDataSource;
+    private final MenuItemDataSource menuItemDataSource;
 
     public UserController(UserDataSource userDataSource, AddressDataSource addressDataSource, TokenDataSource tokenDataSource,
-                          UserTypeDataSource userTypeDataSource, RestaurantDataSource restaurantDataSource) {
+                          UserTypeDataSource userTypeDataSource, RestaurantDataSource restaurantDataSource, MenuItemDataSource menuItemDataSource) {
         this.userDataSource = userDataSource;
         this.addressDataSource = addressDataSource;
         this.tokenDataSource = tokenDataSource;
         this.userTypeDataSource = userTypeDataSource;
         this.restaurantDataSource = restaurantDataSource;
+        this.menuItemDataSource = menuItemDataSource;
     }
 
     public TokenResponse generateToken(String userType, String login) {
@@ -62,24 +64,24 @@ public class UserController {
     }
 
     public void deleteUser(String login) {
-        UserGateway userGateway = new UserGateway(userDataSource);
-        AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway);
-        deleteUserUseCase.execute(login);
+        getDeleteUserUseCase().execute(login);
     }
 
     public void deleteUser(Long id) {
-        UserGateway userGateway = new UserGateway(userDataSource);
-        AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
-        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway);
-        deleteUserUseCase.execute(id);
+        getDeleteUserUseCase().execute(id);
     }
 
     public void updatePasswordUser(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
         UserGateway userGateway = new UserGateway(userDataSource);
         UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway);
         updateUserPasswordUseCase.execute(updateUserPasswordRequest, login);
+    }
+
+    private DeleteUserUseCase getDeleteUserUseCase() {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        return new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway, menuItemGateway);
     }
 }

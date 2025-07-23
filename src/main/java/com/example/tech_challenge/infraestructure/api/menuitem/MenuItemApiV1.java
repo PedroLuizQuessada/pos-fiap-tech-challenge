@@ -7,6 +7,7 @@ import com.example.tech_challenge.datasources.RequesterDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.dtos.responses.RequesterResponse;
@@ -218,6 +219,70 @@ public class MenuItemApiV1 {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(menuItemResponse);
+    }
+
+    @Operation(summary = "Apaga o item do cardápio do seu próprio restaurante",
+            description = "Requer autenticação e tipo de usuário 'OWNER'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Item do cardápio apagado com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'OWNER'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Item do cardápio a ser apagado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestHeader(name = "Authorization", required = false) String token,
+                                       @RequestBody @Valid DeleteMenuItemRequest deleteMenuItemRequest) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("User {} deleting menu item: {}", requesterResponse.login(), deleteMenuItemRequest.name());
+        menuItemController.deleteMenuItem(deleteMenuItemRequest, requesterResponse.login());
+        log.info("User {} deleted menu item: {}", requesterResponse.login(), deleteMenuItemRequest.name());
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Admin apaga um item de cardápio",
+            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Item de cardápio apagado com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'ADMIN'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Item do cardápio a ser apagado não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Void> adminDelete(@AuthenticationPrincipal UserDetails userDetails,
+                                            @RequestHeader(name = "Authorization", required = false) String token,
+                                            @PathVariable("id") Long id) {
+        RequesterResponse requesterResponse = getRequester(userDetails, token);
+        log.info("Admin {} deleting menu item: {}", requesterResponse.login(), id);
+        menuItemController.deleteMenuItem(id);
+        log.info("Admin {} deleted menu item: {}", requesterResponse.login(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
     }
 
     private RequesterResponse getRequester(UserDetails userDetails, String token) {

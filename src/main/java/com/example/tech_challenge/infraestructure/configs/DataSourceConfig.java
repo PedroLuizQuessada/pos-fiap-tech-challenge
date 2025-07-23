@@ -7,7 +7,7 @@ import com.example.tech_challenge.infraestructure.services.TokenServiceJwtImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration //TODO alterar isso para uso de profile do Spring
+@Configuration
 public class DataSourceConfig {
 
     @Bean

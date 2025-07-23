@@ -13,4 +13,5 @@ public interface MenuItemDataSource {
     Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name);
     Optional<MenuItemDto> findById(Long id);
     MenuItemDto updateMenuItem(MenuItemDto menuItemDto);
+    void deleteMenuItem(MenuItemDto menuItemDto);
 }

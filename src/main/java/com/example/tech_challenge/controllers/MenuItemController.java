@@ -3,6 +3,7 @@ package com.example.tech_challenge.controllers;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.entities.MenuItem;
@@ -10,6 +11,7 @@ import com.example.tech_challenge.gateways.MenuItemGateway;
 import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.mappers.MenuItemMapper;
 import com.example.tech_challenge.usecases.CreateMenuItemUseCase;
+import com.example.tech_challenge.usecases.DeleteMenuItemUseCase;
 import com.example.tech_challenge.usecases.FindMenuItensByRestaurantUseCase;
 import com.example.tech_challenge.usecases.UpdateMenuItemUseCase;
 
@@ -59,5 +61,17 @@ public class MenuItemController {
         UpdateMenuItemUseCase updateMenuItemUseCase = new UpdateMenuItemUseCase(menuItemGateway);
         MenuItem menuItem = updateMenuItemUseCase.execute(updateRequest, id);
         return MenuItemMapper.toResponse(menuItem);
+    }
+
+    public void deleteMenuItem(DeleteMenuItemRequest deleteRequest, String ownerLogin) {
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        DeleteMenuItemUseCase deleteMenuItemUseCase = new DeleteMenuItemUseCase(menuItemGateway);
+        deleteMenuItemUseCase.execute(deleteRequest, ownerLogin);
+    }
+
+    public void deleteMenuItem(Long id) {
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        DeleteMenuItemUseCase deleteMenuItemUseCase = new DeleteMenuItemUseCase(menuItemGateway);
+        deleteMenuItemUseCase.execute(id);
     }
 }
