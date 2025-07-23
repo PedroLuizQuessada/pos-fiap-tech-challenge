@@ -85,4 +85,12 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
         menuItemJpa = entityManager.merge(menuItemJpa);
         return menuItemJpaDtoMapper.toMenuItemDto(menuItemJpa);
     }
+
+    @Override
+    @Transactional
+    public void deleteMenuItem(MenuItemDto menuItemDto) {
+        Query query = entityManager.createQuery("DELETE FROM MenuItemJpa menuItem WHERE menuItem.id = :id");
+        query.setParameter("id", menuItemDto.id());
+        query.executeUpdate();
+    }
 }

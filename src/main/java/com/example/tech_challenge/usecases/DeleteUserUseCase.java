@@ -2,11 +2,14 @@ package com.example.tech_challenge.usecases;
 
 import com.example.tech_challenge.dtos.RestaurantDto;
 import com.example.tech_challenge.dtos.UserDto;
+import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.gateways.AddressGateway;
+import com.example.tech_challenge.gateways.MenuItemGateway;
 import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.mappers.MenuItemMapper;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.mappers.UserMapper;
 
@@ -18,11 +21,13 @@ public class DeleteUserUseCase {
     private final UserGateway userGateway;
     private final AddressGateway addressGateway;
     private final RestaurantGateway restaurantGateway;
+    private final MenuItemGateway menuItemGateway;
 
-    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, RestaurantGateway restaurantGateway) {
+    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, RestaurantGateway restaurantGateway, MenuItemGateway menuItemGateway) {
         this.userGateway = userGateway;
         this.addressGateway = addressGateway;
         this.restaurantGateway = restaurantGateway;
+        this.menuItemGateway = menuItemGateway;
     }
 
     public void execute(String login) {
@@ -40,6 +45,13 @@ public class DeleteUserUseCase {
 
         for (Restaurant restaurant : restaurantDtoList) {
             RestaurantDto restaurantDto = RestaurantMapper.toDto(restaurant);
+
+            List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(restaurant.getId());
+
+            for (MenuItem menuItem : menuItemList) {
+                menuItemGateway.deleteMenuItem(MenuItemMapper.toDto(menuItem));
+            }
+
             restaurantGateway.deleteRestaurant(restaurantDto);
 
             if (!Objects.isNull(restaurant.getAddress()))
