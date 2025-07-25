@@ -56,11 +56,6 @@ public class UserApiV1 {
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProblemDetail.class))),
-
-            @ApiResponse(responseCode = "500",
-                    description = "Falha ao gerar token",
-                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/gerar-token")

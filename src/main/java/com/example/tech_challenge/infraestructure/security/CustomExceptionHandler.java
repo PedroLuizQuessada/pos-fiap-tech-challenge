@@ -1,6 +1,7 @@
 package com.example.tech_challenge.infraestructure.security;
 
-import com.example.tech_challenge.exceptions.*;
+import com.example.tech_challenge.exceptions.treateds.BadRequestException;
+import com.example.tech_challenge.exceptions.treateds.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,17 +16,13 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { EmailAlreadyInUseException.class, LoginAlreadyInUseException.class,
-            AdminCreationNotAllowedException.class, BadArgumentException.class, UserTypeNameAlreadyInUseException.class,
-            UserTypeWithUsersDeletionException.class, RestaurantNameAlreadyInUseException.class, NativeUserTypeAlterationException.class,
-            MenuItemNameAlreadyInUseException.class })
+    @ExceptionHandler(value = { BadRequestException.class })
     public ProblemDetail handleBadRequest(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(value = { UserNotFoundException.class, UserTypeNotFoundException.class, RestaurantNotFoundException.class,
-            MenuItemNotFoundException.class })
+    @ExceptionHandler(value = { NotFoundException.class })
     public ProblemDetail handleNotFound(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
