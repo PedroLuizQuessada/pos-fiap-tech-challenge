@@ -19,7 +19,7 @@ Disponível através do arquivo: tech-challenge.postman_collection.json
     - db_root_password.txt -> incluir no arquivo a senha desejada para o usuário root do banco de dados
     - db_url.txt -> incluir no arquivo a URL "jdbc:mysql://mysql:3306/XXX?createDatabaseIfNotExist=true" onde XXX é o nome escolhido no arquivo db_name.txt
     - db_user.txt -> incluir no arquivo o usuário desejado para o banco de dados
-- criar dentro da pasta src/main/resources os arquivos:
+- criar dentro da pasta src/main/resources/keys os arquivos:
   - app.key -> incluir no arquivo a chave privada para gerenciamento de tokens JWT
   - app.pub -> incluir no arquivo a chave pública para gerenciamento de tokens JWT
 - acessar o diretório do projeto clonado via CMD
