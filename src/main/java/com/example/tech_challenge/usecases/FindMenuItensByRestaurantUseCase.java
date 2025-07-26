@@ -13,10 +13,6 @@ public class FindMenuItensByRestaurantUseCase {
         this.menuItemGateway = menuItemGateway;
     }
 
-    public List<MenuItem> execute(Long restaurant, String ownerLogin) {
-        return menuItemGateway.findMenuItensByRestaurantAndOwnerLogin(restaurant, ownerLogin);
-    }
-
     public List<MenuItem> execute(Long restaurant) {
         return menuItemGateway.findMenuItensByRestaurant(restaurant);
     }

@@ -5,12 +5,14 @@ import com.example.tech_challenge.dtos.RequesterDto;
 import com.example.tech_challenge.dtos.TokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
+@Profile("jwt")
 public class TokenServiceJwtImpl implements TokenDataSource {
 
     @Value("${spring.application.name}")

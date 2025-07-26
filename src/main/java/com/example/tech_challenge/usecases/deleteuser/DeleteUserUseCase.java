@@ -1,14 +1,11 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.deleteuser;
 
 import com.example.tech_challenge.dtos.RestaurantDto;
 import com.example.tech_challenge.dtos.UserDto;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.entities.User;
-import com.example.tech_challenge.gateways.AddressGateway;
-import com.example.tech_challenge.gateways.MenuItemGateway;
-import com.example.tech_challenge.gateways.RestaurantGateway;
-import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.MenuItemMapper;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.mappers.UserMapper;
@@ -23,16 +20,12 @@ public class DeleteUserUseCase {
     private final RestaurantGateway restaurantGateway;
     private final MenuItemGateway menuItemGateway;
 
-    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, RestaurantGateway restaurantGateway, MenuItemGateway menuItemGateway) {
+    public DeleteUserUseCase(UserGateway userGateway, AddressGateway addressGateway, RestaurantGateway restaurantGateway,
+                             MenuItemGateway menuItemGateway) {
         this.userGateway = userGateway;
         this.addressGateway = addressGateway;
         this.restaurantGateway = restaurantGateway;
         this.menuItemGateway = menuItemGateway;
-    }
-
-    public void execute(String login) {
-        User user = userGateway.findUserByLogin(login);
-        deleteUser(UserMapper.toDto(user));
     }
 
     public void execute(Long id) {
@@ -40,7 +33,7 @@ public class DeleteUserUseCase {
         deleteUser(UserMapper.toDto(user));
     }
 
-    private void deleteUser(UserDto userDto) {
+    void deleteUser(UserDto userDto) {
         List<Restaurant> restaurantDtoList = restaurantGateway.findRestaurantsByOwner(userDto.id());
 
         for (Restaurant restaurant : restaurantDtoList) {

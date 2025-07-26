@@ -1,4 +1,4 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.updateuser;
 
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
 import com.example.tech_challenge.entities.Address;
@@ -22,17 +22,12 @@ public class UpdateUserUseCase {
         this.addressGateway = addressGateway;
     }
 
-    public User execute(UpdateUserRequest updateUserRequest, String login) {
-        User oldUser = userGateway.findUserByLogin(login);
-        return updateUser(updateUserRequest, oldUser);
-    }
-
     public User execute(UpdateUserRequest updateUserRequest, Long id) {
         User oldUser = userGateway.findUserById(id);
         return updateUser(updateUserRequest, oldUser);
     }
 
-    private User updateUser(UpdateUserRequest updateUserRequest, User user) {
+    User updateUser(UpdateUserRequest updateUserRequest, User user) {
         Address oldAddress = user.getAddress();
         Address address = !Objects.isNull(updateUserRequest.address()) ?
                 AddressMapper.toEntity(updateUserRequest.address(), !Objects.isNull(user.getAddress()) ? user.getAddress().getId() : null)

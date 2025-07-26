@@ -1,16 +1,13 @@
 package com.example.tech_challenge.infraestructure.api.menuitem;
 
 import com.example.tech_challenge.controllers.MenuItemController;
-import com.example.tech_challenge.controllers.RequesterController;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
-import com.example.tech_challenge.datasources.RequesterDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
-import com.example.tech_challenge.dtos.responses.RequesterResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,12 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -38,12 +32,9 @@ import java.util.Objects;
 public class MenuItemApiV1 {
 
     private final MenuItemController menuItemController;
-    private final RequesterController requesterController;
 
-    public MenuItemApiV1(MenuItemDataSource menuItemDataSource, RestaurantDataSource restaurantDataSource,
-                         RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.menuItemController = new MenuItemController(menuItemDataSource, restaurantDataSource);
-        this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
+    public MenuItemApiV1(MenuItemDataSource menuItemDataSource, RestaurantDataSource restaurantDataSource, TokenDataSource tokenDataSource) {
+        this.menuItemController = new MenuItemController(menuItemDataSource, restaurantDataSource, tokenDataSource);
     }
 
     @Operation(summary = "Cria um item do cardápio",
@@ -68,13 +59,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping
-    public ResponseEntity<MenuItemResponse> create(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestHeader(name = "Authorization", required = false) String token,
+    public ResponseEntity<MenuItemResponse> create(@RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid CreateMenuItemRequest menuItemRequest) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} creating menu item: {}", requesterResponse.login(), menuItemRequest.name());
-        MenuItemResponse menuItemResponse = menuItemController.createMenuItem(menuItemRequest, requesterResponse.login());
-        log.info("User {} created menu item: {}", requesterResponse.login(), menuItemResponse.name());
+        log.info("Creating menu item: {}", menuItemRequest.name());
+        MenuItemResponse menuItemResponse = menuItemController.createMenuItem(menuItemRequest, token);
+        log.info("Created menu item: {}", menuItemResponse.name());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -99,13 +88,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@AuthenticationPrincipal UserDetails userDetails,
-                                                                   @RequestHeader(name = "Authorization", required = false) String token,
-                                                                   @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} finding menu items from restaurant {}", requesterResponse.login(), id);
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItem(id, requesterResponse.login());
-        log.info("User {} found {} from restaurant {}", requesterResponse.login(), menuItemResponseList.size(), id);
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@RequestHeader(name = "Authorization") String token,
+                                                                                @PathVariable("id") Long id) {
+        log.info("Finding menu items from restaurant {}", id);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(id, token);
+        log.info("Found {} from restaurant {}", menuItemResponseList.size(), id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -130,13 +117,10 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/admin/{id}")
-    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@AuthenticationPrincipal UserDetails userDetails,
-                                                          @RequestHeader(name = "Authorization", required = false) String token,
-                                                                   @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("Admin {} finding menu items from restaurant {}", requesterResponse.login(), id);
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItem(id);
-        log.info("Admin {} found {} from restaurant {}", requesterResponse.login(), menuItemResponseList.size(), id);
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@PathVariable("id") Long id) {
+        log.info("Admin finding menu items from restaurant {}", id);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurant(id);
+        log.info("Admin found {} from restaurant {}", menuItemResponseList.size(), id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -169,13 +153,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<MenuItemResponse> update(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestHeader(name = "Authorization", required = false) String token,
+    public ResponseEntity<MenuItemResponse> update(@RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid UpdateMenuItemRequest menuItemRequest) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} updating menu item: {}", requesterResponse.login(), menuItemRequest.oldName());
-        MenuItemResponse menuItemResponse = menuItemController.updateMenuItem(menuItemRequest, requesterResponse.login());
-        log.info("User {} updated menu item: {}", requesterResponse.login(), menuItemResponse.name());
+        log.info("Updating menu item: {}", menuItemRequest.oldName());
+        MenuItemResponse menuItemResponse = menuItemController.updateMenuItemByRequester(menuItemRequest, token);
+        log.info("Updated menu item: {}", menuItemResponse.name());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -208,13 +190,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/admin/{id}")
-    public ResponseEntity<MenuItemResponse> adminUpdate(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestHeader(name = "Authorization", required = false) String token,
-                                                   @RequestBody @Valid UpdateMenuItemRequest menuItemRequest, @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("Admin {} updating menu item: {}", requesterResponse.login(), id);
+    public ResponseEntity<MenuItemResponse> adminUpdate(@RequestBody @Valid UpdateMenuItemRequest menuItemRequest,
+                                                        @PathVariable("id") Long id) {
+        log.info("Admin updating menu item: {}", id);
         MenuItemResponse menuItemResponse = menuItemController.updateMenuItem(menuItemRequest, id);
-        log.info("Admin {} updated menu item: {}", requesterResponse.login(), id);
+        log.info("Admin updated menu item: {}", id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -241,13 +221,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
-                                       @RequestHeader(name = "Authorization", required = false) String token,
+    public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody @Valid DeleteMenuItemRequest deleteMenuItemRequest) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} deleting menu item: {}", requesterResponse.login(), deleteMenuItemRequest.name());
-        menuItemController.deleteMenuItem(deleteMenuItemRequest, requesterResponse.login());
-        log.info("User {} deleted menu item: {}", requesterResponse.login(), deleteMenuItemRequest.name());
+        log.info("Deleting menu item: {}", deleteMenuItemRequest.name());
+        menuItemController.deleteMenuItemByRequester(deleteMenuItemRequest, token);
+        log.info("Deleted menu item: {}", deleteMenuItemRequest.name());
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
@@ -273,22 +251,12 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/admin/{id}")
-    public ResponseEntity<Void> adminDelete(@AuthenticationPrincipal UserDetails userDetails,
-                                            @RequestHeader(name = "Authorization", required = false) String token,
-                                            @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("Admin {} deleting menu item: {}", requesterResponse.login(), id);
+    public ResponseEntity<Void> adminDelete(@PathVariable("id") Long id) {
+        log.info("Admin deleting menu item: {}", id);
         menuItemController.deleteMenuItem(id);
-        log.info("Admin {} deleted menu item: {}", requesterResponse.login(), id);
+        log.info("Admin deleted menu item: {}", id);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
-    }
-
-    private RequesterResponse getRequester(UserDetails userDetails, String token) {
-        return (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(userDetails.getAuthorities().stream().findFirst().isPresent() ?
-                        String.valueOf(userDetails.getAuthorities().stream().findFirst().get()) : null, userDetails.getUsername()) :
-                requesterController.getRequester(token);
     }
 }

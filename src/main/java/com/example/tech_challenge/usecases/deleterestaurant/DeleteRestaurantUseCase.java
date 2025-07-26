@@ -1,7 +1,6 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.deleterestaurant;
 
 import com.example.tech_challenge.dtos.RestaurantDto;
-import com.example.tech_challenge.dtos.requests.DeleteRestaurantRequest;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.gateways.AddressGateway;
@@ -25,17 +24,12 @@ public class DeleteRestaurantUseCase {
         this.menuItemGateway = menuItemGateway;
     }
 
-    public void execute(DeleteRestaurantRequest deleteRestaurantRequest, String ownerLogin) {
-        Restaurant restaurant = restaurantGateway.findRestaurantByNameAndOwnerLogin(deleteRestaurantRequest.name(), ownerLogin);
-        deleteRestaurant(RestaurantMapper.toDto(restaurant));
-    }
-
     public void execute(Long id) {
         Restaurant restaurant = restaurantGateway.findRestaurantById(id);
         deleteRestaurant(RestaurantMapper.toDto(restaurant));
     }
 
-    private void deleteRestaurant(RestaurantDto restaurantDto) {
+    void deleteRestaurant(RestaurantDto restaurantDto) {
         List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(restaurantDto.id());
 
         for (MenuItem menuItem : menuItemList) {

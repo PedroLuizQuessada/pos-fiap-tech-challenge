@@ -1,4 +1,4 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.updatemenuitem;
 
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
 import com.example.tech_challenge.entities.MenuItem;
@@ -16,18 +16,12 @@ public class UpdateMenuItemUseCase {
         this.menuItemGateway = menuItemGateway;
     }
 
-    public MenuItem execute(UpdateMenuItemRequest updateRequest, String ownerLogin) {
-        MenuItem menuItem = menuItemGateway.findMenuItensByRestaurantAndOwnerLoginAndName(updateRequest.restaurant(),
-                ownerLogin, updateRequest.oldName());
-        return update(menuItem, updateRequest);
-    }
-
     public MenuItem execute(UpdateMenuItemRequest updateRequest, Long id) {
         MenuItem menuItem = menuItemGateway.findMenuItemById(id);
         return update(menuItem, updateRequest);
     }
 
-    private MenuItem update(MenuItem menuItem, UpdateMenuItemRequest updateRequest) {
+    MenuItem update(MenuItem menuItem, UpdateMenuItemRequest updateRequest) {
         String oldName = menuItem.getName();
 
         menuItem.setName(updateRequest.name());

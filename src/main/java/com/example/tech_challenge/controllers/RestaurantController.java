@@ -1,23 +1,20 @@
 package com.example.tech_challenge.controllers;
 
-import com.example.tech_challenge.datasources.AddressDataSource;
-import com.example.tech_challenge.datasources.MenuItemDataSource;
-import com.example.tech_challenge.datasources.RestaurantDataSource;
-import com.example.tech_challenge.datasources.UserDataSource;
+import com.example.tech_challenge.datasources.*;
 import com.example.tech_challenge.dtos.requests.DeleteRestaurantRequest;
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
 import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import com.example.tech_challenge.entities.Restaurant;
-import com.example.tech_challenge.gateways.AddressGateway;
-import com.example.tech_challenge.gateways.MenuItemGateway;
-import com.example.tech_challenge.gateways.RestaurantGateway;
-import com.example.tech_challenge.gateways.UserGateway;
+import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.usecases.CreateRestaurantUseCase;
-import com.example.tech_challenge.usecases.DeleteRestaurantUseCase;
-import com.example.tech_challenge.usecases.FindRestaurantsByOwnerUseCase;
-import com.example.tech_challenge.usecases.UpdateRestaurantUseCase;
+import com.example.tech_challenge.usecases.deleterestaurant.DeleteRestaurantByRequesterUseCase;
+import com.example.tech_challenge.usecases.deleterestaurant.DeleteRestaurantUseCase;
+import com.example.tech_challenge.usecases.findrestaurantsbyowner.FindRestaurantsByOwnerByRequesterUseCase;
+import com.example.tech_challenge.usecases.findrestaurantsbyowner.FindRestaurantsByOwnerUseCase;
+import com.example.tech_challenge.usecases.updaterestaurant.UpdateRestaurantByRequesterUseCase;
+import com.example.tech_challenge.usecases.updaterestaurant.UpdateRestaurantUseCase;
 
 import java.util.List;
 
@@ -27,37 +24,50 @@ public class RestaurantController {
     private final RestaurantDataSource restaurantDataSource;
     private final AddressDataSource addressDataSource;
     private final MenuItemDataSource menuItemDataSource;
+    private final TokenDataSource tokenDataSource;
 
-    public RestaurantController(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource, AddressDataSource addressDataSource, MenuItemDataSource menuItemDataSource) {
+    public RestaurantController(UserDataSource userDataSource, RestaurantDataSource restaurantDataSource,
+                                AddressDataSource addressDataSource, MenuItemDataSource menuItemDataSource, TokenDataSource tokenDataSource) {
         this.userDataSource = userDataSource;
         this.restaurantDataSource = restaurantDataSource;
         this.addressDataSource = addressDataSource;
         this.menuItemDataSource = menuItemDataSource;
+        this.tokenDataSource = tokenDataSource;
     }
 
-    public RestaurantResponse createRestaurant(RestaurantRequest restaurantRequest, String login) {
+    public RestaurantResponse createRestaurant(RestaurantRequest restaurantRequest, String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
-        CreateRestaurantUseCase createRestaurantUseCase = new CreateRestaurantUseCase(userGateway, restaurantGateway);
-        Restaurant restaurant = createRestaurantUseCase.execute(restaurantRequest, login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        CreateRestaurantUseCase createRestaurantUseCase = new CreateRestaurantUseCase(userGateway, restaurantGateway, tokenGateway);
+        Restaurant restaurant = createRestaurantUseCase.execute(restaurantRequest, token);
         return RestaurantMapper.toResponse(restaurant);
     }
 
-    public List<RestaurantResponse> findRestaurantsByOwner(String ownerLogin) {
-        List<Restaurant> restaurantList = getFindRestaurantsByOwnerUseCase().execute(ownerLogin);
+    public List<RestaurantResponse> findRestaurantsByOwnerByRequester(String token) {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        FindRestaurantsByOwnerByRequesterUseCase findRestaurantsByOwnerByRequesterUseCase =
+                new FindRestaurantsByOwnerByRequesterUseCase(restaurantGateway, userGateway, tokenGateway);
+        List<Restaurant> restaurantList = findRestaurantsByOwnerByRequesterUseCase.execute(token);
         return restaurantList.stream().map(RestaurantMapper::toResponse).toList();
     }
 
     public List<RestaurantResponse> findRestaurantsByOwner(Long ownerId) {
-        List<Restaurant> restaurantList = getFindRestaurantsByOwnerUseCase().execute(ownerId);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        FindRestaurantsByOwnerUseCase findRestaurantsByOwnerUseCase = new FindRestaurantsByOwnerUseCase(restaurantGateway);
+        List<Restaurant> restaurantList = findRestaurantsByOwnerUseCase.execute(ownerId);
         return restaurantList.stream().map(RestaurantMapper::toAdminResponse).toList();
     }
 
-    public RestaurantResponse updateRestaurant(UpdateRestaurantRequest updateAddress, String ownerLogin) {
+    public RestaurantResponse updateRestaurantByRequester(UpdateRestaurantRequest updateAddress, String token) {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        UpdateRestaurantUseCase updateRestaurantUseCase = new UpdateRestaurantUseCase(restaurantGateway, addressGateway);
-        Restaurant restaurant = updateRestaurantUseCase.execute(updateAddress, ownerLogin);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateRestaurantByRequesterUseCase updateRestaurantByRequesterUseCase =
+                new UpdateRestaurantByRequesterUseCase(restaurantGateway, addressGateway, tokenGateway);
+        Restaurant restaurant = updateRestaurantByRequesterUseCase.execute(updateAddress, token);
         return RestaurantMapper.toResponse(restaurant);
     }
 
@@ -69,12 +79,13 @@ public class RestaurantController {
         return RestaurantMapper.toResponse(restaurant);
     }
 
-    public void deleteRestaurant(DeleteRestaurantRequest deleteRestaurantRequest, String login) {
+    public void deleteRestaurantByRequester(DeleteRestaurantRequest deleteRestaurantRequest, String token) {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
-        DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway, menuItemGateway);
-        deleteRestaurantUseCase.execute(deleteRestaurantRequest, login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        DeleteRestaurantByRequesterUseCase deleteRestaurantByRequester = new DeleteRestaurantByRequesterUseCase(restaurantGateway, addressGateway, menuItemGateway, tokenGateway);
+        deleteRestaurantByRequester.execute(deleteRestaurantRequest, token);
     }
 
     public void deleteRestaurant(Long id) {
@@ -83,11 +94,5 @@ public class RestaurantController {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         DeleteRestaurantUseCase deleteRestaurantUseCase = new DeleteRestaurantUseCase(restaurantGateway, addressGateway, menuItemGateway);
         deleteRestaurantUseCase.execute(id);
-    }
-
-    private FindRestaurantsByOwnerUseCase getFindRestaurantsByOwnerUseCase() {
-        UserGateway userGateway = new UserGateway(userDataSource);
-        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
-        return new FindRestaurantsByOwnerUseCase(restaurantGateway, userGateway);
     }
 }

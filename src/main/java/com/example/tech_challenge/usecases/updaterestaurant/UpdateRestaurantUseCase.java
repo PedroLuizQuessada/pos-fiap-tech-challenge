@@ -1,7 +1,6 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.updaterestaurant;
 
 import com.example.tech_challenge.dtos.requests.RestaurantRequest;
-import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.entities.Address;
 import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.exceptions.RestaurantNameAlreadyInUseException;
@@ -22,17 +21,12 @@ public class UpdateRestaurantUseCase {
         this.addressGateway = addressGateway;
     }
 
-    public Restaurant execute(UpdateRestaurantRequest updateAddress, String ownerLogin) {
-        Restaurant restaurant = restaurantGateway.findRestaurantByNameAndOwnerLogin(updateAddress.oldName(), ownerLogin);
-        return updateRestaurant(RestaurantMapper.toRequest(updateAddress), restaurant);
-    }
-
     public Restaurant execute(RestaurantRequest updateRestaurant, Long id) {
         Restaurant restaurant = restaurantGateway.findRestaurantById(id);
         return updateRestaurant(updateRestaurant, restaurant);
     }
 
-    private Restaurant updateRestaurant(RestaurantRequest updateRestaurant, Restaurant restaurant) {
+    Restaurant updateRestaurant(RestaurantRequest updateRestaurant, Restaurant restaurant) {
         Address oldAddress = restaurant.getAddress();
         Address address = !Objects.isNull(updateRestaurant.address()) ?
                 AddressMapper.toEntity(updateRestaurant.address(), !Objects.isNull(restaurant.getAddress()) ? restaurant.getAddress().getId() : null)

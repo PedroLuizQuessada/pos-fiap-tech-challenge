@@ -12,6 +12,10 @@ import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.TokenMapper;
 import com.example.tech_challenge.mappers.UserMapper;
 import com.example.tech_challenge.usecases.*;
+import com.example.tech_challenge.usecases.deleteuser.DeleteUserByRequesterUseCase;
+import com.example.tech_challenge.usecases.deleteuser.DeleteUserUseCase;
+import com.example.tech_challenge.usecases.updateuser.UpdateUserByRequesterUseCase;
+import com.example.tech_challenge.usecases.updateuser.UpdateUserUseCase;
 
 public class UserController {
 
@@ -47,11 +51,12 @@ public class UserController {
         return allowAdmin ? UserMapper.toAdminResponse(user) : UserMapper.toResponse(user);
     }
 
-    public UserResponse updateUser(UpdateUserRequest updateUserRequest, String login) {
+    public UserResponse updateUserByRequester(UpdateUserRequest updateUserRequest, String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
-        UpdateUserUseCase updateUserUseCase = new UpdateUserUseCase(userGateway, addressGateway);
-        User user = updateUserUseCase.execute(updateUserRequest, login);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateUserByRequesterUseCase updateUserByRequesterUseCase = new UpdateUserByRequesterUseCase(userGateway, addressGateway, tokenGateway);
+        User user = updateUserByRequesterUseCase.execute(updateUserRequest, token);
         return UserMapper.toResponse(user);
     }
 
@@ -63,25 +68,30 @@ public class UserController {
         return UserMapper.toAdminResponse(user);
     }
 
-    public void deleteUser(String login) {
-        getDeleteUserUseCase().execute(login);
-    }
-
-    public void deleteUser(Long id) {
-        getDeleteUserUseCase().execute(id);
-    }
-
-    public void updatePasswordUser(UpdateUserPasswordRequest updateUserPasswordRequest, String login) {
-        UserGateway userGateway = new UserGateway(userDataSource);
-        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway);
-        updateUserPasswordUseCase.execute(updateUserPasswordRequest, login);
-    }
-
-    private DeleteUserUseCase getDeleteUserUseCase() {
+    public void deleteUserByRequester(String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
         AddressGateway addressGateway = new AddressGateway(addressDataSource);
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
-        return new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway, menuItemGateway);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        DeleteUserByRequesterUseCase deleteUserByRequesterUseCase = new DeleteUserByRequesterUseCase(userGateway, addressGateway,
+                restaurantGateway, menuItemGateway, tokenGateway);
+        deleteUserByRequesterUseCase.execute(token);
+    }
+
+    public void deleteUser(Long id) {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        AddressGateway addressGateway = new AddressGateway(addressDataSource);
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
+        DeleteUserUseCase deleteUserUseCase = new DeleteUserUseCase(userGateway, addressGateway, restaurantGateway, menuItemGateway);
+        deleteUserUseCase.execute(id);
+    }
+
+    public void updateUserPassword(UpdateUserPasswordRequest updateUserPasswordRequest, String token) {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+        UpdateUserPasswordUseCase updateUserPasswordUseCase = new UpdateUserPasswordUseCase(userGateway, tokenGateway);
+        updateUserPasswordUseCase.execute(updateUserPasswordRequest, token);
     }
 }

@@ -3,12 +3,14 @@ package com.example.tech_challenge.infraestructure.persistence.jpa.mappers;
 import com.example.tech_challenge.dtos.MenuItemDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.MenuItemJpa;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 @AllArgsConstructor
+@Profile("jpa")
 public class MenuItemJpaDtoMapper {
 
     private final RestaurantJpaDtoMapper restaurantJpaDtoMapper;
