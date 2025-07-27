@@ -10,7 +10,7 @@ public interface MenuItemDataSource {
     Long countByNameAndRestaurant(String name, Long restaurant);
     List<MenuItemDto> findByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin);
     List<MenuItemDto> findByRestaurant(Long restaurant);
-    Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name);
+    Optional<MenuItemDto> findByRestaurantNameAndOwnerLoginAndName(String restaurantName, String ownerLogin, String name);
     Optional<MenuItemDto> findById(Long id);
     MenuItemDto updateMenuItem(MenuItemDto menuItemDto);
     void deleteMenuItem(MenuItemDto menuItemDto);

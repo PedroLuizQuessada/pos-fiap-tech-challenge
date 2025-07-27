@@ -5,6 +5,7 @@ import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.mappers.UserTypeJpaDtoMapper;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.UserTypeJpa;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,19 @@ public class UserTypeRepositoryJpaImpl implements UserTypeDataSource {
         Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType ORDER BY userType.id");
         List<UserTypeJpa> userTypeJpaList = query.getResultList();
         return userTypeJpaList.stream().map(userTypeJpa -> userTypeJpaDtoMapper.toUserTypeDto(userTypeJpa)).toList();
+    }
+
+    @Override
+    public Optional<UserTypeDto> findUserTypeByName(String name) {
+        Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType WHERE userType.name = :name");
+        query.setParameter("name", name);
+        try {
+            UserTypeJpa userTypeJpa = (UserTypeJpa) query.getSingleResult();
+            return Optional.ofNullable(userTypeJpaDtoMapper.toUserTypeDto(userTypeJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

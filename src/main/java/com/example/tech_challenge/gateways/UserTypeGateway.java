@@ -37,6 +37,18 @@ public class UserTypeGateway {
         return userTypeList.stream().map(UserTypeMapper::toEntity).toList();
     }
 
+    public UserType findUserTypeByName(String name) {
+        if (Objects.isNull(name))
+            throw new UserTypeNotFoundException();
+
+        Optional<UserTypeDto> optionalUserTypeDto = userTypeDataSource.findUserTypeByName(name);
+
+        if (optionalUserTypeDto.isEmpty())
+            throw new UserTypeNotFoundException();
+
+        return UserTypeMapper.toEntity(optionalUserTypeDto.get());
+    }
+
     public UserType findUserTypeById(Long id) {
         if (Objects.isNull(id))
             throw new UserTypeNotFoundException();

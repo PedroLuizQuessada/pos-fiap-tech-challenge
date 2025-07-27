@@ -1,5 +1,6 @@
-package com.example.tech_challenge.usecases;
+package com.example.tech_challenge.usecases.createuser;
 
+import com.example.tech_challenge.dtos.requests.CreateUser;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.entities.User;
 import com.example.tech_challenge.entities.UserType;
@@ -21,13 +22,16 @@ public class CreateUserUseCase {
         this.userTypeGateway = userTypeGateway;
     }
 
-    public User execute(CreateUserRequest createUser, boolean allowAdmin) {
-        if (!allowAdmin && UserTypeEnum.ADMIN.getId().equals(createUser.userType()))
+    public User execute(CreateUserRequest createUser) {
+        if (UserTypeEnum.ADMIN.name().equals(createUser.userType()))
             throw new AdminCreationNotAllowedException();
 
-        UserType userType = userTypeGateway.findUserTypeById(createUser.userType());
+        UserType userType = userTypeGateway.findUserTypeByName(createUser.userType());
         User user = UserMapper.toEntity(createUser, userType, true);
+        return createUser(createUser, user);
+    }
 
+    User createUser(CreateUser createUser, User user) {
         checkEmailAlreadyInUse(createUser.email());
         checkLoginAlreadyInUse(createUser.login());
 

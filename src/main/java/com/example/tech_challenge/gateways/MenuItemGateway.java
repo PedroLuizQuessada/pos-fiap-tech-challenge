@@ -36,8 +36,8 @@ public class MenuItemGateway {
         return menuItemDtoList.stream().map(MenuItemMapper::toEntity).toList();
     }
 
-    public MenuItem findMenuItensByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name) {
-        Optional<MenuItemDto> optionalMenuItemDto = menuItemDataSource.findByRestaurantAndOwnerLoginAndName(restaurant, ownerLogin, name);
+    public MenuItem findByRestaurantNameAndOwnerLoginAndName(String restaurantName, String ownerLogin, String name) {
+        Optional<MenuItemDto> optionalMenuItemDto = menuItemDataSource.findByRestaurantNameAndOwnerLoginAndName(restaurantName, ownerLogin, name);
 
         if (optionalMenuItemDto.isEmpty())
             throw new MenuItemNotFoundException();

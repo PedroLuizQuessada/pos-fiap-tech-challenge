@@ -24,7 +24,7 @@ public class CreateMenuItemUseCase {
 
     public MenuItem execute(CreateMenuItemRequest createMenuItem, String token) {
         Requester requester = tokenGateway.getRequester(token);
-        Restaurant restaurant = restaurantGateway.findRestaurantByIdAndOwnerLogin(createMenuItem.restaurant(), requester.getLogin());
+        Restaurant restaurant = restaurantGateway.findRestaurantByNameAndOwnerLogin(createMenuItem.restaurantName(), requester.getLogin());
         MenuItem menuItem = MenuItemMapper.toEntity(createMenuItem, restaurant);
         checkNameAlreadyInUse(menuItem.getName(), restaurant.getId());
         return menuItemGateway.createMenuItem(MenuItemMapper.toDto(menuItem));

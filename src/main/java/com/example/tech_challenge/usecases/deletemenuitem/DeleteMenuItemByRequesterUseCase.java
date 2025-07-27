@@ -20,7 +20,7 @@ public class DeleteMenuItemByRequesterUseCase {
 
     public void execute(DeleteMenuItemRequest request, String token) {
         Requester requester = tokenGateway.getRequester(token);
-        MenuItem menuItem = menuItemGateway.findMenuItensByRestaurantAndOwnerLoginAndName(request.restaurant(), requester.getLogin(), request.name());
+        MenuItem menuItem = menuItemGateway.findByRestaurantNameAndOwnerLoginAndName(request.restaurantName(), requester.getLogin(), request.name());
         deleteMenuItemUseCase.delete(menuItem);
     }
 

@@ -10,6 +10,7 @@ public interface UserTypeDataSource {
     UserTypeDto updateUserType(UserTypeDto userTypeDto);
     Long countByName(String name);
     List<UserTypeDto> findAllUserTypes();
+    Optional<UserTypeDto> findUserTypeByName(String name);
     Optional<UserTypeDto> findUserTypeById(Long id);
     void deleteUserType(UserTypeDto userTypeDto);
 }

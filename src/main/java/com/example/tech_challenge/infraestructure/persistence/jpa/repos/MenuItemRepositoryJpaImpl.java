@@ -60,9 +60,9 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
     }
 
     @Override
-    public Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name) {
-        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin AND menuItem.name = :name");
-        query.setParameter("restaurant", restaurant);
+    public Optional<MenuItemDto> findByRestaurantNameAndOwnerLoginAndName(String restaurantName, String ownerLogin, String name) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.name = :restaurantName AND menuItem.restaurantJpa.userJpa.login = :ownerLogin AND menuItem.name = :name");
+        query.setParameter("restaurantName", restaurantName);
         query.setParameter("ownerLogin", ownerLogin);
         query.setParameter("name", name);
         try {

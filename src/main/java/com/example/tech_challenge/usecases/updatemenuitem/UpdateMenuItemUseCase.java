@@ -1,6 +1,7 @@
 package com.example.tech_challenge.usecases.updatemenuitem;
 
-import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.UpdateMenuItem;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.exceptions.MenuItemNameAlreadyInUseException;
 import com.example.tech_challenge.gateways.MenuItemGateway;
@@ -16,12 +17,12 @@ public class UpdateMenuItemUseCase {
         this.menuItemGateway = menuItemGateway;
     }
 
-    public MenuItem execute(UpdateMenuItemRequest updateRequest, Long id) {
+    public MenuItem execute(AdminUpdateMenuItemRequest updateRequest, Long id) {
         MenuItem menuItem = menuItemGateway.findMenuItemById(id);
         return update(menuItem, updateRequest);
     }
 
-    MenuItem update(MenuItem menuItem, UpdateMenuItemRequest updateRequest) {
+    MenuItem update(MenuItem menuItem, UpdateMenuItem updateRequest) {
         String oldName = menuItem.getName();
 
         menuItem.setName(updateRequest.name());

@@ -2,10 +2,11 @@ package com.example.tech_challenge.infraestructure.api.user;
 
 import com.example.tech_challenge.controllers.UserController;
 import com.example.tech_challenge.datasources.*;
+import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
 import com.example.tech_challenge.dtos.responses.TokenResponse;
 import com.example.tech_challenge.dtos.responses.UserResponse;
-import com.example.tech_challenge.dtos.requests.CreateUserRequest;
+import com.example.tech_challenge.dtos.requests.AdminCreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -82,7 +83,7 @@ public class UserApiV1 {
     @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody @Valid CreateUserRequest createUserRequest) {
         log.info("Creating user: {}", createUserRequest.login());
-        UserResponse userResponse = userController.createUser(createUserRequest, false);
+        UserResponse userResponse = userController.createUser(createUserRequest);
         log.info("Created user: {}", userResponse.login());
 
         return ResponseEntity
@@ -116,9 +117,9 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/admin")
-    public ResponseEntity<UserResponse> adminCreate(@RequestBody @Valid CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> adminCreate(@RequestBody @Valid AdminCreateUserRequest createUserRequest) {
         log.info("Admin creating user: {}", createUserRequest.login());
-        UserResponse userResponse = userController.createUser(createUserRequest, true);
+        UserResponse userResponse = userController.adminCreateUser(createUserRequest);
         log.info("Admin created user: {}", userResponse.login());
 
         return ResponseEntity

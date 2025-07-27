@@ -1,6 +1,7 @@
 package com.example.tech_challenge.controllers;
 
 import com.example.tech_challenge.datasources.*;
+import com.example.tech_challenge.dtos.requests.AdminCreateUserRequest;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserRequest;
@@ -12,6 +13,8 @@ import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.TokenMapper;
 import com.example.tech_challenge.mappers.UserMapper;
 import com.example.tech_challenge.usecases.*;
+import com.example.tech_challenge.usecases.createuser.AdminCreateUserUseCase;
+import com.example.tech_challenge.usecases.createuser.CreateUserUseCase;
 import com.example.tech_challenge.usecases.deleteuser.DeleteUserByRequesterUseCase;
 import com.example.tech_challenge.usecases.deleteuser.DeleteUserUseCase;
 import com.example.tech_challenge.usecases.updateuser.UpdateUserByRequesterUseCase;
@@ -43,12 +46,20 @@ public class UserController {
         return TokenMapper.toResponse(token);
     }
 
-    public UserResponse createUser(CreateUserRequest createUserRequest, boolean allowAdmin) {
+    public UserResponse createUser(CreateUserRequest createUserRequest) {
         UserGateway userGateway = new UserGateway(userDataSource);
         UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
         CreateUserUseCase createUserUseCase = new CreateUserUseCase(userGateway, userTypeGateway);
-        User user = createUserUseCase.execute(createUserRequest, allowAdmin);
-        return allowAdmin ? UserMapper.toAdminResponse(user) : UserMapper.toResponse(user);
+        User user = createUserUseCase.execute(createUserRequest);
+        return UserMapper.toResponse(user);
+    }
+
+    public UserResponse adminCreateUser(AdminCreateUserRequest createUserRequest) {
+        UserGateway userGateway = new UserGateway(userDataSource);
+        UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
+        AdminCreateUserUseCase adminCreateUserUseCase = new AdminCreateUserUseCase(userGateway, userTypeGateway);
+        User user = adminCreateUserUseCase.execute(createUserRequest);
+        return UserMapper.toAdminResponse(user);
     }
 
     public UserResponse updateUserByRequester(UpdateUserRequest updateUserRequest, String token) {

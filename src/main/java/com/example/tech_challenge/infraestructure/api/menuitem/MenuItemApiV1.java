@@ -4,6 +4,7 @@ import com.example.tech_challenge.controllers.MenuItemController;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
+import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
@@ -190,7 +191,7 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/admin/{id}")
-    public ResponseEntity<MenuItemResponse> adminUpdate(@RequestBody @Valid UpdateMenuItemRequest menuItemRequest,
+    public ResponseEntity<MenuItemResponse> adminUpdate(@RequestBody @Valid AdminUpdateMenuItemRequest menuItemRequest,
                                                         @PathVariable("id") Long id) {
         log.info("Admin updating menu item: {}", id);
         MenuItemResponse menuItemResponse = menuItemController.updateMenuItem(menuItemRequest, id);

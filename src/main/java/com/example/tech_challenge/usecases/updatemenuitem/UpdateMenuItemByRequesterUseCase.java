@@ -20,7 +20,7 @@ public class UpdateMenuItemByRequesterUseCase {
 
     public MenuItem execute(UpdateMenuItemRequest updateRequest, String token) {
         Requester requester = tokenGateway.getRequester(token);
-        MenuItem menuItem = menuItemGateway.findMenuItensByRestaurantAndOwnerLoginAndName(updateRequest.restaurant(),
+        MenuItem menuItem = menuItemGateway.findByRestaurantNameAndOwnerLoginAndName(updateRequest.restaurant(),
                 requester.getLogin(), updateRequest.oldName());
         return updateMenuItemUseCase.update(menuItem, updateRequest);
     }

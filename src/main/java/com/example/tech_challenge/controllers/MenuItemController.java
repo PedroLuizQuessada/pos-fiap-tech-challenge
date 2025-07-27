@@ -3,6 +3,7 @@ package com.example.tech_challenge.controllers;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
+import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
 import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
@@ -67,7 +68,7 @@ public class MenuItemController {
         return MenuItemMapper.toResponse(menuItem);
     }
 
-    public MenuItemResponse updateMenuItem(UpdateMenuItemRequest updateRequest, Long id) {
+    public MenuItemResponse updateMenuItem(AdminUpdateMenuItemRequest updateRequest, Long id) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         UpdateMenuItemUseCase updateMenuItemUseCase = new UpdateMenuItemUseCase(menuItemGateway);
         MenuItem menuItem = updateMenuItemUseCase.execute(updateRequest, id);
