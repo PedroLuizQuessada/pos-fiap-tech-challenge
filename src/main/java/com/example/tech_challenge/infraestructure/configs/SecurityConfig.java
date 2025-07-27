@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/tipos-usuario").authenticated()
                                 .requestMatchers(ADMIN_LIST_URL).hasAuthority(UserTypeEnum.ADMIN.name())
                                 .requestMatchers(OWNER_LIST_URL).hasAuthority(UserTypeEnum.OWNER.name())
                                 .anyRequest().authenticated())

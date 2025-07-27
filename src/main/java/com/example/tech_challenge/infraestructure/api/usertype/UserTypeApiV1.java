@@ -103,8 +103,8 @@ public class UserTypeApiV1 {
                 .body(userTypeResponse);
     }
 
-    @Operation(summary = "Admin consulta todos os tipos de usuário",
-            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+    @Operation(summary = "Consulta todos os tipos de usuário",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -114,17 +114,13 @@ public class UserTypeApiV1 {
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProblemDetail.class))),
-            @ApiResponse(responseCode = "403",
-                    description = "Usuário autenticado não é 'ADMIN'",
-                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
     public ResponseEntity<List<UserTypeResponse>> findAll() {
-        log.info("Admin finding all user type");
+        log.info("User finding all user type");
         List<UserTypeResponse> userTypeResponseList = userTypeController.findAllUserTypes();
-        log.info("Admin found {} user types", userTypeResponseList.size());
+        log.info("User found {} user types", userTypeResponseList.size());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
