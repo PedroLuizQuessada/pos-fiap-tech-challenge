@@ -3,10 +3,7 @@ package com.example.tech_challenge.controllers;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.*;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.gateways.MenuItemGateway;
@@ -44,12 +41,12 @@ public class MenuItemController {
         return MenuItemMapper.toResponse(menuItem);
     }
 
-    public List<MenuItemResponse> findMenuItensByRestaurantAndResquester(int page, int size, Long restaurant, String token) {
+    public List<MenuItemResponse> findMenuItensByRestaurantAndResquester(int page, int size, FindMenuItensRequest request, String token) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         FindMenuItensByRestaurantAndResquesterUseCase findMenuItensByRestaurantAndResquesterUseCase =
                 new FindMenuItensByRestaurantAndResquesterUseCase(menuItemGateway, tokenGateway);
-        List<MenuItem> menuItemList = findMenuItensByRestaurantAndResquesterUseCase.execute(page, size, restaurant, token);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantAndResquesterUseCase.execute(page, size, request, token);
         return menuItemList.stream().map(MenuItemMapper::toResponse).toList();
     }
 

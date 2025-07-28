@@ -43,8 +43,8 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
     }
 
     @Override
-    public List<MenuItemDto> findByRestaurantAndOwnerLogin(int page, int size, Long restaurant, String ownerLogin) {
-        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin ORDER BY menuItem.id");
+    public List<MenuItemDto> findByRestaurantNameAndOwnerLogin(int page, int size, String restaurant, String ownerLogin) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.name = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin ORDER BY menuItem.id");
         query.setParameter("restaurant", restaurant);
         query.setParameter("ownerLogin", ownerLogin);
         query.setFirstResult(page * size);

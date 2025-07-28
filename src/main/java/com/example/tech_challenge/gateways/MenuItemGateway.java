@@ -26,8 +26,8 @@ public class MenuItemGateway {
         return menuItemDataSource.countByNameAndRestaurant(name, restaurant);
     }
 
-    public List<MenuItem> findMenuItensByRestaurantAndOwnerLogin(int page, int size, Long restaurant, String ownerLogin) {
-        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurantAndOwnerLogin(page, size, restaurant, ownerLogin);
+    public List<MenuItem> findMenuItensByRestaurantAndOwnerLogin(int page, int size, String restaurant, String ownerLogin) {
+        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurantNameAndOwnerLogin(page, size, restaurant, ownerLogin);
         return menuItemDtoList.stream().map(MenuItemMapper::toEntity).toList();
     }
 

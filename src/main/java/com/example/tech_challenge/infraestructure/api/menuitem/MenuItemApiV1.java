@@ -4,10 +4,7 @@ import com.example.tech_challenge.controllers.MenuItemController;
 import com.example.tech_challenge.datasources.MenuItemDataSource;
 import com.example.tech_challenge.datasources.RestaurantDataSource;
 import com.example.tech_challenge.datasources.TokenDataSource;
-import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.CreateMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.DeleteMenuItemRequest;
-import com.example.tech_challenge.dtos.requests.UpdateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.*;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -88,14 +85,14 @@ public class MenuItemApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @GetMapping("/{id}")
+    @GetMapping
     public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@RequestHeader(name = "Authorization") String token,
-                                                                                @PathVariable("id") Long id, //TODO
+                                                                                @RequestBody @Valid FindMenuItensRequest request,
                                                                                 @RequestParam("page") int page,
                                                                                 @RequestParam("size") int size) {
-        log.info("Finding menu items from restaurant {}", id);
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(page, size, id, token);
-        log.info("Found {} from restaurant {}", menuItemResponseList.size(), id);
+        log.info("Finding menu items from restaurant {}", request.restaurantName());
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(page, size, request, token);
+        log.info("Found {} from restaurant {}", menuItemResponseList.size(), request.restaurantName());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
