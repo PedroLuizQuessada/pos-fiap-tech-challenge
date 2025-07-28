@@ -55,7 +55,7 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<UserTypeResponse> create(@RequestBody @Valid UserTypeRequest userTypeRequest) {
         log.info("Admin creating user type: {}", userTypeRequest.name());
         UserTypeResponse userTypeResponse = userTypeController.createUserType(userTypeRequest);
@@ -91,7 +91,7 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<UserTypeResponse> update(@RequestBody @Valid UserTypeRequest userTypeRequest,
                                                    @PathVariable("id") Long id) {
         log.info("Admin updating user type name: {}", id);
@@ -151,7 +151,7 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         log.info("User deleting user type: {}", id);
         userTypeController.deleteUserType(id);
