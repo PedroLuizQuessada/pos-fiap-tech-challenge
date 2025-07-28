@@ -8,10 +8,9 @@ import java.util.Optional;
 public interface RestaurantDataSource {
     RestaurantDto createRestaurant(RestaurantDto restaurantDto);
     Long countByName(String name);
-    List<RestaurantDto> findRestaurantsByOwner(Long ownerId);
+    List<RestaurantDto> findRestaurantsByOwner(int page, int size, Long ownerId);
     Optional<RestaurantDto> findRestaurantByNameAndOwnerLogin(String name, String ownerLogin);
     Optional<RestaurantDto> findRestaurantById(Long id);
-    Optional<RestaurantDto> findRestaurantByIdAndOwnerLogin(Long id, String ownerLogin);
     RestaurantDto updateRestaurant(RestaurantDto restaurantDto);
     void deleteRestaurant(RestaurantDto restaurantDto);
 }

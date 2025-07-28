@@ -44,19 +44,19 @@ public class MenuItemController {
         return MenuItemMapper.toResponse(menuItem);
     }
 
-    public List<MenuItemResponse> findMenuItensByRestaurantAndResquester(Long restaurant, String token) {
+    public List<MenuItemResponse> findMenuItensByRestaurantAndResquester(int page, int size, Long restaurant, String token) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         FindMenuItensByRestaurantAndResquesterUseCase findMenuItensByRestaurantAndResquesterUseCase =
                 new FindMenuItensByRestaurantAndResquesterUseCase(menuItemGateway, tokenGateway);
-        List<MenuItem> menuItemList = findMenuItensByRestaurantAndResquesterUseCase.execute(restaurant, token);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantAndResquesterUseCase.execute(page, size, restaurant, token);
         return menuItemList.stream().map(MenuItemMapper::toResponse).toList();
     }
 
-    public List<MenuItemResponse> findMenuItensByRestaurant(Long restaurant) {
+    public List<MenuItemResponse> findMenuItensByRestaurant(int page, int size, Long restaurant) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         FindMenuItensByRestaurantUseCase findMenuItensByRestaurantUseCase = new FindMenuItensByRestaurantUseCase(menuItemGateway);
-        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(restaurant);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(page, size, restaurant);
         return menuItemList.stream().map(MenuItemMapper::toAdminResponse).toList();
     }
 

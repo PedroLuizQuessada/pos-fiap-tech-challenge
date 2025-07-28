@@ -13,7 +13,7 @@ public class FindAllUserTypeUseCase {
         this.userTypeGateway = userTypeGateway;
     }
 
-    public List<UserType> execute() {
-        return userTypeGateway.findAllUserTypes();
+    public List<UserType> execute(int page, int size) {
+        return userTypeGateway.findAllUserTypes(page, size);
     }
 }

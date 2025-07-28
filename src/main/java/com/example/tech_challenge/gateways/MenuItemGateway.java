@@ -26,13 +26,13 @@ public class MenuItemGateway {
         return menuItemDataSource.countByNameAndRestaurant(name, restaurant);
     }
 
-    public List<MenuItem> findMenuItensByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin) {
-        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurantAndOwnerLogin(restaurant, ownerLogin);
+    public List<MenuItem> findMenuItensByRestaurantAndOwnerLogin(int page, int size, Long restaurant, String ownerLogin) {
+        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurantAndOwnerLogin(page, size, restaurant, ownerLogin);
         return menuItemDtoList.stream().map(MenuItemMapper::toEntity).toList();
     }
 
-    public List<MenuItem> findMenuItensByRestaurant(Long restaurant) {
-        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurant(restaurant);
+    public List<MenuItem> findMenuItensByRestaurant(int page, int size, Long restaurant) {
+        List<MenuItemDto> menuItemDtoList = menuItemDataSource.findByRestaurant(page, size, restaurant);
         return menuItemDtoList.stream().map(MenuItemMapper::toEntity).toList();
     }
 

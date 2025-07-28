@@ -17,9 +17,9 @@ public class FindMenuItensByRestaurantAndResquesterUseCase {
         this.tokenGateway = tokenGateway;
     }
 
-    public List<MenuItem> execute(Long restaurant, String token) {
+    public List<MenuItem> execute(int page, int size, Long restaurant, String token) {
         Requester requester = tokenGateway.getRequester(token);
-        return menuItemGateway.findMenuItensByRestaurantAndOwnerLogin(restaurant, requester.getLogin());
+        return menuItemGateway.findMenuItensByRestaurantAndOwnerLogin(page, size, restaurant, requester.getLogin());
     }
 
 }

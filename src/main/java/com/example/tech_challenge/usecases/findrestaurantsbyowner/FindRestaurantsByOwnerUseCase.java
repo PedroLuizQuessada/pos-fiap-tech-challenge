@@ -13,7 +13,7 @@ public class FindRestaurantsByOwnerUseCase {
         this.restaurantGateway = restaurantGateway;
     }
 
-    public List<Restaurant> execute(Long ownerId) {
-        return restaurantGateway.findRestaurantsByOwner(ownerId);
+    public List<Restaurant> execute(int page, int size, Long ownerId) {
+        return restaurantGateway.findRestaurantsByOwner(page, size, ownerId);
     }
 }

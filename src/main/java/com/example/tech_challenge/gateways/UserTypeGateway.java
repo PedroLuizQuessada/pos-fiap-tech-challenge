@@ -32,8 +32,8 @@ public class UserTypeGateway {
         return userTypeDataSource.countByName(name);
     }
 
-    public List<UserType> findAllUserTypes() {
-        List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes();
+    public List<UserType> findAllUserTypes(int page, int size) {
+        List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes(page, size);
         return userTypeList.stream().map(UserTypeMapper::toEntity).toList();
     }
 

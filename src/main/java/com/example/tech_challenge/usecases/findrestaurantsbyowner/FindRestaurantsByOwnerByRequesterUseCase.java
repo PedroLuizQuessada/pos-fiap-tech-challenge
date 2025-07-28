@@ -21,10 +21,10 @@ public class FindRestaurantsByOwnerByRequesterUseCase {
         this.findRestaurantsByOwnerUseCase = new FindRestaurantsByOwnerUseCase(restaurantGateway);
     }
 
-    public List<Restaurant> execute(String token) {
+    public List<Restaurant> execute(int page, int size, String token) {
         Requester requester = tokenGateway.getRequester(token);
         User user = userGateway.findUserByLogin(requester.getLogin());
-        return findRestaurantsByOwnerUseCase.execute(user.getId());
+        return findRestaurantsByOwnerUseCase.execute(page, size, user.getId());
     }
 
 }

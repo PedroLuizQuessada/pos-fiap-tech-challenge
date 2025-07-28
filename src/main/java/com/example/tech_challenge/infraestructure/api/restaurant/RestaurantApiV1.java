@@ -87,9 +87,11 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
-    public ResponseEntity<List<RestaurantResponse>> findAll(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<List<RestaurantResponse>> findAll(@RequestHeader(name = "Authorization") String token,
+                                                            @RequestParam("page") int page,
+                                                            @RequestParam("size") int size) {
         log.info("User finding all restaurants");
-        List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurantsByOwnerByRequester(token);
+        List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurantsByOwnerByRequester(page, size, token);
         log.info("User found {} restaurants", restaurantResponseList.size());
 
         return ResponseEntity
@@ -115,9 +117,11 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/admin/{owner-id}")
-    public ResponseEntity<List<RestaurantResponse>> adminFindAll(@PathVariable("owner-id") Long ownerId) {
+    public ResponseEntity<List<RestaurantResponse>> adminFindAll(@PathVariable("owner-id") Long ownerId,
+                                                                 @RequestParam("page") int page,
+                                                                 @RequestParam("size") int size) {
         log.info("Admin finding all restaurants from user: {}", ownerId);
-        List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurantsByOwner(ownerId);
+        List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurantsByOwner(page, size, ownerId);
         log.info("Admin found {} restaurants from user: {}", restaurantResponseList.size(), ownerId);
 
         return ResponseEntity

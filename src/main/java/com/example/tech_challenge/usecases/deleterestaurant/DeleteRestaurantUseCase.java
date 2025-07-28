@@ -30,10 +30,18 @@ public class DeleteRestaurantUseCase {
     }
 
     void deleteRestaurant(RestaurantDto restaurantDto) {
-        List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(restaurantDto.id());
+        int page = 0;
+        int size = 100;
 
-        for (MenuItem menuItem : menuItemList) {
-            menuItemGateway.deleteMenuItem(MenuItemMapper.toDto(menuItem));
+        List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(page, size, restaurantDto.id());
+
+        while (!menuItemList.isEmpty()) {
+            for (MenuItem menuItem : menuItemList) {
+                menuItemGateway.deleteMenuItem(MenuItemMapper.toDto(menuItem));
+            }
+
+            page++;
+            menuItemList = menuItemGateway.findMenuItensByRestaurant(page, size, restaurantDto.id());
         }
 
         restaurantGateway.deleteRestaurant(restaurantDto);

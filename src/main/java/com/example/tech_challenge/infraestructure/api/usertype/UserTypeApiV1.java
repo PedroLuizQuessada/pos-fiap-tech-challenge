@@ -117,9 +117,10 @@ public class UserTypeApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
-    public ResponseEntity<List<UserTypeResponse>> findAll() {
+    public ResponseEntity<List<UserTypeResponse>> findAll(@RequestParam("page") int page,
+                                                          @RequestParam("size") int size) {
         log.info("User finding all user type");
-        List<UserTypeResponse> userTypeResponseList = userTypeController.findAllUserTypes();
+        List<UserTypeResponse> userTypeResponseList = userTypeController.findAllUserTypes(page, size);
         log.info("User found {} user types", userTypeResponseList.size());
 
         return ResponseEntity

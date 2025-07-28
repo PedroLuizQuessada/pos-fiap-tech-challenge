@@ -90,9 +90,11 @@ public class MenuItemApiV1 {
     })
     @GetMapping("/{id}")
     public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@RequestHeader(name = "Authorization") String token,
-                                                                                @PathVariable("id") Long id) {
+                                                                                @PathVariable("id") Long id,
+                                                                                @RequestParam("page") int page,
+                                                                                @RequestParam("size") int size) {
         log.info("Finding menu items from restaurant {}", id);
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(id, token);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(page, size, id, token);
         log.info("Found {} from restaurant {}", menuItemResponseList.size(), id);
 
         return ResponseEntity
@@ -118,9 +120,11 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/admin/{id}")
-    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@PathVariable("id") Long id) {
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@PathVariable("id") Long id,
+                                                                   @RequestParam("page") int page,
+                                                                   @RequestParam("size") int size) {
         log.info("Admin finding menu items from restaurant {}", id);
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurant(id);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurant(page, size, id);
         log.info("Admin found {} from restaurant {}", menuItemResponseList.size(), id);
 
         return ResponseEntity

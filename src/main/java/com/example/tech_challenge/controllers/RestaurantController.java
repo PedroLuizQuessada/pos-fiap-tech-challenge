@@ -44,20 +44,20 @@ public class RestaurantController {
         return RestaurantMapper.toResponse(restaurant);
     }
 
-    public List<RestaurantResponse> findRestaurantsByOwnerByRequester(String token) {
+    public List<RestaurantResponse> findRestaurantsByOwnerByRequester(int page, int size, String token) {
         UserGateway userGateway = new UserGateway(userDataSource);
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
         FindRestaurantsByOwnerByRequesterUseCase findRestaurantsByOwnerByRequesterUseCase =
                 new FindRestaurantsByOwnerByRequesterUseCase(restaurantGateway, userGateway, tokenGateway);
-        List<Restaurant> restaurantList = findRestaurantsByOwnerByRequesterUseCase.execute(token);
+        List<Restaurant> restaurantList = findRestaurantsByOwnerByRequesterUseCase.execute(page, size, token);
         return restaurantList.stream().map(RestaurantMapper::toResponse).toList();
     }
 
-    public List<RestaurantResponse> findRestaurantsByOwner(Long ownerId) {
+    public List<RestaurantResponse> findRestaurantsByOwner(int page, int size, Long ownerId) {
         RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
         FindRestaurantsByOwnerUseCase findRestaurantsByOwnerUseCase = new FindRestaurantsByOwnerUseCase(restaurantGateway);
-        List<Restaurant> restaurantList = findRestaurantsByOwnerUseCase.execute(ownerId);
+        List<Restaurant> restaurantList = findRestaurantsByOwnerUseCase.execute(page, size, ownerId);
         return restaurantList.stream().map(RestaurantMapper::toAdminResponse).toList();
     }
 

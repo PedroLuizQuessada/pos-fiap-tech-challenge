@@ -43,18 +43,22 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
     }
 
     @Override
-    public List<MenuItemDto> findByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin) {
+    public List<MenuItemDto> findByRestaurantAndOwnerLogin(int page, int size, Long restaurant, String ownerLogin) {
         Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin ORDER BY menuItem.id");
         query.setParameter("restaurant", restaurant);
         query.setParameter("ownerLogin", ownerLogin);
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
         List<MenuItemJpa> menuItemJpaList = query.getResultList();
         return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
     }
 
     @Override
-    public List<MenuItemDto> findByRestaurant(Long restaurant) {
+    public List<MenuItemDto> findByRestaurant(int page, int size, Long restaurant) {
         Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant ORDER BY menuItem.id");
         query.setParameter("restaurant", restaurant);
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
         List<MenuItemJpa> menuItemJpaList = query.getResultList();
         return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
     }

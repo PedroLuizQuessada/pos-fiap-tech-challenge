@@ -26,8 +26,8 @@ public class RestaurantGateway {
         return restaurantDataSource.countByName(name);
     }
 
-    public List<Restaurant> findRestaurantsByOwner(Long ownerId) {
-        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurantsByOwner(ownerId);
+    public List<Restaurant> findRestaurantsByOwner(int page, int size, Long ownerId) {
+        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurantsByOwner(page, size, ownerId);
         return restaurantList.stream().map(RestaurantMapper::toEntity).toList();
     }
 

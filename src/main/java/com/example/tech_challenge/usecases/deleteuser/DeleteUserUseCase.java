@@ -34,21 +34,34 @@ public class DeleteUserUseCase {
     }
 
     void deleteUser(UserDto userDto) {
-        List<Restaurant> restaurantDtoList = restaurantGateway.findRestaurantsByOwner(userDto.id());
+        int size = 100;
+        int restaurantPage = 0;
+        List<Restaurant> restaurantDtoList = restaurantGateway.findRestaurantsByOwner(restaurantPage, size, userDto.id());
 
-        for (Restaurant restaurant : restaurantDtoList) {
-            RestaurantDto restaurantDto = RestaurantMapper.toDto(restaurant);
+        while (!restaurantDtoList.isEmpty()) {
+            for (Restaurant restaurant : restaurantDtoList) {
+                RestaurantDto restaurantDto = RestaurantMapper.toDto(restaurant);
 
-            List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(restaurant.getId());
+                int menuItemPage = 0;
+                List<MenuItem> menuItemList = menuItemGateway.findMenuItensByRestaurant(menuItemPage, size, restaurant.getId());
 
-            for (MenuItem menuItem : menuItemList) {
-                menuItemGateway.deleteMenuItem(MenuItemMapper.toDto(menuItem));
+                while (!menuItemList.isEmpty()) {
+                    for (MenuItem menuItem : menuItemList) {
+                        menuItemGateway.deleteMenuItem(MenuItemMapper.toDto(menuItem));
+                    }
+
+                    menuItemPage++;
+                    menuItemList = menuItemGateway.findMenuItensByRestaurant(menuItemPage, size, restaurant.getId());
+                }
+
+                restaurantGateway.deleteRestaurant(restaurantDto);
+
+                if (!Objects.isNull(restaurant.getAddress()))
+                    addressGateway.delete(restaurantDto.address());
             }
 
-            restaurantGateway.deleteRestaurant(restaurantDto);
-
-            if (!Objects.isNull(restaurant.getAddress()))
-                addressGateway.delete(restaurantDto.address());
+            restaurantPage++;
+            restaurantDtoList = restaurantGateway.findRestaurantsByOwner(restaurantPage, size, userDto.id());
         }
 
         userGateway.deleteUser(userDto);
