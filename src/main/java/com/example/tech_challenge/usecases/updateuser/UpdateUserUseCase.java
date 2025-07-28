@@ -36,10 +36,8 @@ public class UpdateUserUseCase {
         String oldEmail = user.getEmail();
         String oldLogin = user.getLogin();
 
-        user.setName(updateUserRequest.name());
-        user.setEmail(updateUserRequest.email());
-        user.setLogin(updateUserRequest.login());
-        user.setAddress(address);
+        user.setNameAndEmailAndLoginAndPasswordAndAddress(updateUserRequest.name(), updateUserRequest.email(),
+                updateUserRequest.login(), address);
 
         if (!Objects.equals(updateUserRequest.email(), oldEmail)) {
             checkEmailAlreadyInUse(updateUserRequest.email());

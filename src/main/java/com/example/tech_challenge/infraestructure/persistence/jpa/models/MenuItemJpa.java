@@ -37,12 +37,53 @@ public class MenuItemJpa {
     private String picture;
 
     public MenuItemJpa(Long id, RestaurantJpa restaurantJpa, String name, String description, Double price, Boolean availableOnline, String picture) {
-        validateRestaurant(restaurantJpa);
-        validateName(name);
-        validateDescription(description);
-        validatePrice(price);
-        validateAvailableOnline(availableOnline);
-        validatePicture(picture);
+
+        String message = "";
+
+        try {
+            validateRestaurant(restaurantJpa);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateName(name);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateDescription(description);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validatePrice(price);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateAvailableOnline(availableOnline);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validatePicture(picture);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        if (!message.isEmpty())
+            throw new BadJpaArgumentException(message);
 
         this.id = id;
         this.restaurantJpa = restaurantJpa;
@@ -55,37 +96,37 @@ public class MenuItemJpa {
 
     private void validateRestaurant(RestaurantJpa restaurantJpa) {
         if (Objects.isNull(restaurantJpa))
-            throw new BadJpaArgumentException("O item do cardápio deve possuir um restaurante para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O item do cardápio deve possuir um restaurante para ser armazenado no banco de dados.");
     }
 
     private void validateName(String name) {
         if (Objects.isNull(name))
-            throw new BadJpaArgumentException("O item do cardápio deve possuir um nome para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O item do cardápio deve possuir um nome para ser armazenado no banco de dados.");
 
         if (name.length() > 45)
-            throw new BadJpaArgumentException("O nome do item do cardápio deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O nome do item do cardápio deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validateDescription(String description) {
         if (description.length() > 45)
-            throw new BadJpaArgumentException("A descrição do item do cardápio deve possuir até 255 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("A descrição do item do cardápio deve possuir até 255 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validatePrice(Double price) {
         if (Objects.isNull(price))
-            throw new BadJpaArgumentException("O item do cardápio deve possuir um preço para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O item do cardápio deve possuir um preço para ser armazenado no banco de dados.");
     }
 
     private void validateAvailableOnline(Boolean availableOnline) {
         if (Objects.isNull(availableOnline))
-            throw new BadJpaArgumentException("O item do cardápio deve possuir um status para disponibilidade on-line para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O item do cardápio deve possuir um status para disponibilidade on-line para ser armazenado no banco de dados.");
     }
 
     private void validatePicture(String picture) {
         if (Objects.isNull(picture))
-            throw new BadJpaArgumentException("O item do cardápio deve possuir uma imagem para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O item do cardápio deve possuir uma imagem para ser armazenado no banco de dados.");
 
         if (picture.length() > 255)
-            throw new BadJpaArgumentException("A imagem do item do cardápio deve possuir até 255 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("A imagem do item do cardápio deve possuir até 255 caracteres para ser armazenado no banco de dados.");
     }
 }

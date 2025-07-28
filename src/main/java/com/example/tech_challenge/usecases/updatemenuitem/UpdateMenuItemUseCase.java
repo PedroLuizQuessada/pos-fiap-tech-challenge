@@ -25,11 +25,8 @@ public class UpdateMenuItemUseCase {
     MenuItem update(MenuItem menuItem, UpdateMenuItem updateRequest) {
         String oldName = menuItem.getName();
 
-        menuItem.setName(updateRequest.name());
-        menuItem.setDescription(updateRequest.description());
-        menuItem.setPrice(updateRequest.price());
-        menuItem.setAvailableOnline(updateRequest.availableOnline());
-        menuItem.setPicture(updateRequest.picture());
+        menuItem.setNameAndDescriptionAndPriceAndAvailableOnlineAndPicture(updateRequest.name(), updateRequest.description(),
+                updateRequest.price(), updateRequest.availableOnline(), updateRequest.picture());
 
         if (!Objects.equals(oldName, menuItem.getName()))
             checkNameAlreadyInUse(menuItem.getName(), menuItem.getRestaurant().getId());

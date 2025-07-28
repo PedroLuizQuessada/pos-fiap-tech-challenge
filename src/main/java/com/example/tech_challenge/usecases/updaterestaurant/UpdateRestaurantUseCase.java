@@ -34,10 +34,8 @@ public class UpdateRestaurantUseCase {
 
         String oldName = restaurant.getName();
 
-        restaurant.setName(updateRestaurant.name());
-        restaurant.setAddress(address);
-        restaurant.setKitchenType(updateRestaurant.kitchenType());
-        restaurant.setOpeningHours(updateRestaurant.openingHours());
+        restaurant.setNameAndAddressAndKitchenTypeAndOpeningHours(updateRestaurant.name(), address,
+                updateRestaurant.kitchenType(), updateRestaurant.openingHours());
 
         if (!Objects.equals(updateRestaurant.name(), oldName))
             checkNameAlreadyInUse(updateRestaurant.name());
