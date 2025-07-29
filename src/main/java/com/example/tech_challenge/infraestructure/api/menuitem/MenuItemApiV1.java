@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/cardapio-itens")
-@Tag(name = "Restaurant API V1", description = "Versão 1 do controlador referente a itens do cardápio")
+@Tag(name = "Menu Itens API V1", description = "Versão 1 do controlador referente a itens do cardápio")
 public class MenuItemApiV1 {
 
     private final MenuItemController menuItemController;
