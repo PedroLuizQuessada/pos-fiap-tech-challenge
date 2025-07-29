@@ -46,12 +46,10 @@ public class SecurityConfig {
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
             "/api/test/**" };
 
-    private static final String[] AUTHENTICATED_LIST_URL = { "/api/v1/tipos-usuario" };
+    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes/owner", "/api/v1/cardapio-itens/owner" };
 
     private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/admin", "/api/v1/usuarios/admin/**",
             "/api/v1/tipos-usuario/admin", "/api/v1/tipos-usuario/admin/**", "/api/v1/restaurantes/admin/**", "/api/v1/cardapio-itens/admin/**" };
-
-    private static final String[] OWNER_LIST_URL = { "/api/v1/restaurantes", "/api/v1/cardapio-itens", "/api/v1/cardapio-itens/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -69,9 +67,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").permitAll()
-                                .requestMatchers(AUTHENTICATED_LIST_URL).authenticated()
-                                .requestMatchers(ADMIN_LIST_URL).hasAuthority(UserTypeEnum.ADMIN.name())
                                 .requestMatchers(OWNER_LIST_URL).hasAuthority(UserTypeEnum.OWNER.name())
+                                .requestMatchers(ADMIN_LIST_URL).hasAuthority(UserTypeEnum.ADMIN.name())
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)

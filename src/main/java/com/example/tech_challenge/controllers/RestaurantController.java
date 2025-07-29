@@ -9,6 +9,7 @@ import com.example.tech_challenge.entities.Restaurant;
 import com.example.tech_challenge.gateways.*;
 import com.example.tech_challenge.mappers.RestaurantMapper;
 import com.example.tech_challenge.usecases.CreateRestaurantUseCase;
+import com.example.tech_challenge.usecases.FindRestaurantsUseCase;
 import com.example.tech_challenge.usecases.deleterestaurant.DeleteRestaurantByRequesterUseCase;
 import com.example.tech_challenge.usecases.deleterestaurant.DeleteRestaurantUseCase;
 import com.example.tech_challenge.usecases.findrestaurantsbyowner.FindRestaurantsByOwnerByRequesterUseCase;
@@ -42,6 +43,13 @@ public class RestaurantController {
         CreateRestaurantUseCase createRestaurantUseCase = new CreateRestaurantUseCase(userGateway, restaurantGateway, tokenGateway);
         Restaurant restaurant = createRestaurantUseCase.execute(restaurantRequest, token);
         return RestaurantMapper.toResponse(restaurant);
+    }
+
+    public List<RestaurantResponse> findRestaurants(int page, int size) {
+        RestaurantGateway restaurantGateway = new RestaurantGateway(restaurantDataSource);
+        FindRestaurantsUseCase findRestaurantsUseCase = new FindRestaurantsUseCase(restaurantGateway);
+        List<Restaurant> restaurantList = findRestaurantsUseCase.execute(page, size);
+        return restaurantList.stream().map(RestaurantMapper::toResponse).toList();
     }
 
     public List<RestaurantResponse> findRestaurantsByOwnerByRequester(int page, int size, String token) {

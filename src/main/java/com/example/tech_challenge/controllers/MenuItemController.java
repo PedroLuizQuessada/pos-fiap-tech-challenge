@@ -11,10 +11,10 @@ import com.example.tech_challenge.gateways.RestaurantGateway;
 import com.example.tech_challenge.gateways.TokenGateway;
 import com.example.tech_challenge.mappers.MenuItemMapper;
 import com.example.tech_challenge.usecases.CreateMenuItemUseCase;
+import com.example.tech_challenge.usecases.FindMenuItensByRestaurantUseCase;
 import com.example.tech_challenge.usecases.deletemenuitem.DeleteMenuItemByRequesterUseCase;
 import com.example.tech_challenge.usecases.deletemenuitem.DeleteMenuItemUseCase;
-import com.example.tech_challenge.usecases.FindMenuItensByRestaurantAndResquesterUseCase;
-import com.example.tech_challenge.usecases.FindMenuItensByRestaurantUseCase;
+import com.example.tech_challenge.usecases.FindMenuItensByRestaurantNameUseCase;
 import com.example.tech_challenge.usecases.updatemenuitem.UpdateMenuItemByRequesterUseCase;
 import com.example.tech_challenge.usecases.updatemenuitem.UpdateMenuItemUseCase;
 
@@ -41,12 +41,10 @@ public class MenuItemController {
         return MenuItemMapper.toResponse(menuItem);
     }
 
-    public List<MenuItemResponse> findMenuItensByRestaurantAndResquester(int page, int size, FindMenuItensRequest request, String token) {
+    public List<MenuItemResponse> findMenuItensByRestaurantName(int page, int size, FindMenuItensRequest request) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        FindMenuItensByRestaurantAndResquesterUseCase findMenuItensByRestaurantAndResquesterUseCase =
-                new FindMenuItensByRestaurantAndResquesterUseCase(menuItemGateway, tokenGateway);
-        List<MenuItem> menuItemList = findMenuItensByRestaurantAndResquesterUseCase.execute(page, size, request, token);
+        FindMenuItensByRestaurantNameUseCase findMenuItensByRestaurantUseCase = new FindMenuItensByRestaurantNameUseCase(menuItemGateway);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(page, size, request);
         return menuItemList.stream().map(MenuItemMapper::toResponse).toList();
     }
 

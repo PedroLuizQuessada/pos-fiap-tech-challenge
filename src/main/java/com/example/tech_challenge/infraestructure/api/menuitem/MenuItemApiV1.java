@@ -56,7 +56,7 @@ public class MenuItemApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping
+    @PostMapping("/owner")
     public ResponseEntity<MenuItemResponse> create(@RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid CreateMenuItemRequest menuItemRequest) {
         log.info("Creating menu item: {}", menuItemRequest.name());
@@ -68,8 +68,8 @@ public class MenuItemApiV1 {
                 .body(menuItemResponse);
     }
 
-    @Operation(summary = "Owner consulta todos os itens do cardápio de um restaurante",
-            description = "Requer autenticação e tipo de usuário 'OWNER'",
+    @Operation(summary = "Consulta todos os itens do cardápio de um restaurante",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -79,19 +79,14 @@ public class MenuItemApiV1 {
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProblemDetail.class))),
-            @ApiResponse(responseCode = "403",
-                    description = "Usuário autenticado não é 'OWNER'",
-                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
-    public ResponseEntity<List<MenuItemResponse>> findByRestaurantAndOwnerLogin(@RequestHeader(name = "Authorization") String token,
-                                                                                @RequestBody @Valid FindMenuItensRequest request,
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@RequestBody @Valid FindMenuItensRequest request,
                                                                                 @RequestParam("page") int page,
                                                                                 @RequestParam("size") int size) {
         log.info("Finding menu items from restaurant {}", request.restaurantName());
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantAndResquester(page, size, request, token);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantName(page, size, request);
         log.info("Found {} from restaurant {}", menuItemResponseList.size(), request.restaurantName());
 
         return ResponseEntity
@@ -154,7 +149,7 @@ public class MenuItemApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping
+    @PutMapping("/owner")
     public ResponseEntity<MenuItemResponse> update(@RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid UpdateMenuItemRequest menuItemRequest) {
         log.info("Updating menu item: {}", menuItemRequest.oldName());
@@ -222,7 +217,7 @@ public class MenuItemApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping
+    @DeleteMapping("/owner")
     public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody @Valid DeleteMenuItemRequest deleteMenuItemRequest) {
         log.info("Deleting menu item: {}", deleteMenuItemRequest.name());

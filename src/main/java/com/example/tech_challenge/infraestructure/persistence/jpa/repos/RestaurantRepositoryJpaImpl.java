@@ -42,6 +42,15 @@ public class RestaurantRepositoryJpaImpl implements RestaurantDataSource {
     }
 
     @Override
+    public List<RestaurantDto> findRestaurants(int page, int size) {
+        Query query = entityManager.createQuery("SELECT restaurant FROM RestaurantJpa restaurant ORDER BY restaurant.id");
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
+        List<RestaurantJpa> restaurantJpaList = query.getResultList();
+        return restaurantJpaList.stream().map(restaurantJpa -> restaurantJpaDtoMapper.toRestaurantDto(restaurantJpa)).toList();
+    }
+
+    @Override
     public List<RestaurantDto> findRestaurantsByOwner(int page, int size, Long ownerId) {
         Query query = entityManager.createQuery("SELECT restaurant FROM RestaurantJpa restaurant WHERE restaurant.userJpa.id = :ownerId ORDER BY restaurant.id");
         query.setParameter("ownerId", ownerId);

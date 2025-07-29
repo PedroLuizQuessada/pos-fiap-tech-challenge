@@ -114,7 +114,7 @@ public class Address {
     }
 
     private void validateAditionalInfo(String aditionalInfo) {
-        if (aditionalInfo.length() > 45)
+        if (!Objects.isNull(aditionalInfo) && aditionalInfo.length() > 45)
             throw new BadArgumentException("O complemento do endereço deve possuir até 45 caracteres.");
     }
 }

@@ -137,7 +137,7 @@ public class MenuItem {
     }
 
     private void validateDescription(String description) {
-        if (description.length() > 45)
+        if (!Objects.isNull(description) && description.length() > 45)
             throw new BadArgumentException("A descrição do item do cardápio deve possuir até 45 caracteres.");
     }
 

@@ -108,7 +108,7 @@ public class MenuItemJpa {
     }
 
     private void validateDescription(String description) {
-        if (description.length() > 45)
+        if (!Objects.isNull(description) && description.length() > 45)
             throw new BadJpaArgumentException("A descrição do item do cardápio deve possuir até 255 caracteres para ser armazenado no banco de dados.");
     }
 

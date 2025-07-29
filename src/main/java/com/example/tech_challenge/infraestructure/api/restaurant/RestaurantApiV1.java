@@ -57,7 +57,7 @@ public class RestaurantApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping
+    @PostMapping("/owner")
     public ResponseEntity<RestaurantResponse> create(@RequestHeader(name = "Authorization") String token,
                                                      @RequestBody @Valid RestaurantRequest restaurantRequest) {
         log.info("User creating restaurant: {}", restaurantRequest.name());
@@ -67,6 +67,31 @@ public class RestaurantApiV1 {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(restaurantResponse);
+    }
+
+    @Operation(summary = "Consulta restaurantes",
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Restaurantes consultados com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = RestaurantResponse.class)))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping
+    public ResponseEntity<List<RestaurantResponse>> findAll(@RequestParam("page") int page,
+                                                            @RequestParam("size") int size) {
+        log.info("User finding restaurants");
+        List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurants(page, size);
+        log.info("User found {} restaurants", restaurantResponseList.size());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(restaurantResponseList);
     }
 
     @Operation(summary = "Owner consulta todos os seus restaurantes",
@@ -86,13 +111,13 @@ public class RestaurantApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @GetMapping
+    @GetMapping("/owner")
     public ResponseEntity<List<RestaurantResponse>> findAll(@RequestHeader(name = "Authorization") String token,
                                                             @RequestParam("page") int page,
                                                             @RequestParam("size") int size) {
-        log.info("User finding all restaurants");
+        log.info("Owner finding his restaurants");
         List<RestaurantResponse> restaurantResponseList = restaurantController.findRestaurantsByOwnerByRequester(page, size, token);
-        log.info("User found {} restaurants", restaurantResponseList.size());
+        log.info("Owner found {} restaurants", restaurantResponseList.size());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -154,7 +179,7 @@ public class RestaurantApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping
+    @PutMapping("/owner")
     public ResponseEntity<RestaurantResponse> update(@RequestHeader(name = "Authorization") String token,
                                                      @RequestBody @Valid UpdateRestaurantRequest updateAddressRequest) {
         log.info("User updating restaurant: {}", updateAddressRequest.oldName());
@@ -222,7 +247,7 @@ public class RestaurantApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping
+    @DeleteMapping("/owner")
     public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody @Valid DeleteRestaurantRequest deleteRestaurantRequest) {
         log.info("User deleting restaurant: {}", deleteRestaurantRequest.name());

@@ -134,7 +134,7 @@ public class AddressJpa {
     }
 
     private void validateAditionalInfo(String aditionalInfo) {
-        if (aditionalInfo.length() > 45)
+        if (!Objects.isNull(aditionalInfo) && aditionalInfo.length() > 45)
             throw new BadJpaArgumentException("O complemento do endereço deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 }
