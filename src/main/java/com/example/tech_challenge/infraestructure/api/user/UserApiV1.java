@@ -9,6 +9,7 @@ import com.example.tech_challenge.dtos.responses.UserResponse;
 import com.example.tech_challenge.dtos.requests.AdminCreateUserRequest;
 import com.example.tech_challenge.dtos.requests.UpdateUserPasswordRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -145,7 +146,7 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping
-    public ResponseEntity<UserResponse> update(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<UserResponse> update(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                @RequestBody @Valid UpdateUserRequest updateUserRequest) {
         log.info("Updating user");
         UserResponse userResponse = userController.updateUserByRequester(updateUserRequest, token);
@@ -205,7 +206,7 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token, HttpSession httpSession) {
+    public ResponseEntity<Void> delete(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token, HttpSession httpSession) {
         log.info("Deleting user");
         userController.deleteUserByRequester(token);
         httpSession.invalidate();
@@ -260,7 +261,7 @@ public class UserApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/senha")
-    public ResponseEntity<Void> updatePassword(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<Void> updatePassword(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                @RequestBody @Valid UpdateUserPasswordRequest updateUserPasswordRequest) {
         log.info("Updating user password");
         userController.updateUserPassword(updateUserPasswordRequest, token);

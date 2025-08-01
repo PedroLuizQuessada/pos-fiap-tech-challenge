@@ -2525,9 +2525,6 @@
 						},
 						{
 							"name": "Consultar itens de cardápio de restaurante",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -2540,16 +2537,13 @@
 									]
 								},
 								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"restaurantName\": \"Restaurante 3\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
+								"header": [
+									{
+										"key": "Restaurant-Name",
+										"value": "Restaurante 3",
+										"type": "text"
 									}
-								},
+								],
 								"url": {
 									"raw": "{{APP URL}}/api/v1/cardapio-itens?page=0&size=10",
 									"host": [
@@ -2582,17 +2576,13 @@
 												"key": "Content-Type",
 												"value": "application/json",
 												"type": "text"
+											},
+											{
+												"key": "Restaurant-Name",
+												"value": "Restaurante 3",
+												"type": "text"
 											}
 										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"restaurantName\": \"Restaurante 3\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "{{APP URL}}/api/v1/cardapio-itens?page=0&size=10",
 											"host": [

@@ -41,10 +41,10 @@ public class MenuItemController {
         return MenuItemMapper.toResponse(menuItem);
     }
 
-    public List<MenuItemResponse> findMenuItensByRestaurantName(int page, int size, FindMenuItensRequest request) {
+    public List<MenuItemResponse> findMenuItensByRestaurantName(int page, int size, String restaurantName) {
         MenuItemGateway menuItemGateway = new MenuItemGateway(menuItemDataSource);
         FindMenuItensByRestaurantNameUseCase findMenuItensByRestaurantUseCase = new FindMenuItensByRestaurantNameUseCase(menuItemGateway);
-        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(page, size, request);
+        List<MenuItem> menuItemList = findMenuItensByRestaurantUseCase.execute(page, size, restaurantName);
         return menuItemList.stream().map(MenuItemMapper::toResponse).toList();
     }
 

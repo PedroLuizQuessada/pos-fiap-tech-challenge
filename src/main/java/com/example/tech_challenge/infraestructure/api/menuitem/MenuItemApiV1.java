@@ -7,6 +7,7 @@ import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.dtos.requests.*;
 import com.example.tech_challenge.dtos.responses.MenuItemResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,7 +58,7 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/owner")
-    public ResponseEntity<MenuItemResponse> create(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<MenuItemResponse> create(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid CreateMenuItemRequest menuItemRequest) {
         log.info("Creating menu item: {}", menuItemRequest.name());
         MenuItemResponse menuItemResponse = menuItemController.createMenuItem(menuItemRequest, token);
@@ -82,12 +83,12 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
-    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@RequestBody @Valid FindMenuItensRequest request,
+    public ResponseEntity<List<MenuItemResponse>> findByRestaurant(@RequestHeader(name = "Restaurant-Name") String restaurantName,
                                                                                 @RequestParam("page") int page,
                                                                                 @RequestParam("size") int size) {
-        log.info("Finding menu items from restaurant {}", request.restaurantName());
-        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantName(page, size, request);
-        log.info("Found {} from restaurant {}", menuItemResponseList.size(), request.restaurantName());
+        log.info("Finding menu items from restaurant {}", restaurantName);
+        List<MenuItemResponse> menuItemResponseList = menuItemController.findMenuItensByRestaurantName(page, size, restaurantName);
+        log.info("Found {} from restaurant {}", menuItemResponseList.size(), restaurantName);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -150,7 +151,7 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/owner")
-    public ResponseEntity<MenuItemResponse> update(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<MenuItemResponse> update(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                    @RequestBody @Valid UpdateMenuItemRequest menuItemRequest) {
         log.info("Updating menu item: {}", menuItemRequest.oldName());
         MenuItemResponse menuItemResponse = menuItemController.updateMenuItemByRequester(menuItemRequest, token);
@@ -218,7 +219,7 @@ public class MenuItemApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/owner")
-    public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<Void> delete(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                        @RequestBody @Valid DeleteMenuItemRequest deleteMenuItemRequest) {
         log.info("Deleting menu item: {}", deleteMenuItemRequest.name());
         menuItemController.deleteMenuItemByRequester(deleteMenuItemRequest, token);

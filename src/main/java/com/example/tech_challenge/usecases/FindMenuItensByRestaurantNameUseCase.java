@@ -1,6 +1,5 @@
 package com.example.tech_challenge.usecases;
 
-import com.example.tech_challenge.dtos.requests.FindMenuItensRequest;
 import com.example.tech_challenge.entities.MenuItem;
 import com.example.tech_challenge.gateways.MenuItemGateway;
 
@@ -14,8 +13,8 @@ public class FindMenuItensByRestaurantNameUseCase {
         this.menuItemGateway = menuItemGateway;
     }
 
-    public List<MenuItem> execute(int page, int size, FindMenuItensRequest request) {
-        return menuItemGateway.findMenuItensByRestaurant(page, size, request.restaurantName());
+    public List<MenuItem> execute(int page, int size, String restaurantName) {
+        return menuItemGateway.findMenuItensByRestaurant(page, size, restaurantName);
     }
 
 }

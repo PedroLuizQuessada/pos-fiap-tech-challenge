@@ -7,6 +7,7 @@ import com.example.tech_challenge.dtos.requests.RestaurantRequest;
 import com.example.tech_challenge.dtos.requests.UpdateRestaurantRequest;
 import com.example.tech_challenge.dtos.responses.RestaurantResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,7 +37,7 @@ public class RestaurantApiV1 {
         this.restaurantController = new RestaurantController(userDataSource, restaurantDataSource, addressDataSource, menuItemDataSource, tokenDataSource);
     }
 
-    @Operation(summary = "Cria um tipo de restaurante",
+    @Operation(summary = "Cria um restaurante",
             description = "Requer autenticação e tipo de usuário 'OWNER'",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
@@ -58,7 +59,7 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/owner")
-    public ResponseEntity<RestaurantResponse> create(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<RestaurantResponse> create(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                      @RequestBody @Valid RestaurantRequest restaurantRequest) {
         log.info("User creating restaurant: {}", restaurantRequest.name());
         RestaurantResponse restaurantResponse = restaurantController.createRestaurant(restaurantRequest, token);
@@ -112,7 +113,7 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/owner")
-    public ResponseEntity<List<RestaurantResponse>> findAll(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<List<RestaurantResponse>> findAll(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                             @RequestParam("page") int page,
                                                             @RequestParam("size") int size) {
         log.info("Owner finding his restaurants");
@@ -180,7 +181,7 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PutMapping("/owner")
-    public ResponseEntity<RestaurantResponse> update(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<RestaurantResponse> update(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                                      @RequestBody @Valid UpdateRestaurantRequest updateAddressRequest) {
         log.info("User updating restaurant: {}", updateAddressRequest.oldName());
         RestaurantResponse restaurantResponse = restaurantController.updateRestaurantByRequester(updateAddressRequest, token);
@@ -248,7 +249,7 @@ public class RestaurantApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/owner")
-    public ResponseEntity<Void> delete(@RequestHeader(name = "Authorization") String token,
+    public ResponseEntity<Void> delete(@Parameter(hidden = true) @RequestHeader(name = "Authorization") String token,
                                        @RequestBody @Valid DeleteRestaurantRequest deleteRestaurantRequest) {
         log.info("User deleting restaurant: {}", deleteRestaurantRequest.name());
         restaurantController.deleteRestaurantByRequester(deleteRestaurantRequest, token);
