@@ -2,9 +2,11 @@ package com.example.tech_challenge.infraestructure.persistence.jpa.mappers;
 
 import com.example.tech_challenge.dtos.AddressDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.AddressJpa;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("jpa")
 public class AddressJpaDtoMapper {
 
     public AddressJpa toAddressJpa(AddressDto addressDto) {

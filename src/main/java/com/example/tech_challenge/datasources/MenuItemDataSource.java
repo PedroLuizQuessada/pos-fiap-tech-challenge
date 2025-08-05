@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface MenuItemDataSource {
     MenuItemDto createMenuItem(MenuItemDto menuItemDto);
     Long countByNameAndRestaurant(String name, Long restaurant);
-    List<MenuItemDto> findByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin);
-    List<MenuItemDto> findByRestaurant(Long restaurant);
-    Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name);
+    List<MenuItemDto> findByRestaurantName(int page, int size, String restaurant);
+    List<MenuItemDto> findByRestaurant(int page, int size, Long restaurant);
+    Optional<MenuItemDto> findByRestaurantNameAndOwnerLoginAndName(String restaurantName, String ownerLogin, String name);
     Optional<MenuItemDto> findById(Long id);
     MenuItemDto updateMenuItem(MenuItemDto menuItemDto);
     void deleteMenuItem(MenuItemDto menuItemDto);

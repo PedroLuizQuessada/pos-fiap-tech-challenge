@@ -1,6 +1,8 @@
 package com.example.tech_challenge.exceptions;
 
-public class RestaurantNotFoundException extends RuntimeException {
+import com.example.tech_challenge.exceptions.treateds.NotFoundException;
+
+public class RestaurantNotFoundException extends NotFoundException {
     public RestaurantNotFoundException() {
         super("Restaurante não encontrado");
     }

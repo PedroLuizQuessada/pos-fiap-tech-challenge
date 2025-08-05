@@ -32,9 +32,21 @@ public class UserTypeGateway {
         return userTypeDataSource.countByName(name);
     }
 
-    public List<UserType> findAllUserTypes() {
-        List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes();
+    public List<UserType> findAllUserTypes(int page, int size) {
+        List<UserTypeDto> userTypeList = userTypeDataSource.findAllUserTypes(page, size);
         return userTypeList.stream().map(UserTypeMapper::toEntity).toList();
+    }
+
+    public UserType findUserTypeByName(String name) {
+        if (Objects.isNull(name))
+            throw new UserTypeNotFoundException();
+
+        Optional<UserTypeDto> optionalUserTypeDto = userTypeDataSource.findUserTypeByName(name);
+
+        if (optionalUserTypeDto.isEmpty())
+            throw new UserTypeNotFoundException();
+
+        return UserTypeMapper.toEntity(optionalUserTypeDto.get());
     }
 
     public UserType findUserTypeById(Long id) {

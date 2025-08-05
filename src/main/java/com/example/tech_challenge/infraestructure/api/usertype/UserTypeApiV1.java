@@ -1,13 +1,9 @@
 package com.example.tech_challenge.infraestructure.api.usertype;
 
-import com.example.tech_challenge.controllers.RequesterController;
 import com.example.tech_challenge.controllers.UserTypeController;
-import com.example.tech_challenge.datasources.RequesterDataSource;
-import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.datasources.UserDataSource;
 import com.example.tech_challenge.datasources.UserTypeDataSource;
 import com.example.tech_challenge.dtos.requests.UserTypeRequest;
-import com.example.tech_challenge.dtos.responses.RequesterResponse;
 import com.example.tech_challenge.dtos.responses.UserTypeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -22,12 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -36,12 +29,9 @@ import java.util.Objects;
 public class UserTypeApiV1 {
 
     private final UserTypeController userTypeController;
-    private final RequesterController requesterController;
 
-    public UserTypeApiV1(UserDataSource userDataSource, UserTypeDataSource userTypeDataSource,
-                         RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
+    public UserTypeApiV1(UserDataSource userDataSource, UserTypeDataSource userTypeDataSource) {
         this.userTypeController = new UserTypeController(userDataSource, userTypeDataSource);
-        this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
     @Operation(summary = "Cria um tipo de usuário",
@@ -65,14 +55,11 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping
-    public ResponseEntity<UserTypeResponse> create(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestHeader(name = "Authorization", required = false) String token,
-                                                   @RequestBody @Valid UserTypeRequest userTypeRequest) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} creating user type: {}", requesterResponse.login(), userTypeRequest.name());
+    @PostMapping("/admin")
+    public ResponseEntity<UserTypeResponse> create(@RequestBody @Valid UserTypeRequest userTypeRequest) {
+        log.info("Admin creating user type: {}", userTypeRequest.name());
         UserTypeResponse userTypeResponse = userTypeController.createUserType(userTypeRequest);
-        log.info("User {} created user type: {}", requesterResponse.login(), userTypeResponse.name());
+        log.info("Admin created user type: {}", userTypeResponse.name());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -104,22 +91,20 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/{id}")
-    public ResponseEntity<UserTypeResponse> update(@AuthenticationPrincipal UserDetails userDetails,
-                                                   @RequestHeader(name = "Authorization", required = false) String token,
-                                                   @RequestBody @Valid UserTypeRequest userTypeRequest, @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} updating user type name: {}", requesterResponse.login(), id);
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<UserTypeResponse> update(@RequestBody @Valid UserTypeRequest userTypeRequest,
+                                                   @PathVariable("id") Long id) {
+        log.info("Admin updating user type name: {}", id);
         UserTypeResponse userTypeResponse = userTypeController.updateUserTypeName(userTypeRequest, id);
-        log.info("User {} updated user type name: {}", requesterResponse.login(), id);
+        log.info("Admin updated user type name: {}", id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userTypeResponse);
     }
 
-    @Operation(summary = "Admin consulta todos os tipos de usuário",
-            description = "Requer autenticação e tipo de usuário 'ADMIN'",
+    @Operation(summary = "Consulta todos os tipos de usuário",
+            description = "Requer autenticação",
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses({
             @ApiResponse(responseCode = "200",
@@ -129,19 +114,14 @@ public class UserTypeApiV1 {
             @ApiResponse(responseCode = "401",
                     description = "Credenciais de acesso inválidas",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProblemDetail.class))),
-            @ApiResponse(responseCode = "403",
-                    description = "Usuário autenticado não é 'ADMIN'",
-                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping
-    public ResponseEntity<List<UserTypeResponse>> findAll(@AuthenticationPrincipal UserDetails userDetails,
-                                                          @RequestHeader(name = "Authorization", required = false) String token) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} finding all user type", requesterResponse.login());
-        List<UserTypeResponse> userTypeResponseList = userTypeController.findAllUserTypes();
-        log.info("User {} found {} user types", requesterResponse.login(), userTypeResponseList.size());
+    public ResponseEntity<List<UserTypeResponse>> findAll(@RequestParam("page") int page,
+                                                          @RequestParam("size") int size) {
+        log.info("User finding all user type");
+        List<UserTypeResponse> userTypeResponseList = userTypeController.findAllUserTypes(page, size);
+        log.info("User found {} user types", userTypeResponseList.size());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -171,23 +151,13 @@ public class UserTypeApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@AuthenticationPrincipal UserDetails userDetails,
-                                       @RequestHeader(name = "Authorization", required = false) String token,
-                                       @PathVariable("id") Long id) {
-        RequesterResponse requesterResponse = getRequester(userDetails, token);
-        log.info("User {} deleting user type: {}", requesterResponse.login(), id);
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        log.info("User deleting user type: {}", id);
         userTypeController.deleteUserType(id);
-        log.info("User {} deleted user type: {}", requesterResponse.login(), id);
+        log.info("User deleted user type: {}", id);
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
-    }
-
-    private RequesterResponse getRequester(UserDetails userDetails, String token) {
-        return (!Objects.isNull(userDetails)) ?
-                requesterController.getRequester(userDetails.getAuthorities().stream().findFirst().isPresent() ?
-                        String.valueOf(userDetails.getAuthorities().stream().findFirst().get()) : null, userDetails.getUsername()) :
-                requesterController.getRequester(token);
     }
 }

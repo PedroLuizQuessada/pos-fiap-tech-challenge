@@ -39,10 +39,10 @@ public class UserTypeController {
         return UserTypeMapper.toAdminResponse(userType);
     }
 
-    public List<UserTypeResponse> findAllUserTypes() {
+    public List<UserTypeResponse> findAllUserTypes(int page, int size) {
         UserTypeGateway userTypeGateway = new UserTypeGateway(userTypeDataSource);
         FindAllUserTypeUseCase findAllUserTypeUseCase = new FindAllUserTypeUseCase(userTypeGateway);
-        List<UserType> userTypeList = findAllUserTypeUseCase.execute();
+        List<UserType> userTypeList = findAllUserTypeUseCase.execute(page, size);
         return userTypeList.stream().map(UserTypeMapper::toAdminResponse).toList();
     }
 

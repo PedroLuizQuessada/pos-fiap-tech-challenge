@@ -36,10 +36,38 @@ public class RestaurantJpa {
 
     public RestaurantJpa(Long id, String name, AddressJpa addressJpa, String kitchenType, String openingHours, UserJpa userJpa) {
 
-        validateName(name);
-        validateKitchenType(kitchenType);
-        validateOpeningHours(openingHours);
-        validateUserJpa(userJpa);
+        String message = "";
+
+        try {
+            validateName(name);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateKitchenType(kitchenType);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateOpeningHours(openingHours);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateUserJpa(userJpa);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        if (!message.isEmpty())
+            throw new BadJpaArgumentException(message);
 
         this.id = id;
         this.name = name;
@@ -51,27 +79,27 @@ public class RestaurantJpa {
 
     private void validateName(String name) {
         if (Objects.isNull(name))
-            throw new BadJpaArgumentException("O restaurante deve possuir um nome para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O restaurante deve possuir um nome para ser armazenado no banco de dados.");
 
         if (name.length() > 45)
-            throw new BadJpaArgumentException("O nome do restaurante deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O nome do restaurante deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validateKitchenType(String kitchenType) {
         if (Objects.isNull(kitchenType))
-            throw new BadJpaArgumentException("O restaurante deve possuir um tipo de cozinha para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O restaurante deve possuir um tipo de cozinha para ser armazenado no banco de dados.");
 
         if (kitchenType.length() > 45)
-            throw new BadJpaArgumentException("O tipo de cozinha do restaurante deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O tipo de cozinha do restaurante deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validateOpeningHours(String openingHours) {
         if (Objects.isNull(openingHours))
-            throw new BadJpaArgumentException("O restaurante deve possuir um horário de funcionamento para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O restaurante deve possuir um horário de funcionamento para ser armazenado no banco de dados.");
     }
 
     private void validateUserJpa(UserJpa userJpa) {
         if (Objects.isNull(userJpa))
-            throw new BadJpaArgumentException("O restaurante deve possuir um dono para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O restaurante deve possuir um dono para ser armazenado no banco de dados.");
     }
 }

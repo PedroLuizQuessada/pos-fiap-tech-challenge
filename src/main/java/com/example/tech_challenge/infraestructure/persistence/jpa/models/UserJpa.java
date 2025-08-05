@@ -43,11 +43,46 @@ public class UserJpa {
 
     public UserJpa(Long id, String name, String email, String login, String password, Date lastUpdateDate,
                    AddressJpa addressJpa, UserTypeJpa userTypeJpa) {
-        validateName(name);
-        validateEmail(email);
-        validateLogin(login);
-        validatePassword(password);
-        validateUserTypeJpa(userTypeJpa);
+
+        String message = "";
+
+        try {
+            validateName(name);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateEmail(email);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateLogin(login);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validatePassword(password);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        try {
+            validateUserTypeJpa(userTypeJpa);
+        }
+        catch (RuntimeException e) {
+            message = message + " " + e.getMessage();
+        }
+
+        if (!message.isEmpty())
+            throw new BadJpaArgumentException(message);
 
         this.id = id;
         this.name = name;
@@ -61,38 +96,38 @@ public class UserJpa {
 
     private void validateName(String name) {
         if (Objects.isNull(name))
-            throw new BadJpaArgumentException("O usuário deve possuir um nome para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O usuário deve possuir um nome para ser armazenado no banco de dados.");
 
         if (name.length() > 45)
-            throw new BadJpaArgumentException("O nome do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O nome do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validateEmail(String email) {
         if (Objects.isNull(email))
-            throw new BadJpaArgumentException("O usuário deve possuir um e-mail para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O usuário deve possuir um e-mail para ser armazenado no banco de dados.");
 
         if (email.length() > 45)
-            throw new BadJpaArgumentException("O e-mail do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O e-mail do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validateLogin(String login) {
         if (Objects.isNull(login))
-            throw new BadJpaArgumentException("O usuário deve possuir um login para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O usuário deve possuir um login para ser armazenado no banco de dados.");
 
         if (login.length() > 45)
-            throw new BadJpaArgumentException("O login do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O login do usuário deve possuir até 45 caracteres para ser armazenado no banco de dados.");
     }
 
     private void validatePassword(String password) {
         if (Objects.isNull(password))
-            throw new BadJpaArgumentException("O usuário deve possuir uma senha para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O usuário deve possuir uma senha para ser armazenado no banco de dados.");
 
         if (password.length() > 255)
-            throw new BadJpaArgumentException("Falha ao gerar senha criptografada do usuário, favor contactar o administrador");
+            throw new BadJpaArgumentException("Falha ao gerar senha criptografada do usuário, favor contactar o administrador.");
     }
 
     private void validateUserTypeJpa(UserTypeJpa userTypeJpa) {
         if (Objects.isNull(userTypeJpa))
-            throw new BadJpaArgumentException("O usuário deve possuir tipo de usuário para ser armazenado no banco de dados");
+            throw new BadJpaArgumentException("O usuário deve possuir tipo de usuário para ser armazenado no banco de dados.");
     }
 }

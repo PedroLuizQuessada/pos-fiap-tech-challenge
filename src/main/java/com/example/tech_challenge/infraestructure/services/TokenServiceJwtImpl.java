@@ -3,14 +3,17 @@ package com.example.tech_challenge.infraestructure.services;
 import com.example.tech_challenge.datasources.TokenDataSource;
 import com.example.tech_challenge.dtos.RequesterDto;
 import com.example.tech_challenge.dtos.TokenDto;
+import com.example.tech_challenge.infraestructure.exceptions.InvalidJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
 @Service
+@Profile("jwt")
 public class TokenServiceJwtImpl implements TokenDataSource {
 
     @Value("${spring.application.name}")
@@ -48,6 +51,11 @@ public class TokenServiceJwtImpl implements TokenDataSource {
     }
 
     private Jwt decodeToken(String token) {
-        return jwtDecoder.decode(token.replace("Bearer ", ""));
+        try {
+            return jwtDecoder.decode(token.replace("Bearer ", ""));
+        }
+        catch (Exception e) {
+            throw new InvalidJwtException();
+        }
     }
 }

@@ -33,5 +33,5 @@ build/
 .vscode/
 /secrets
 
-/src/main/resources/app.key
-/src/main/resources/app.pub
+/src/main/resources/keys/app.key
+/src/main/resources/keys/app.pub

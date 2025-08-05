@@ -9,6 +9,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Profile("jpa")
 public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
 
     @PersistenceContext
@@ -41,26 +43,29 @@ public class MenuItemRepositoryJpaImpl implements MenuItemDataSource {
     }
 
     @Override
-    public List<MenuItemDto> findByRestaurantAndOwnerLogin(Long restaurant, String ownerLogin) {
-        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin ORDER BY menuItem.id");
+    public List<MenuItemDto> findByRestaurantName(int page, int size, String restaurant) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.name = :restaurant ORDER BY menuItem.id");
         query.setParameter("restaurant", restaurant);
-        query.setParameter("ownerLogin", ownerLogin);
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
         List<MenuItemJpa> menuItemJpaList = query.getResultList();
         return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
     }
 
     @Override
-    public List<MenuItemDto> findByRestaurant(Long restaurant) {
+    public List<MenuItemDto> findByRestaurant(int page, int size, Long restaurant) {
         Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant ORDER BY menuItem.id");
         query.setParameter("restaurant", restaurant);
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
         List<MenuItemJpa> menuItemJpaList = query.getResultList();
         return menuItemJpaList.stream().map(userTypeJpa -> menuItemJpaDtoMapper.toMenuItemDto(userTypeJpa)).toList();
     }
 
     @Override
-    public Optional<MenuItemDto> findByRestaurantAndOwnerLoginAndName(Long restaurant, String ownerLogin, String name) {
-        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.id = :restaurant AND menuItem.restaurantJpa.userJpa.login = :ownerLogin AND menuItem.name = :name");
-        query.setParameter("restaurant", restaurant);
+    public Optional<MenuItemDto> findByRestaurantNameAndOwnerLoginAndName(String restaurantName, String ownerLogin, String name) {
+        Query query = entityManager.createQuery("SELECT menuItem FROM MenuItemJpa menuItem WHERE menuItem.restaurantJpa.name = :restaurantName AND menuItem.restaurantJpa.userJpa.login = :ownerLogin AND menuItem.name = :name");
+        query.setParameter("restaurantName", restaurantName);
         query.setParameter("ownerLogin", ownerLogin);
         query.setParameter("name", name);
         try {

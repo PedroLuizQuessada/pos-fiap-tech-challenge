@@ -26,8 +26,13 @@ public class RestaurantGateway {
         return restaurantDataSource.countByName(name);
     }
 
-    public List<Restaurant> findRestaurantsByOwner(Long ownerId) {
-        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurantsByOwner(ownerId);
+    public List<Restaurant> findRestaurants(int page, int size) {
+        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurants(page, size);
+        return restaurantList.stream().map(RestaurantMapper::toEntity).toList();
+    }
+
+    public List<Restaurant> findRestaurantsByOwner(int page, int size, Long ownerId) {
+        List<RestaurantDto> restaurantList = restaurantDataSource.findRestaurantsByOwner(page, size, ownerId);
         return restaurantList.stream().map(RestaurantMapper::toEntity).toList();
     }
 
@@ -42,15 +47,6 @@ public class RestaurantGateway {
 
     public Restaurant findRestaurantById(Long id) {
         Optional<RestaurantDto> restaurantDtoOptional = restaurantDataSource.findRestaurantById(id);
-
-        if (restaurantDtoOptional.isEmpty())
-            throw new RestaurantNotFoundException();
-
-        return RestaurantMapper.toEntity(restaurantDtoOptional.get());
-    }
-
-    public Restaurant findRestaurantByIdAndOwnerLogin(Long id, String ownerLogin) {
-        Optional<RestaurantDto> restaurantDtoOptional = restaurantDataSource.findRestaurantByIdAndOwnerLogin(id, ownerLogin);
 
         if (restaurantDtoOptional.isEmpty())
             throw new RestaurantNotFoundException();

@@ -1,0 +1,42 @@
+package com.example.tech_challenge.usecases.updatemenuitem;
+
+import com.example.tech_challenge.dtos.requests.AdminUpdateMenuItemRequest;
+import com.example.tech_challenge.dtos.requests.UpdateMenuItem;
+import com.example.tech_challenge.entities.MenuItem;
+import com.example.tech_challenge.exceptions.MenuItemNameAlreadyInUseException;
+import com.example.tech_challenge.gateways.MenuItemGateway;
+import com.example.tech_challenge.mappers.MenuItemMapper;
+
+import java.util.Objects;
+
+public class UpdateMenuItemUseCase {
+
+    private final MenuItemGateway menuItemGateway;
+
+    public UpdateMenuItemUseCase(MenuItemGateway menuItemGateway) {
+        this.menuItemGateway = menuItemGateway;
+    }
+
+    public MenuItem execute(AdminUpdateMenuItemRequest updateRequest, Long id) {
+        MenuItem menuItem = menuItemGateway.findMenuItemById(id);
+        return update(menuItem, updateRequest);
+    }
+
+    MenuItem update(MenuItem menuItem, UpdateMenuItem updateRequest) {
+        String oldName = menuItem.getName();
+
+        menuItem.setNameAndDescriptionAndPriceAndAvailableOnlineAndPicture(updateRequest.name(), updateRequest.description(),
+                updateRequest.price(), updateRequest.availableOnline(), updateRequest.picture());
+
+        if (!Objects.equals(oldName, menuItem.getName()))
+            checkNameAlreadyInUse(menuItem.getName(), menuItem.getRestaurant().getId());
+
+        return menuItemGateway.updateMenuItem(MenuItemMapper.toDto(menuItem));
+    }
+
+    private void checkNameAlreadyInUse(String name, Long restaurant) {
+        if (menuItemGateway.countByNameAndRestaurant(name, restaurant) > 0) {
+            throw new MenuItemNameAlreadyInUseException();
+        }
+    }
+}

@@ -5,9 +5,11 @@ import com.example.tech_challenge.dtos.UserTypeDto;
 import com.example.tech_challenge.infraestructure.persistence.jpa.mappers.UserTypeJpaDtoMapper;
 import com.example.tech_challenge.infraestructure.persistence.jpa.models.UserTypeJpa;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Profile("jpa")
 public class UserTypeRepositoryJpaImpl implements UserTypeDataSource {
 
     @PersistenceContext
@@ -47,10 +50,25 @@ public class UserTypeRepositoryJpaImpl implements UserTypeDataSource {
     }
 
     @Override
-    public List<UserTypeDto> findAllUserTypes() {
+    public List<UserTypeDto> findAllUserTypes(int page, int size) {
         Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType ORDER BY userType.id");
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
         List<UserTypeJpa> userTypeJpaList = query.getResultList();
         return userTypeJpaList.stream().map(userTypeJpa -> userTypeJpaDtoMapper.toUserTypeDto(userTypeJpa)).toList();
+    }
+
+    @Override
+    public Optional<UserTypeDto> findUserTypeByName(String name) {
+        Query query = entityManager.createQuery("SELECT userType FROM UserTypeJpa userType WHERE userType.name = :name");
+        query.setParameter("name", name);
+        try {
+            UserTypeJpa userTypeJpa = (UserTypeJpa) query.getSingleResult();
+            return Optional.ofNullable(userTypeJpaDtoMapper.toUserTypeDto(userTypeJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

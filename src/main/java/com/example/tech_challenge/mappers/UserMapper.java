@@ -1,6 +1,7 @@
 package com.example.tech_challenge.mappers;
 
 import com.example.tech_challenge.dtos.UserDto;
+import com.example.tech_challenge.dtos.requests.AdminCreateUserRequest;
 import com.example.tech_challenge.dtos.requests.CreateUserRequest;
 import com.example.tech_challenge.dtos.responses.UserResponse;
 import com.example.tech_challenge.entities.User;
@@ -20,6 +21,12 @@ public class UserMapper {
     }
 
     public static User toEntity(CreateUserRequest userDto, UserType userType, boolean encodePassword) {
+        return new User(null, userDto.name(), userDto.email(), userDto.login(), userDto.password(), null,
+                !Objects.isNull(userDto.address()) ? AddressMapper.toEntity(userDto.address()) : null, userType,
+                encodePassword);
+    }
+
+    public static User toEntity(AdminCreateUserRequest userDto, UserType userType, boolean encodePassword) {
         return new User(null, userDto.name(), userDto.email(), userDto.login(), userDto.password(), null,
                 !Objects.isNull(userDto.address()) ? AddressMapper.toEntity(userDto.address()) : null, userType,
                 encodePassword);

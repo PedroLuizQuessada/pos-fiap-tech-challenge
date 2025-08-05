@@ -5,10 +5,12 @@ import com.example.tech_challenge.dtos.AddressDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Profile("jpa")
 public class AddressRepositoryJpaImpl implements AddressDataSource {
 
     @PersistenceContext
