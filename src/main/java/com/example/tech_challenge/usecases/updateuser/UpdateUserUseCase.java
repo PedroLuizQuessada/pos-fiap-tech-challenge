@@ -36,7 +36,7 @@ public class UpdateUserUseCase {
         String oldEmail = user.getEmail();
         String oldLogin = user.getLogin();
 
-        user.setNameAndEmailAndLoginAndPasswordAndAddress(updateUserRequest.name(), updateUserRequest.email(),
+        user.setNameAndEmailAndLoginAndAddress(updateUserRequest.name(), updateUserRequest.email(),
                 updateUserRequest.login(), address);
 
         if (!Objects.equals(updateUserRequest.email(), oldEmail)) {

@@ -81,7 +81,7 @@ public class User {
         this.lastUpdateDate = !Objects.isNull(lastUpdateDate) ? lastUpdateDate : new Date(Date.from(Instant.now()).getTime());
     }
 
-    public void setNameAndEmailAndLoginAndPasswordAndAddress(String name, String email, String login, Address address) {
+    public void setNameAndEmailAndLoginAndAddress(String name, String email, String login, Address address) {
 
         String message = "";
 
